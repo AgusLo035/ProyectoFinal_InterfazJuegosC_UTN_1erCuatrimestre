@@ -45,7 +45,7 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
     printf("\n=============FINALIZACION DE INGRESO================\n");
 }
 
-// ── Carrito ───────────────────────────────────────────────────────────────────aa
+// ── Carrito ───────────────────────────────────────────────────────────────────
 
 void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar)
 {
