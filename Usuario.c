@@ -25,12 +25,21 @@ void mostrarArrUsuarios(Usuario arr[], int validos)
 Usuario registrarUsuario()
 {
     Usuario usuarioCargado;
+    char inputTeclado[VERIFICARLIMITE]; //51 para verificacion de caracteres org
 
     printf("\n=============CREACION DEL USUARIO================\n");
 
-    printf("Ingrese el nombre de usuario: ");
-    fflush(stdin);
-    scanf("%49[^\n]", usuarioCargado.userName);
+    do
+    {
+        printf("Ingrese el nombre de usuario: ");
+        fflush(stdin);
+        scanf("%50[^\n]", inputTeclado);
+        if(strlen(inputTeclado) >= LIMITE)
+            printf("\nVuelva a ingresar un nombre dentro del rango!\n");
+    }while(strlen(inputTeclado) >= LIMITE);
+
+    strcpy(usuarioCargado.userName, inputTeclado);
+
     printf("\nPASSWORD: ");
     fflush(stdin);
     scanf("%49[^\n]", usuarioCargado.password);

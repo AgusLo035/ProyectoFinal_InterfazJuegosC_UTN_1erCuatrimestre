@@ -7,6 +7,7 @@
 #include <malloc.h>
 
 #define LIMITE 50
+#define VERIFICARLIMITE 51
 #define JUEGOSTIENDA "tienda.bin"
 
 typedef struct
