@@ -32,7 +32,7 @@
 1781494424 source:d:\github\proyectofinal_utn_1ercuatrimestre\juego.c
 	"juego.h"
 
-1781490276 d:\github\proyectofinal_utn_1ercuatrimestre\juego.h
+1781548910 d:\github\proyectofinal_utn_1ercuatrimestre\juego.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -56,6 +56,6 @@
 1781495285 source:d:\github\proyectofinal_utn_1ercuatrimestre\usuario.c
 	"usuario.h"
 
-1781497104 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
+1781550748 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 

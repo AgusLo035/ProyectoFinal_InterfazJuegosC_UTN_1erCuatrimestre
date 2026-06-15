@@ -37,5 +37,7 @@ void ordSeleccionNombreJuego(Juego arr[], int validos);
 int  posMenorNombreJuego(Juego arr[], int validos, int posInicial);
 void mostrarArrJuegosOrdenado(Juego arr[], int validos);
 
+// Ordenamiento por insercion (mostrar juegos del menor a mayor precio)
+
 
 #endif // JUEGO_H_INCLUDED

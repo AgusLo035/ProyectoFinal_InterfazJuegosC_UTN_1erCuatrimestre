@@ -14,6 +14,9 @@ typedef struct
     int    eliminado;
 } Usuario;
 
+// Borrado Logico
+void eliminarUsuario(Usuario *usuarioAEliminar);
+
 // Mostrar Datos
 void mostrarDatosUsuario(Usuario usuarioCargado);
 void mostrarArrUsuarios(Usuario arr[], int validos);
@@ -29,6 +32,6 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
 void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar);
 
 // Biblioteca personal
-void cargarABibliotecaUsuario(Juego **arr, int *validos, Juego juegoACargar);
+void cargarABibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoACargar);
 
 #endif // USUARIO_H_INCLUDED

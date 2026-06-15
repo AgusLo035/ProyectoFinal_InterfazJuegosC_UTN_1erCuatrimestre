@@ -1,4 +1,11 @@
 #include "usuario.h"
+// ── Eliminar──────────────────────────────────────────────────────────────────
+
+void eliminarUsuario(Usuario *usuarioAEliminar)
+{
+    (*usuarioAEliminar).eliminado = 1;
+}
+
 // ── Mostrar──────────────────────────────────────────────────────────────────
 
 void mostrarDatosUsuario(Usuario usuarioCargado)
@@ -126,10 +133,7 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
 
 void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar)
 {
-    if ((*validosCarrito) <= 0)
-        (*validosCarrito) = 1;
-    else
-        (*validosCarrito)++;
+    (*validosCarrito) += 1;
 
     (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validosCarrito));
     if (!(*arr))
@@ -142,18 +146,15 @@ void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar
 
 // ── Biblioteca personal ──────────────────────────────────────────────────────
 
-void cargarABibliotecaUsuario(Juego **arr, int *validos, Juego juegoACargar)
+void cargarABibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoACargar)
 {
-    if ((*validos) <= 0)
-        (*validos) = 1;
-    else
-        (*validos) += 1;
+    (*validosBiblioteca) += 1;
 
-    (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validos));
+    (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validosBiblioteca));
     if (!(*arr))
     {
         printf("\nERROR EN REALLOC. . .\n");
         return;
     }
-    (*arr)[(*validos) - 1] = juegoACargar;
+    (*arr)[(*validosBiblioteca) - 1] = juegoACargar;
 }

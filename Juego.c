@@ -183,3 +183,4 @@ void mostrarArrJuegosOrdenado(Juego arr[], int validos)
         printf("\n======================================\n");
     }
 }
+// ── Ordenamiento por Insercion (Menor precio a mayor) ───────────────────────────────────
