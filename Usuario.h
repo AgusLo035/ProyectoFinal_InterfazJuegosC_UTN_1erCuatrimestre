@@ -4,14 +4,14 @@
 
 typedef struct
 {
-    char   userName[LIMITE];
-    char   password[LIMITE];
-    float  billetera;
+    char userName[LIMITE];
+    char password[LIMITE];
+    float billetera;
     Juego *bibliotecaUsuario;
     Juego *carritoDeJuegos;
-    int    validosBiblioteca;
-    int    validosCarrito;
-    int    eliminado;
+    int validosBiblioteca;
+    int validosCarrito;
+    int eliminado;
 
 } Usuario;
 

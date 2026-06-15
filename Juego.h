@@ -15,11 +15,12 @@ typedef struct
     char nombreJuego[LIMITE];
     char categoriaJuego[LIMITE];
     float precioJuego;
+    int id;
 }Juego;
 
 // Alta / escritura
-void  guardarJuegosEnArchivo(char nombreArchivo[], char modo[]);
-void  cargarJuegoATienda(FILE *archi);
+void guardarJuegosEnArchivo(char nombreArchivo[], char modo[]);
+void cargarJuegoATienda(FILE *archi);
 Juego cargarNuevoJuego();
 
 // Consulta / lectura
@@ -29,12 +30,12 @@ void leerUnJuego(Juego unJuego);
 
 // Filtrado por categoría
 void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[]);
-int  compararJuegoCategoria(Juego juegoAFiltrar, char categoria[]);
+int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[]);
 
 // Ordenamiento por selección (nombre A-Z)
 void leerJuegosOrdenadosNombreTienda(char nombreArchivo[]);
 void ordSeleccionNombreJuego(Juego arr[], int validos);
-int  posMenorNombreJuego(Juego arr[], int validos, int posInicial);
+int posMenorNombreJuego(Juego arr[], int validos, int posInicial);
 void mostrarArrJuegosOrdenado(Juego arr[], int validos);
 
 // Ordenamiento por insercion (mostrar juegos del menor a mayor precio)
