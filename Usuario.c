@@ -13,7 +13,7 @@ Usuario registrarUsuario()
     printf("\nPASSWORD: ");
     fflush(stdin);
     scanf("%49[^\n]", usuarioCargado.password);
-
+    //HACER PARA CUANDO SI SE PASA DE CARACTERES VOLVER A PEDIR EL USUARIO/CONTRA
     usuarioCargado.billetera         = 0;
     usuarioCargado.bibliotecaUsuario = NULL;
     usuarioCargado.validosBiblioteca = 0;
@@ -106,7 +106,7 @@ void cargarABibliotecaUsuario(Juego **arr, int *validos, Juego juegoACargar)
     if ((*validos) <= 0)
         (*validos) = 1;
     else
-        (*validos)++;
+        (*validos) += 1;
 
     (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validos));
     if (!(*arr))
