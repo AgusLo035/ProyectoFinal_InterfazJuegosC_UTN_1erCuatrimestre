@@ -120,6 +120,17 @@ void eliminarJuegoDeTienda (char nombreArchivo[]) //BAJA
     }
 }
 
+void marcarJuegoComoEliminado (FILE *archi)
+{
+    Juego aux;
+
+    fseek(archi, -sizeof(Juego), SEEK_CUR); //retrocedo para posicionarme y leer
+    fread(&aux, sizeof(Juego), 1, archi);
+    aux.eliminado = 1;
+    fseek(archi, -sizeof(Juego), SEEK_CUR);  //retrocedo para posicionarme y reemplazar
+    fwrite(&aux, sizeof(Juego), 1, archi);
+}
+
 
 // ── Filtrado por categoría ────────────────────────────────────────────────────
 
@@ -131,7 +142,7 @@ int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //leer en juego
 
     while(fread(&juegoEnArchivo, sizeof(Juego), 1, archi) > 0 && flag != 1) //lee todos los juegos en archivo hasta encontrar uno o llegar al final
     {
-        if(strcmpi(nombreJuegoActual, nombreBuscado) == 0)
+        if(strcmpi(juegoEnArchivo.nombreJuego, nombreBuscado) == 0)
             flag = 1; //Si los nombres coinciden, el juego ya existe en la tienda
     }
 
