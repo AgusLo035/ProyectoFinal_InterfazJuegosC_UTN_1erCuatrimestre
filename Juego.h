@@ -28,7 +28,11 @@ void leerJuegosDeTienda(char nombreArchivo[]);
 void leerJuegosArchivo(FILE *archi);
 void leerUnJuego(Juego unJuego);
 
+// Baja / eliminar
+void eliminarJuegoDeTienda (char nombreArchivo[])
+
 // Filtrado por categoría
+int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //indica por flag 1 si un juego existe por nombre (lo pongo en esta sección de filtrado porque si no no sé donde)
 void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[]);
 int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[]);
 
