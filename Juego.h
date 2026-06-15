@@ -16,6 +16,7 @@ typedef struct
     char categoriaJuego[LIMITE];
     float precioJuego;
     int id;
+    int eliminado //0 es NO ----1 es SI
 }Juego;
 
 // Alta / escritura
