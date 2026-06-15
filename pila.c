@@ -25,12 +25,12 @@ int desapilar(P_Pila p)
 
 int tope(P_Pila p)
 {
-       return p->valores[p->postope - 1];
+    return p->valores[p->postope - 1];
 }
 
 int pilavacia(P_Pila p)
 {
-       return (p->postope == 0);
+    return (p->postope == 0);
 }
 
 void leer (P_Pila p)

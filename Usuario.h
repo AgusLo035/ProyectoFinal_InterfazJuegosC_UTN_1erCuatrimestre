@@ -12,6 +12,7 @@ typedef struct
     int    validosBiblioteca;
     int    validosCarrito;
     int    eliminado;
+
 } Usuario;
 
 // Borrado Logico

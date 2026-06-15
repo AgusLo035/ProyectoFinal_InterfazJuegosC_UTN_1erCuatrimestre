@@ -14,7 +14,7 @@ void guardarJuegosEnArchivo(char nombreArchivo[], char modo[])
 
 void cargarJuegoATienda(FILE *archi)
 {
-    int   flag = 0;
+    int flag = 0;
     Juego juegoEnArchivo;
     Juego nuevoJuego = cargarNuevoJuego();
 
@@ -66,7 +66,7 @@ void leerJuegosDeTienda(char nombreArchivo[])
 void leerJuegosArchivo(FILE *archi)
 {
     Juego aux;
-    int   contador = 1;
+    int contador = 1;
 
     while (fread(&aux, sizeof(Juego), 1, archi) > 0)
     {
@@ -88,9 +88,9 @@ void leerUnJuego(Juego unJuego)
 
 void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[])
 {
-    FILE  *archi = fopen(nombreArchivo, "rb");
-    Juego  aux;
-    int    contador = 0;
+    FILE *archi = fopen(nombreArchivo, "rb");
+    Juego aux;
+    int contador = 0;
 
     if (archi)
     {
@@ -125,9 +125,9 @@ int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[])
 
 void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
 {
-    FILE  *archi = fopen(nombreArchivo, "rb");
-    Juego  aux;
-    int    validos = 0;
+    FILE *archi = fopen(nombreArchivo, "rb");
+    Juego aux;
+    int validos = 0;
 
     if (archi)
     {
@@ -151,15 +151,15 @@ void ordSeleccionNombreJuego(Juego arr[], int validos)
     for (int i = 0; i < validos - 1; i++)
     {
         int   posMenor = posMenorNombreJuego(arr, validos, i);
-        Juego aux      = arr[i];
-        arr[i]         = arr[posMenor];
-        arr[posMenor]  = aux;
+        Juego aux = arr[i];
+        arr[i] = arr[posMenor];
+        arr[posMenor] = aux;
     }
 }
 
 int posMenorNombreJuego(Juego arr[], int validos, int posInicial)
 {
-    int  posMenor = posInicial;
+    int posMenor = posInicial;
     char menor[LIMITE];
     strcpy(menor, arr[posInicial].nombreJuego);
 
