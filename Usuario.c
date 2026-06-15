@@ -25,6 +25,42 @@ Usuario registrarUsuario()
     return usuarioCargado;
 }
 
+int cargarArrDeUsuariosDinamico (Usuario **arr)
+{
+    int i = 0;
+    int continuar = 1;
+
+    (*arr) = (Usuario*) malloc(sizeof(Usuario));
+    if(!(*arr))
+    {
+        printf("\nERROR EN MALLOC.\n");
+        return -1;
+    }
+
+
+    do
+    {
+
+        (*arr)[i] = registrarUsuario();
+        i++;
+
+        printf("\nDesea registrar otro usuario? 1. SI 0.NO\n");
+        scanf("%i", &continuar);
+
+        if(continuar == 1)
+        {
+            (*arr) = (Usuario*) realloc((*arr), sizeof(Usuario) * (i+1));
+            if(!(*arr))
+            {
+                printf("\nERROR EN REALLOC\n");
+                return -1;
+            }
+        }
+    }while(continuar == 1);
+
+    return i;
+}
+
 // ── Billetera ─────────────────────────────────────────────────────────────────
 
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)

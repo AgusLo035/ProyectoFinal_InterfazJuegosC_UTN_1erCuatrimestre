@@ -3,8 +3,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "pila.h"
-#include "stom.h"
-
+#include "Usuario.h"
 
 ///Main
 int main()

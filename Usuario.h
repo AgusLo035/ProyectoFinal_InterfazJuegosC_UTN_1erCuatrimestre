@@ -16,6 +16,7 @@ typedef struct
 
 // Registro / creación
 Usuario registrarUsuario();
+int cargarArrDeUsuariosDinamico (Usuario **arr);
 
 // Billetera
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
