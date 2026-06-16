@@ -1,15 +1,54 @@
 #include "usuario.h"
 // ── Pasar usuarios de archivo a ARREGLO  ──────────────────────────────────────────────────────────────────
 
-void pasarUsuariosDeArchivoAArr (char nombreUsuario[])
+int pasarUsuariosDeArchivoAArr (char nombreArchivo[], Usuario **arr)
 {
+    FILE *archi = fopen(nombreArchivo, "rb");
+    int validos;
 
+    if(archi)
+    {
+        validos = pasarUsuariosAArr(archi, arr);
+        fclose(archi);
+    }
+    else
+        printf("\nEl archivo %s NO existe/NO se pudo abrir. . .\n", nombreArchivo);
+
+    return validos;
+}
+
+int pasarUsuariosAArr(FILE *archi, Usuario **arr)
+{
+    int cantDeUsuarios = contarCantDeUsuariosEnArchi(archi);
+
+    (*arr) = (Usuario*) malloc(sizeof(Usuario) * cantDeUsuarios);
+
+    if(!(*arr))
+    {
+        printf("\nERROR EN MALLOC\n");
+        return -1;
+    }
+
+    fread((*arr), sizeof(Usuario), cantDeUsuarios, archi);
+
+    return cantDeUsuarios; //validos
+}
+
+int contarCantDeUsuariosEnArchi(FILE *archi)
+{
+    int cant;
+
+    fseek(archi, 0, SEEK_END);
+    cant = ftell(archi)/sizeof(Usuario);
+    rewind(archi);
+
+    return cant;
 }
 
 ///Funciones de ADMIN
 // ── Verificar Admin   ──────────────────────────────────────────────────────────────────
 
-int verificarAdmin(char mat[][], char usuarioAdmin[], char passwordAdmin[])
+int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[])
 {
     int esAdmin = 0;
 
@@ -30,7 +69,7 @@ void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], in
         printf("\nUsuario [%s] eliminado.\n", nombreDeUsuarioAEliminar);
     }
     else
-        printf("\nUsuario [%s] NO encontrado.\n", nombreDeUsuario);
+        printf("\nUsuario [%s] NO encontrado.\n", nombreDeUsuarioAEliminar);
 }
 
 // ── Eliminar──────────────────────────────────────────────────────────────────
@@ -160,7 +199,7 @@ Usuario registrarUsuario()
     return usuarioCargado;
 }
 
-int cargarArrDeUsuariosDinamico (Usuario **arr)
+int cargarArrDeUsuariosDinamico (Usuario **arr) //Carga de arreglo din, no es lo mismo que la funcion de pasar de archi a arreglo
 {
     int i = 0;
     int continuar = 1;
