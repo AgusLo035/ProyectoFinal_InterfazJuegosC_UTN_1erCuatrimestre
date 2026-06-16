@@ -208,7 +208,7 @@ void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
         fread(arr, sizeof(Juego), validos, archi); //metemos todos los juegos dentro
 
         ordSeleccionNombreJuego(arr, validos);
-        mostrarArrJuegosOrdenado(arr, validos);
+        mostrarArrJuegosOrdenado(arr, validos, 'p');
         fclose(archi); //estaba fuera del else, pero el archivo solo se cierra si se pudo abrir
     }
     else
@@ -243,11 +243,17 @@ int posMenorNombreJuego(Juego arr[], int validos, int posInicial)
     return posMenor;
 }
 
-void mostrarArrJuegosOrdenado(Juego arr[], int validos)
+void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado) //tipoDeOrdenado = 'n' refiere a por nombre, cualquier otro valor a por precio
 {
     for (int i = 0; i < validos; i++)
     {
-        printf("\n=============Juegos A-Z================\n");
+        if (tipoDeOrdenado == 'n')
+        {
+            printf("\n=============Juegos [A-Z]===============\n");
+        }else
+        {
+            printf("\n=======Juegos [menor $ -> mayor $]=======\n"); //tal vez haya mejor forma de expresarlo que menor $ -> mayor $
+        }
         leerUnJuego(arr[i]);
         printf("\n======================================\n");
     }
@@ -256,3 +262,48 @@ void mostrarArrJuegosOrdenado(Juego arr[], int validos)
 // ── Ordenamiento por Insercion (Menor precio a mayor) ───────────────────────────────────
 
 //Como lo hiciste pasando todos los juegos a un array voy a hacer lo mismo
+
+void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
+{
+    FILE *archi = fopen(nombreArchivo, "rb");
+
+    if (archi != NULL)
+    {
+        fseek(archi, 0, SEEK_END);
+
+        int validos = ftell(archi)/sizeof(Juego); // consigo la cantidad de juegos existentes para poner en array
+
+        Juego arr[validos]; //creo el array de juegos
+
+        rewind(archi); //vuelvo al inicio del archivo para el siguiente paso
+
+        fread(arr, sizeof(Juego), validos, archi); //paso todos los juegos al array
+
+
+
+    }else
+    {
+        printf("\nHa ocurrido un error en la apertura del archivo.\n");
+    }
+}
+
+void ordInsercionPrecioJuego (Juego arr[], int validos)
+{
+    for (int i = 0 ; i < validos ; i++)
+    {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,6 +31,7 @@ void leerUnJuego(Juego unJuego);
 
 // Baja / eliminar
 void eliminarJuegoDeTienda (char nombreArchivo[]);
+void marcarJuegoActualComoEliminado (FILE *archi);
 
 // Filtrado por categoría
 int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]); //indica por flag 1 si un juego existe por nombre (lo pongo en esta sección de filtrado porque si no no sé donde)
@@ -41,7 +42,7 @@ int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[]);
 void leerJuegosOrdenadosNombreTienda(char nombreArchivo[]);
 void ordSeleccionNombreJuego(Juego arr[], int validos);
 int posMenorNombreJuego(Juego arr[], int validos, int posInicial);
-void mostrarArrJuegosOrdenado(Juego arr[], int validos);
+void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado);
 
 // Ordenamiento por insercion (mostrar juegos del menor a mayor precio)
 
