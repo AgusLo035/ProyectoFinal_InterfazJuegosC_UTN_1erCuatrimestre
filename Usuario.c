@@ -8,6 +8,58 @@ void eliminarUsuario(Usuario *usuarioAEliminar)
 
 // ── Mostrar──────────────────────────────────────────────────────────────────
 
+void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos)
+{
+    int pos = buscarUsuarioMayorCantDeJuegosComprados(arr, validos);
+
+    if (pos > -1)
+        mostrarDatosUsuario(arr[pos]);
+    else
+        printf("\nNingun usuario tiene juegos.\n");
+}
+
+int buscarUsuarioMayorCantDeJuegosComprados (Usuario arr[], int validos)
+{
+    int pos = 0;
+    Usuario uMayorJuegos = arr[0];
+
+    for (int i = 0 ; i < validos - 1 ; i++)
+    {
+        if(uMayorJuegos.validosBiblioteca < arr[i + 1].validosBiblioteca)
+        {
+            uMayorJuegos = arr [i + 1];
+            pos = i + 1;
+        }
+    }
+
+    if(uMayorJuegos.validosBiblioteca == 0)
+        pos = -1;
+
+    return pos; //devuelve la pos del usuario con la mayor cantidad de juegos, si es -1 nadie tiene juegos
+
+void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos)
+{
+    int pos = buscarUsuarioPorNombreUsuario(nombreDeUsuario, arr, validos);
+
+    if (pos > -1)
+        mostrarDatosUsuario(arr[pos]);
+    else
+        printf("\nUsuario [%s] NO encontrado.\n", nombreDeUsuario);
+}
+
+int buscarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos)
+{
+    int flag = -1;
+
+    for (int i = 0 ; i < validos && flag == -1; i++)
+    {
+        if(strcmp(nombreDeUsuario, arr[i].userName) == 0)
+            flag = i;
+    }
+
+    return flag; //-1 si no existe, mayor a -1 si existe, devuelve la posicion del usuario.
+}
+
 void mostrarDatosUsuario(Usuario usuarioCargado)
 {
     printf("\n=============DATOS DEL USUARIO (%s)==================\n", usuarioCargado.userName);
