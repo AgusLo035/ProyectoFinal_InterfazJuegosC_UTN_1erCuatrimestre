@@ -271,6 +271,7 @@ void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
         fseek(archi, 0, SEEK_END);
 
         int validos = ftell(archi)/sizeof(Juego); // consigo la cantidad de juegos existentes para poner en array
+        ///fijate que hay una funcion para esto, si queres usala, si no, no. lmao
 
         Juego arr[validos]; //creo el array de juegos
 
