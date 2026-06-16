@@ -289,10 +289,26 @@ void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
 
 void ordInsercionPrecioJuego (Juego arr[], int validos)
 {
-    for (int i = 0 ; i < validos ; i++)
-    {
+    int posActual = 0;
 
+    while (posActual < validos-1)
+    {
+        ordenarInsertadamente(arr, posActual, posActual+1);
+        posActual++;
     }
+}
+
+void ordenarInsertadamente (Juego arr[], int posActual, int posDatoAColocar) //ir buscando en la "zona ordenada" donde colocar el valor, mientras mueve los valores en el camino 1 a la derecha
+{
+    Juego aux = arr[posDatoAColocar];
+
+    while (posActual >= 0 && arr[posActual].precioJuego > aux.precioJuego)
+    {
+        arr[posActual+1] = arr[posActual];
+        posActual--;
+    }
+
+    arr[posActual+1] = aux;
 }
 
 
