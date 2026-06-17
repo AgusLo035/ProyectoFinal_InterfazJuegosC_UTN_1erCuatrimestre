@@ -55,18 +55,18 @@
 1781633034 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 
-1781632670 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\main.c
+1781707560 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\main.c
 	"Usuario.h"
+
+1781706516 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 
-1781636078 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\usuario.h
-	"Juego.h"
-
-1781645741 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\juego.h
+1781712291 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\juego.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<malloc.h>
+	"pila.h"
 
 1781554752 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\pila.c
 	"pila.h"

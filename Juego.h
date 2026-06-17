@@ -22,9 +22,10 @@ typedef struct
 }Juego;
 
 // Alta / escritura
-void guardarJuegosEnArchivo(char nombreArchivo[], char modo[]);
+void guardarJuegosEnArchivo(char nombreArchivo[]);
 void cargarJuegoATienda(FILE *archi);
 Juego cargarNuevoJuego();
+int determinarIDNuevoJuego (FILE* archi);
 
 // Consulta / lectura
 void leerJuegosDeTienda(char nombreArchivo[]);

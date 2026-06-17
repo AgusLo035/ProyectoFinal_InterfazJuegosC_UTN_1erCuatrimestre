@@ -5,7 +5,7 @@
 int pasarUsuariosDeArchivoAArr (char nombreArchivo[], Usuario **arr)
 {
     FILE *archi = fopen(nombreArchivo, "rb");
-    int validos;
+    int validos = 0;
 
     if(archi)
     {

@@ -4,3 +4,5 @@ proyectoFinal_1erCuat.layout
 *.depend
 /bin/Debug
 /obj/Debug
+*.depend
+/obj/Debug

@@ -6,17 +6,21 @@ void guardarJuegosEnArchivo(char nombreArchivo[])
 {
     FILE *archi = fopen(nombreArchivo, "a+b");
     if (archi)
+    {
         cargarJuegoATienda(archi);
         fclose(archi);
-    else
+    }
+    else //lo tuve que cambiar de cómo estaba porque no compilaba no se por q
+    {
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
+    }
 }
 
 void cargarJuegoATienda(FILE *archi)
 {
     int flag = 0;
     Juego juegoEnArchivo;
-    Juego nuevoJuego = cargarNuevoJuego();
+    Juego nuevoJuego = cargarNuevoJuego(archi);
 
     rewind(archi);
     flag = verificarExistenciaJuego(archi, nuevoJuego.nombreJuego); //separé la parte de verificar si el juego existe en una función para usarla en otro lado
@@ -31,7 +35,7 @@ void cargarJuegoATienda(FILE *archi)
     }
 }
 
-Juego cargarNuevoJuego()
+Juego cargarNuevoJuego(FILE *archi) //le agregué archi para que pueda identificar qué numero de ID poner en base a cuántos juegos hay
 {
     Juego nuevoJuego;
     printf("\n=============CREACION DEL JUEGO NUEVO================\n");
@@ -44,15 +48,24 @@ Juego cargarNuevoJuego()
     printf("\nIngrese el precio del juego: ");
     scanf("%f", &nuevoJuego.precioJuego);
 
+    nuevoJuego.id = determinarIDNuevoJuego (archi);
     nuevoJuego.eliminado = 0;
 
     //TEMA ID
     //[nota para hacer yo] para id tal vez contar los juegos que hay en archivo en otra función y darle la cantidad actual+1 como id.
     //Puede haber problemas con eso si se elimina un juego, pero en ese caso verifico si la id ya existe en la función madre a esta y le sumo
+    //Me dejo esto anotado en caso de que nos digan es necesario borrar estructuras directamente del archivo (creando otro sin los marcados como eliminados)
 
     printf("\n=============FIN DE LA CREACION================\n");
 
     return nuevoJuego;
+}
+
+int determinarIDNuevoJuego (FILE* archi) //Se ignora la ID de juegos eliminados (nota debajo)
+{ //(nosostros estamos borrando lógicamente las estructuras, mañana voy a preguntar si también es necesario borrarlas del archivo. En caso de ser así, voy a modificar esto para también usar la ID de los juegos eliminados.)
+    int cantJuegos = fseek(archi, 0, SEEK_END)/sizeof(Juego);
+
+    return cantJuegos; //las IDs empiezan en 0
 }
 
 // ── Consulta / lectura ────────────────────────────────────────────────────────
@@ -61,10 +74,14 @@ void leerJuegosDeTienda(char nombreArchivo[])
 {
     FILE *archi = fopen(nombreArchivo, "rb");
     if (archi)
+    {
         leerJuegosArchivo(archi);
+        fclose(archi);
+    }
     else
+    {
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
-    fclose(archi);
+    }
 }
 
 void leerJuegosArchivo(FILE *archi)
@@ -93,6 +110,7 @@ void leerUnJuego(Juego unJuego)
 
 // --- BAJA (buscar dato en archivo, eliminarlo, guardar cambios) ------------------------------------
 // Después ver cómo hacer que cada vez que se abra/cierre el programa, se quiten del archivo los juegos marcados como "eliminados"
+//^ mañana preguntar si es necesario o si borrado lógico es suficiente
 
 //Eliminar un juego de la tienda
 void eliminarJuegoDeTienda (char nombreArchivo[]) //BAJA
@@ -142,6 +160,9 @@ void marcarJuegoActualComoEliminado (FILE *archi) //se asume el indicador de pos
 //Puede modificarse cualquier cosa MENOS la ID
 
 void modificarJuego (char nombreArchivo[])
+{
+
+}
 
 
 
@@ -285,6 +306,7 @@ void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
 
         int validos = ftell(archi)/sizeof(Juego); // consigo la cantidad de juegos existentes para poner en array
         ///fijate que hay una funcion para esto, si queres usala, si no, no. lmao
+        //encontré la función que me decís pero esa es específicamente para usuarios
 
         Juego arr[validos]; //creo el array de juegos
 
