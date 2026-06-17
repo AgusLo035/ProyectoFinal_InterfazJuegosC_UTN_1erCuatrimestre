@@ -243,13 +243,18 @@ void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
 
     ultimoJuegoComprado.id = desapilar(historialId);
 
-    Juego juegoAQuitar = //buscarJuegoPorId(ultimoJuegoComprado.id); //FALTA HACER ESTA FUNCION AA
+    Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id);
 
-    float montoAReembolsar = juegoAQuitar.precioJuego;
+    if(ultimoJuegoComprado.id != -1)
+    {
+        float montoAReembolsar = juegoAQuitar.precioJuego;
 
-    quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar);
+        quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar);
 
-    (*usuarioAReembolsarJuego).billetera += montoAReembolsar;
+        (*usuarioAReembolsarJuego).billetera += montoAReembolsar;
+    }
+    else
+        printf("\nERROR, EL JUEGO A REEMBOLSAR NO EXISTE. . .\n");
 }
 
 void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar)

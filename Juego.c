@@ -131,6 +131,8 @@ Juego buscarJuegoPorId (int idBuscada) //función separada porque parece solo la
         {
             aux.id = -1;
         }
+        ///No se que tan necesario sea verificar si existe, porque eso lo haria otra funcion. Basicamente, porque si existe la id en la pila
+        ///Es porque el juego se compro, es una id valida, como mucho si el juego se borra del archivo, igual hice una verificacion. (Igual es poco probable que salte ese error al tener una tienda fija)
 
         fclose (archi);
 
