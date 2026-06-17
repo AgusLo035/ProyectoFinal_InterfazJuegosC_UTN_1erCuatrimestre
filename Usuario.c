@@ -195,6 +195,10 @@ Usuario registrarUsuario()
     usuarioCargado.carritoDeJuegos   = NULL;
     usuarioCargado.validosCarrito    = 0;
 
+    usuarioCargado.eliminado = 0;
+
+    inicpila(&usuarioCargado.historialDeJuego);
+
     printf("\n=============FIN DE LA CREACION DEL USUARIO================\n");
 
     return usuarioCargado;
@@ -288,19 +292,39 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
     printf("\n=============FINALIZACION DE INGRESO================\n");
 }
 
+
+
 // ── Carrito ───────────────────────────────────────────────────────────────────
 
-void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar)
+float cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
 {
+    float sumaJuegosEnCarrito = 0;
+
     (*validosCarrito) += 1;
 
     (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validosCarrito));
     if (!(*arr))
     {
         printf("\nERROR EN REALLOC. . .\n");
-        return;
+        return -1;
     }
     (*arr)[(*validosCarrito) - 1] = juegoAComprar;
+
+    sumaJuegosEnCarrito = sumarPrecioJuegos((*arr), (*validosCarrito), 0); //le paso un puntero simple (un arreglo)
+
+    return sumaJuegosEnCarrito;
+}
+
+float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del precio de un juego/s
+{
+    float sumaTotal = 0;
+
+    if(i == validos - 1)
+        sumaTotal = arr[i].precioJuego;
+    else
+        sumaTotal = arr[i].precioJuego + sumarPrecioJuegos(arr, validos, i + 1);
+
+    return sumaTotal;
 }
 
 // ── Biblioteca personal ──────────────────────────────────────────────────────

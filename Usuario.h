@@ -14,6 +14,7 @@ typedef struct
     int validosBiblioteca;
     int validosCarrito;
     int eliminado;
+    Pila historialDeJuego;
 
 } Usuario;
 
@@ -53,12 +54,14 @@ void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);
 Usuario registrarUsuario();
 int cargarArrDeUsuariosDinamico (Usuario **arr);
 
-// Billetera / Modificacion
+// Billetera / Precio / Modificacion
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
 void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar);
+float sumarPrecioJuegos (Juego arr[], int validos, int i);
+
 
 // Carrito / Modificacion
-void cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar);
+float cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar);
 
 // Biblioteca personal / Modificacion
 void cargarABibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoACargar);
