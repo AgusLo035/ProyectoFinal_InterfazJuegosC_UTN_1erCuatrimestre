@@ -242,10 +242,10 @@ int cargarArrDeUsuariosDinamico (Usuario **arr) //Carga de arreglo din, no es lo
 // ── Billetera ─────────────────────────────────────────────────────────────────
 void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
 {
-    Juego ultimoJuegoComprado;
-
     if(!pilavacia(historialId))
     {
+        Juego ultimoJuegoComprado;
+
         ultimoJuegoComprado.id = desapilar(historialId);
 
         Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id);
