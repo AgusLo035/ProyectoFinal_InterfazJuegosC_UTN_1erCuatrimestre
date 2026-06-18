@@ -36,7 +36,6 @@ int pasarUsuariosDeArchivoAArr (char nombreArchivo[], Usuario **arr);
 int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]);
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos);
 
-
 // Borrado Logico / Baja
 void eliminarUsuario(Usuario *usuarioAEliminar);
 
@@ -60,7 +59,6 @@ int cargarArrDeUsuariosDinamico (Usuario **arr);
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
 void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar);
 float sumarPrecioJuegos (Juego arr[], int validos, int i);
-
 
 // Carrito / Modificacion
 float cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar);
