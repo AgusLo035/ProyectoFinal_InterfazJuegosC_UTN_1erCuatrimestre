@@ -253,6 +253,7 @@ void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
         ultimoJuegoComprado.id = desapilar(historialId);
 
         Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id);
+<<<<<<< HEAD
 
         if(ultimoJuegoComprado.id != -1)
         {
@@ -260,6 +261,18 @@ void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
 
             quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar);
 
+=======
+        //pila es una struct con posiciones para su dim
+
+//        (*historialId).postope;
+
+        if(ultimoJuegoComprado.id != -1)
+        {
+            float montoAReembolsar = juegoAQuitar.precioJuego;
+
+            quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar);
+
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
             (*usuarioAReembolsarJuego).billetera += montoAReembolsar;
         }
         else

@@ -19,7 +19,11 @@ void guardarJuegosEnArchivo(char nombreArchivo[])
 void cargarJuegoATienda(FILE *archi)
 {
     int flag = 0;
+<<<<<<< HEAD
     Juego juegoEnArchivo; //REVISAR ESTA VARIABLE PQ NO SE USO
+=======
+    Juego juegoEnArchivo;
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
     Juego nuevoJuego = cargarNuevoJuego(archi);
 
     rewind(archi);
@@ -52,7 +56,10 @@ Juego cargarNuevoJuego(FILE *archi) //le agregué archi para que pueda identific
         fflush(stdin);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
     nuevoJuego.id = determinarIDNuevoJuego (archi);
     nuevoJuego.eliminado = 0;
 
@@ -85,7 +92,11 @@ void leerJuegosDeTienda(char nombreArchivo[])
     }
     else
     {
+<<<<<<< HEAD
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE/NO existe. . .\n");
+=======
+        printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
     }
 }
 
@@ -228,12 +239,16 @@ void modificarJuego (char nombreArchivo[])
             cambio = menuSelectorModificarJuego(&aux); //se modifica lo que se necesita en otra función, devuelve la opcion que se eligió en el menú
             if (cambio >= 1 && cambio <= 3)
             {
+<<<<<<< HEAD
                 fseek(archi, sizeof(Juego)*(-1), SEEK_CUR);
                 fwrite(&aux, sizeof(Juego), 1, archi);
                 printf("\nEl cambio se ha realizado correctamente.\n");
             }
         }
         else
+=======
+
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
         {
             printf("\nNo se ha encontrado el juego buscado. Intente de nuevo.\n");
         }
@@ -259,8 +274,11 @@ int menuSelectorModificarJuego (Juego *aux)
 
     do
     {
+<<<<<<< HEAD
         fflush(stdin);
 
+=======
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
         printf("\nSu decision: ");
         scanf("%i", &opcion);
         switch(opcion)
@@ -282,12 +300,20 @@ int menuSelectorModificarJuego (Juego *aux)
         default:
             printf("\nHa ingresado un valor invalido. Intente de nuevo.\n");
         }
+<<<<<<< HEAD
         fflush(stdin);
+=======
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
     }while (opcion < 1 || opcion > 4);
 
     return opcion; //devuelve opcion para reemplazar y poner un printf en la función madre
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
 
 // ── Filtrado por categoría ────────────────────────────────────────────────────
 

@@ -13,7 +13,11 @@ typedef struct
     Juego *carritoDeJuegos;
     int validosBiblioteca;
     int validosCarrito;
+<<<<<<< HEAD
     int eliminado; //acordarse cuando se busca
+=======
+    int eliminado;
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
     Pila historialDeJuego; //ultimos juegos comprados del usuario, adios a la idea de usuarios activos
 
 } Usuario;

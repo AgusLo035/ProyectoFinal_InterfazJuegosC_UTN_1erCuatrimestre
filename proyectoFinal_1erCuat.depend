@@ -108,6 +108,7 @@
 1781715588 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\juego.c
 	"juego.h"
 
+<<<<<<< HEAD
 1781780462 source:d:\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\main.c
 	"Usuario.h"
 
@@ -131,3 +132,5 @@
 1781812882 source:d:\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\usuario.c
 	"usuario.h"
 
+=======
+>>>>>>> 0201745f9a053a126282d0804e018ee1e80708ca
