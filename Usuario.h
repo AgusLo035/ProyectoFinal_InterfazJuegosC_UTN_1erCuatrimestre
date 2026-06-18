@@ -14,7 +14,7 @@ typedef struct
     int validosBiblioteca;
     int validosCarrito;
     int eliminado;
-    Pila historialDeJuego;
+    Pila historialDeJuego; //ultimos juegos comprados del usuario
 
 } Usuario;
 
@@ -23,7 +23,9 @@ typedef struct
 ///Tal vez que el admin puede acceder a consulta y listados (en alguno de estos dos va la idea de la pila de la profe de los usuarios más activos también)
 ///(hoy/mañana te ayudo pq algunos creo sería literal copiar y pegar (con mini modificaciones) las funciones que ya tenemos en juegos.h/c)
 
-/// me faltaria la mierda de pila namas
+//Funciones con Pilas
+int contarDimPila(Pila pila);
+void reajustarDimPilaTope(Pila *pila, int datoAIngresar);
 
 // Funciones con Archivos
 int contarCantDeUsuariosEnArchi(FILE *archi);
@@ -64,7 +66,7 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i);
 float cargarACarritoUsuario(Juego **arr, int *validosCarrito, Juego juegoAComprar);
 
 // Biblioteca personal / Modificacion
-void cargarABibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoACargar);
+void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar); //la funcion mas chota en mi opinion
 
 // Quitar de biblioteca
 void quitarJuegoDeBibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoAQuitar);

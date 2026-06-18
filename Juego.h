@@ -56,5 +56,8 @@ void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[]);
 void ordInsercionPrecioJuego (Juego arr[], int validos);
 void ordenarInsertadamente (Juego arr[], int posActual, int posDatoAColocar);
 
+// Pilas
+int contarDimPila(Pila pila);
+void reajustarDimPilaTope(Pila *pila, int datoAIngresar);
 
 #endif // JUEGO_H_INCLUDED

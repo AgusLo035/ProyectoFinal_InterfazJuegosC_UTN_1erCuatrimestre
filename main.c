@@ -15,6 +15,7 @@ int main()
 
     leerJuegosOrdenadosNombreTienda(JUEGOSTIENDA);
 
+
     //Yo creo que ya estariamos maso, despues en clase hacemos el main
     return 0;
 }

@@ -216,7 +216,6 @@ int cargarArrDeUsuariosDinamico (Usuario **arr) //Carga de arreglo din, no es lo
         return -1;
     }
 
-
     do
     {
         (*arr)[i] = registrarUsuario();
@@ -249,6 +248,9 @@ void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
         ultimoJuegoComprado.id = desapilar(historialId);
 
         Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id);
+        //pila es una struct con posiciones para su dim
+
+//        (*historialId).postope;
 
         if(ultimoJuegoComprado.id != -1)
         {
@@ -355,15 +357,60 @@ void quitarJuegoDeBibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego j
     }
 }
 
-void cargarABibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoACargar)
+void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar) //verificacion si el usuario tiene o no el juego se hace previamente
 {
-    (*validosBiblioteca) += 1;
+    (*usuarioACargar).validosBiblioteca += 1;
 
-    (*arr) = (Juego *) realloc((*arr), sizeof(Juego) * (*validosBiblioteca));
-    if (!(*arr))
+    (*usuarioACargar).bibliotecaUsuario = (Juego*) realloc((*usuarioACargar).bibliotecaUsuario, sizeof(Juego) * (*usuarioACargar).validosBiblioteca);
+
+    if (!(*usuarioACargar).bibliotecaUsuario)
     {
         printf("\nERROR EN REALLOC. . .\n");
         return;
     }
-    (*arr)[(*validosBiblioteca) - 1] = juegoACargar;
+
+    (*usuarioACargar).bibliotecaUsuario[((*usuarioACargar).validosBiblioteca - 1)] = juegoACargar;
+
+
+    int contarDimHistorial = contarDimPila((*usuarioACargar).historialDeJuego);
+
+    if(contarDimHistorial >= 50)
+        reajustarDimPilaTope(&(*usuarioACargar).historialDeJuego, juegoACargar.id);
+    else
+        apilar(&(*usuarioACargar).historialDeJuego, juegoACargar.id);
+}
+
+// ──  Pilas ──────────────────────────────────────────────────────
+
+
+
+void reajustarDimPilaTope(Pila *pila, int datoAIngresar) // agregar dato al principio en una pila llena
+{
+    Pila aux;
+    inicpila(&aux);
+
+    while(!pilavacia(pila))
+        apilar(&aux, desapilar(pila));
+
+    desapilar(&aux); //desapilo el valor mas viejo
+
+    while(!pilavacia(&aux))
+        apilar(pila, desapilar(&aux));
+
+    apilar(pila, datoAIngresar);
+}
+
+int contarDimPila(Pila pila)
+{
+    Pila aux;
+    inicpila(&aux);
+
+    int cont = 0;
+
+    while(!pilavacia(&pila))
+    {
+        apilar(&aux, desapilar(&pila));
+        cont++;
+    }
+    return cont;
 }
