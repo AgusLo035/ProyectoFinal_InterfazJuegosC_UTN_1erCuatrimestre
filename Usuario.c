@@ -379,7 +379,6 @@ void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar) //ver
 
     (*usuarioACargar).bibliotecaUsuario[((*usuarioACargar).validosBiblioteca - 1)] = juegoACargar;
 
-
     int contarDimHistorial = contarDimPila((*usuarioACargar).historialDeJuego);
 
     if(contarDimHistorial >= 50)
