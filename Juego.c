@@ -11,9 +11,7 @@ void guardarJuegosEnArchivo(char nombreArchivo[])
         fclose(archi);
     }
     else //lo tuve que cambiar de cómo estaba porque no compilaba no se por q
-    {
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
-    }
 }
 
 void cargarJuegoATienda(FILE *archi)

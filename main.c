@@ -1,8 +1,5 @@
 #include "Usuario.h"
-
-char matAdmin[2][LIMITE] = {"admin", "admin"}; //un usuario y una contraseña en la mat del admin
-//matAdmin[0] = username
-//matAdmin[1] = password
+#include "General.h"
 
 ///Main
 int main()
