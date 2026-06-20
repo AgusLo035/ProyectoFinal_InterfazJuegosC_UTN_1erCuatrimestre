@@ -96,12 +96,13 @@ Usuario registrarUsuario(int *cantUsuariosEnElPrograma)
 //    return i;
 //}
 
-void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro, la había empezado en general pero es mejor ponerla acá.
+void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro,
+                                                            //la había empezado en general pero es mejor ponerla acá.
 {
     (*cantUsuarios) += 1;
 
     Usuario *aux = (Usuario*) realloc((*arr), sizeof(Usuario) * (*cantUsuarios)); //hago un espacio para el nuevo usuario
-    //^ lo estoy declarando por primera vez, no creo lleve paréntesis (hace falta?)
+    //^ lo estoy declarando por primera vez, no creo lleve paréntesis (hace falta?) nono, vi mal yo. Asi esta bien
 
     if (aux != NULL)
     {
@@ -165,7 +166,9 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //    return cant;
 //}
 
-void pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr, int *usuariosRegistradosEnSistema) //es necesario traer usuarios como parametro? a menos que esta no sea variable global
+void pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr, int *usuariosRegistradosEnSistema) //es necesario traer usuarios como parametro? a menos que esta no
+                                                                                                        //sea variable global
+///Si te referis a la variable "*usuariosRegistradosEnSistema", si, es necesario porque es lo que nos sirve de validos para cuando el proyecto se ejecuta
 {
     FILE *archi = fopen(nombreArchivo, "r+b");
 
@@ -206,6 +209,9 @@ Usuario leerUsuarioCompletoDeArchi(FILE *archi)
     fread(&usuarioLeido, sizeof(Usuario), 1, archi);
 
     usuarioLeido.bibliotecaUsuario = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosBiblioteca);
+    ///los validos de la biblioteca si obtengo, cuando hago fread de un usuario obtengo todo lo que no sea arreglo dinamico
+    /// los validos me sirven para saber cuanto me tengo que mover en el archivo sizeof(Juego) * validosbiblioteca por ej
+    /// luego puedo hacer billetera y cuando termino ya tengo un usuario completo, no hay perdida.
     if(!usuarioLeido.bibliotecaUsuario)
     {
         strcpy(usuarioLeido.userName, "ERROR. . .");
@@ -214,6 +220,7 @@ Usuario leerUsuarioCompletoDeArchi(FILE *archi)
     }
 
     fread(usuarioLeido.bibliotecaUsuario, sizeof(Juego), usuarioLeido.validosBiblioteca, archi);
+    ///ACA cargo la biblioteca de ese usuario en especifico a ese usuario.
 
     usuarioLeido.carritoDeJuegos = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosCarrito);
     if(!usuarioLeido.carritoDeJuegos)
@@ -225,12 +232,15 @@ Usuario leerUsuarioCompletoDeArchi(FILE *archi)
     }
 
     fread(usuarioLeido.carritoDeJuegos, sizeof(Juego), usuarioLeido.validosCarrito, archi);
+    ///ACA cargo el carrito de ese usuario en especifico a ese usuario.
 
     return usuarioLeido;
+    ///devuelvo ese usuario con todos sus parametros cargados
 }
 
-//esto es a lo que me refería con el conteo de usuarios
+                                //esto es a lo que me refería con el conteo de usuarios
 int contarCantUsuariosArchi () //cuantos existen en el archivo
+///Para que serviria esta funcion? Digo pq ya tendriamos el entero al principio del archivo para usar como contador y validos en todo el proyecto
 {
     FILE *archi = fopen ("example.bin", "rb");
 
@@ -240,7 +250,8 @@ int contarCantUsuariosArchi () //cuantos existen en el archivo
 
     if (archi)
     {
-        while (fread(&aux.userName, sizeof(char), LIMITE, archi) > 0)
+        while (fread(&aux.userName, sizeof(char), LIMITE, archi) > 0) // creo que esta mal esto, le pasas la dir de memoria de aux.username, pero ya es una dir de memoria (un arreglo)
+//ademas, no lo se, pero creo que contarias caracteres basura. Por ejemplo si tiene un solo char la string, le sobran 48 espacios con basura, y ahi le estas poniendo de cantidad 50 veces
         {
             contador++;
             fread(&aux.password, sizeof(char), LIMITE, archi);
@@ -261,6 +272,7 @@ int contarCantUsuariosArchi () //cuantos existen en el archivo
             free(aux.carritoDeJuegos);
         }
         fclose(archi);
+        ///El tema de contar es muy engorroso, son muchos fread y muchos datos separados en un mismo archivo
     }else
     {
         printf("\nHa ocurrido un problema en la apertura del archivo.\n");
@@ -305,9 +317,16 @@ void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario)
 {
     fwrite(&usuario, sizeof(Usuario), 1, archi); //osea ahorra tiempo de escribir código pero quedan aisladas los 2 de abajo
     //pero creo que el principal problema que se me viene es cómo cargar los arrays con las bibliotecas y carritos
+
+    /// A que te referis con cargar los arreglos de las bibliotecas y carrito?
     fwrite(usuario.bibliotecaUsuario, sizeof(Juego), usuario.validosBiblioteca, archi);
 
     fwrite(usuario.carritoDeJuegos, sizeof(Juego), usuario.validosCarrito, archi);
+
+    ///fijate que NO quedan aisladas en el archivo porque las escribo, si tengo 2 juegos, los validos de la biblioteca seran 2.
+    /// escribo esos dos juegos en el archivo
+    /// quedaria: int (validos) | usuarioEnespecifico (usuario) |juego1 (juego) | juego2 (juego) | despues seguiria con otro usuario y sus juegos y asi
+    ///Por eso es que no guardo todo de una
 }
 
 //
