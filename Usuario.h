@@ -38,8 +38,8 @@ int contarCantDeUsuariosEnArchi(FILE *archi);
 int pasarUsuariosAArr(FILE *archi, Usuario **arr);
 int pasarUsuariosDeArchivoAArr (char nombreArchivo[], Usuario **arr);
 Usuario leerUsuarioCompletoDeArchi(FILE *archi);
-void pasarUsuarioArchiAArrDin (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema);
-
+void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema);
+void pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr, int *usuariosRegistradosEnSistema);
 // Pasar arreglo dinamico de usuarios a Archivo
 void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario);
 void guardarArrUsuariosEnArchivo(char nombreArchivo[] ,Usuario arr[], int validosUsuarios);

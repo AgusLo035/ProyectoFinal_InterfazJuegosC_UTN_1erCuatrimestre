@@ -163,7 +163,23 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //    return cant;
 //}
 
-void pasarUsuarioArchiAArrDin (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema)
+void pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr, int *usuariosRegistradosEnSistema)
+{
+    FILE *archi = fopen(nombreArchivo, "r+b");
+
+    if(archi)
+    {
+        fread(usuariosRegistradosEnSistema, sizeof(int), 1, archi);
+
+        pasarUsuarioArchiAArrDinArchi(archi, arr, (*usuariosRegistradosEnSistema));
+
+        fclose(archi);
+    }
+    else
+        printf("\nERROR, ARCHIVO %s NO EXISTE. . .\n", nombreArchivo);
+}
+
+void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema)
 {
     int i = 0;
 
@@ -174,7 +190,7 @@ void pasarUsuarioArchiAArrDin (FILE *archi, Usuario **arr, int usuariosRegistrad
         return;
     }
 
-    while(i <= usuariosRegistradosEnSistema)
+    while(i < usuariosRegistradosEnSistema)
     {
         (*arr)[i] = leerUsuarioCompletoDeArchi(archi);
         i++;
@@ -232,6 +248,7 @@ void guardarArrUsuariosEnArchivo(char nombreArchivo[] ,Usuario arr[], int valido
 
     if(archi)
     {
+        fwrite(&validosUsuarios, sizeof(int), 1, archi);
         for(int i = 0 ; i < validosUsuarios ; i++)
         {
             guardarUnUsuarioEnArchi(archi, arr[i]); //lito :3
@@ -250,6 +267,9 @@ void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario)
 
     fwrite(usuario.carritoDeJuegos, sizeof(Juego), usuario.validosCarrito, archi);
 }
+
+//
+
 
 ///Funciones de ADMIN
 /// Verificar Admin =======================================================================================
