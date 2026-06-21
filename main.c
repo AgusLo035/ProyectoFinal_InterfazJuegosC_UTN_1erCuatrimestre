@@ -59,7 +59,7 @@ int main()
     // ver biblioteca
     // deshacer última compra y otra opción de devolver cualquier otro juego (solo disponible si el usuario tiene al menos 1 juego),
     // consultar saldo, cargar saldo
-    // eliminar usuario (requiere de su contraseña, escondido detrás de "funciones especiales")
+    // eliminar usuario -> he decidido que solo el admin puede eliminar usuarios. Digo para no escribir de más cosas que no se piden.
 
     //Dentro del menú de arriba, pongo un if mostrando más opciones si el usuario es admin, y pasa lo de abajo
 
