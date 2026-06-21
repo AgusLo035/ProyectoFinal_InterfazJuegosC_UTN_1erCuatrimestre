@@ -76,6 +76,7 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i);
 
 // Carrito / Modificacion
 float cargarACarritoUsuario(Juego **carrito, int *validosCarrito, Juego juegoAComprar); // devuelve lo que se debe de debitar al usuario
+void mostrarCarritoDeUsuario (Usuario usuario);
 
 // Biblioteca personal / Modificacion
 void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar); //

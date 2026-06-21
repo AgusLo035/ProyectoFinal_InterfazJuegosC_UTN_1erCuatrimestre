@@ -210,7 +210,6 @@ int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr)
         }
 
     }
-
         return validos; //tambien decidí que devuelva los validos, porque aparecen al principio del archivo
 }
 
@@ -634,4 +633,15 @@ int verificarUsuarioRegistrado(Usuario arr[], int validos, char username[], char
 
     return flag; //Devuelve la pos de ese usuario para luego hacer usuario de la sesion iniciada = arr[esa posicion que devuelve
                 //devuelve -1 si la contraseña o usuario son incorrectos
+}
+
+/// Mostrar Juegos del carrito de ese Usuario
+void mostrarCarritoDeUsuario (Usuario usuario)
+{
+    for(int i = 0 ; i < usuario.validosCarrito ; i++)
+    {
+        printf("\n=============Juego en Carrito (U: %s)#%i================\n", usuario.userName, i+1);
+        leerUnJuego(usuario.carritoDeJuegos[i]);
+        printf("\n======================================\n");
+    }
 }
