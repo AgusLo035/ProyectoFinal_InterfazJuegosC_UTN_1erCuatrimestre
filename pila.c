@@ -1,57 +1,83 @@
+#include <stdio.h>
 #include "pila.h"
 
-
-void inicpila(P_Pila p)
+/**
+ * @brief Inicializa una Pila para ser utilizada.
+ * @param p la referencia de una Pila.
+ */
+void inicpila(Pila *p)
 {
-       int *aux;
-       aux = (int *)malloc(50*sizeof(int));
-       p->valores = aux;
-       p->postope=0;
+    p->postope = 0;
 }
 
-void apilar(P_Pila p, int dato)
+/**
+ * @brief Agrega un dato a la Pila.
+ * @param p la referencia de de una Pila.
+ * @param dato el dato a agregar.
+ */
+void apilar(Pila *p, int dato)
 {
-    int index = (*p).postope;
-    (*p).valores[index]=dato;
-    (*p).postope = (*p).postope + 1;
+    p->valores[p->postope] = dato;
+    p->postope++;
 }
 
-int desapilar(P_Pila p)
+/**
+ * @brief Quita un valor de la Pila y lo retorna. Es responsabilidad del programador verificar que la Pila no esté vacía para evitar errores de segmentación. Para más información buscar "segfault".
+ * @param p la referencia de una pila.
+ * @return El valor removido.
+ */
+int desapilar(Pila *p)
 {
-       int z = p->valores[p->postope -1];
-       p->postope--;
-       return z;
+    int retval = p->valores[p->postope - 1];
+    p->postope--;
+    return retval;
 }
 
-int tope(P_Pila p)
+/**
+ * @brief Retorna el valor en la cima de la Pila sin altertarla. Es responsabilidad del programador verificar que la Pila no esté vacía para evitar errores de segmentación. Para más información buscar "segfault".
+ * @param p la referencia de una Pila.
+ * @return el último valor en ingresar a la pila.
+ */
+int tope(Pila *p)
 {
     return p->valores[p->postope - 1];
 }
 
-int pilavacia(P_Pila p)
+/**
+ * @brief Retorna si la Pila está vacía.
+ * @param p la referencia de una Pila.
+ * @return 1 si la Pila tiene al menos un valor, 0 en caso contrario.
+ */
+int pilavacia(Pila *p)
 {
-    return (p->postope == 0);
+    return p->postope == 0;
 }
 
-void leer (P_Pila p)
+/**
+ * @brief Permite ingresar un valor por teclado a la Pila. Imprime mensajes.
+ * @param p la referencia de una Pila.
+ */
+void leer(Pila *p)
 {
-    int aux = 0;
-    if (p->postope < 50)
+    if (p->postope >= 50)
     {
-        printf("Ingrese un valor entero: ");
-        fflush(stdin);
-        scanf("%d", &aux);
-        apilar(p, aux);
-    }
-    else
         printf("Error: la pila esta llena");
+        return;
+    }
+    int aux;
+    printf("Ingrese un valor entero: ");
+    scanf("%d", &aux);
+    apilar(p, aux);
 }
 
-void mostrar(P_Pila p)
+/**
+ * @brief Imprime por pantalla en un formato predeterminado la información guardada en una Pila.
+ * @param p la referencia de una Pila.
+ */
+void mostrar(Pila *p)
 {
-    int i;
     printf("\nBase .............................................. Tope\n\n");
-    for(i=0; i < p->postope; i++)
+    for (int i = 0; i < p->postope; i++)
         printf("| %d ", p->valores[i]);
-    printf("\n\nBase .............................................. Tope\n\n");
+    printf("|\n\nBase .............................................. Tope\n\n");
 }

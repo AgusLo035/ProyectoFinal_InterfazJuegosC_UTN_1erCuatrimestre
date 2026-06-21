@@ -1,3 +1,4 @@
+#include "Juego.h"
 #include "Usuario.h"
 #include "General.h"
 

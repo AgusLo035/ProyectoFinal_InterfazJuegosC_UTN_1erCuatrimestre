@@ -39,6 +39,7 @@ Usuario registrarUsuario() //los validos de esto se establecen en función madre
     usuarioCargado.bibliotecaUsuario = NULL;
     usuarioCargado.validosBiblioteca = 0;
 
+    usuarioCargado.carritoDeJuegos
     //saqué el igualar el array de carrito a null porque ahora es array fijo
     usuarioCargado.validosCarrito    = 0;
 
@@ -613,4 +614,20 @@ int contarDimPila(Pila pila)
         cont++;
     }
     return cont;
+}
+
+///Consulta?
+
+int verificarUsuarioRegistrado(Usuario arr[], int validos, char username[], char password[])
+{
+    int flag = 0;
+
+    for(int i = 0 ; i < validos && flag == 0; i++)
+    {
+        if(strcmp(arr[i].userName, username) == 0 && strcmp(arr[i].password, password) == 0)
+            flag = 1;
+    }
+
+    return flag; //1, contraseña y usuario ingresado valido
+                //0, contraseña o usuario invalido, no seamos especificos ya fue
 }
