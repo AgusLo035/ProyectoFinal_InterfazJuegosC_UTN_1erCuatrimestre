@@ -120,6 +120,34 @@ void leerUnJuego(Juego unJuego)
     printf("Precio del juego: %.2f",    unJuego.precioJuego);
 }
 
+Juego buscarJuegoPorNombre (int nombreJuegoBuscado[]) //devuelve Juego buscado por nombre
+{
+    FILE *archi =  fopen(JUEGOSTIENDA, "rb");
+
+    Juego aux;
+    aux.Id = -1; //devuelve el juego con esta id en caso de no poder abrirse el archivo
+
+    int flag = 0;
+
+    if (archi != NULL)
+    {
+        flag = verificarExistenciaJuego(archi, nombreJuegoBuscado); //esto deja el indicado de posicion delante del juego que quiero (si lo encuentra)
+
+        if (flag != 0)
+        {
+            fseek(archi, sizeof(Juego)*-1, archi); //retrocedo un paso para obtener el juego
+            fread(&aux, sizeof(Juego), 1, archi);
+        }
+
+        fclose (archi);
+    }else
+    {
+        printf("\nHubo un error en la apertura del archivo.\n");
+    }
+
+    return aux;
+}
+
 Juego buscarJuegoPorId (int idBuscada) //función separada porque parece solo la vamos a usar en relación al usuario
 {
     FILE *archi =  fopen(JUEGOSTIENDA, "r+b");

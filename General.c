@@ -199,6 +199,9 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 //antes de agregar el juego al carrito, debo de verificar que no exista ya en el carrito o en la bilbioteca del usuario
                 //puede que tenga que modificar la función de arriba
                 //tengo que hacer una función que vacíe todo el carrito (pq parece lo más fácil de escribir, no quiero hacer otro sistema de quitar un juego específico dsps de verificar exista en carrito)
+                printf("\nEscriba el juego que quiere agregar a su carrito: ");
+
+
                 break;
             case 3:
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
