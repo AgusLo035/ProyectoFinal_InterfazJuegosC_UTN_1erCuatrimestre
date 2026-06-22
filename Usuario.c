@@ -537,23 +537,31 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
 /// Carrito =======================================================================================
 
 
-float cargarACarritoUsuario(Juego **carrito, int *validosCarrito, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
+//Decidí cambiar esto porque no sé cómo mandarlo al llamar la función
+//Recibe el usuario entero, adentro se encarga de modificar todo
+float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
 {
+    Juego *carritoAux = (*usuarioRecibido).carritoDeJuegos; //creo auxiliares para no inutlizar al usuario si sale mal realloc
+    int validosCarritoAux = (*usuarioRecibido).validosCarrito;
+
     float sumaJuegosEnCarrito = 0;
-    Juego *aux = NULL;
 
     (*validosCarrito) += 1; // Aumenta en 1 la dim del carrito para poder agregar otro juego
+    validosCarritoAux += 1;
 
-    aux = (Juego *) realloc(aux, sizeof(Juego) * (*validosCarrito)); // Se aumenta la dim dependiendo de los validos
-    if (!aux)
+    carritoAux = (Juego *) realloc(carritoAux, sizeof(Juego) * validosCarritoAux); // Se aumenta la dim dependiendo de los validos
+    if (!carritoAux)
     {
-        printf("\nERROR EN REALLOC. . . NO se agrego ningun juego al carrito. . .\n");
-        (*validosCarrito) -= 1; // Realloc fallo y no aumento la dim del carrito, queda con su dir de memoria y validos anteriores
-        free(aux);
+        printf("\nERROR EN REALLOC. . .\n"); // Realloc fallo y no aumento la dim del carrito, queda con su dir de memoria y validos anteriores
+        validosCarritoAux -= 1;
         return -1; // Devuelvo ERROR
     }
+    carritoAux[(validosCarritoAux) - 1] = juegoAComprar;
 
-    (*carrito) = aux; // No hubo error en realloc al aumentar su dim, carrito pasa a ser aux con su dimension modificada
+    sumaJuegosEnCarrito = sumarPrecioJuegos(carritoAux, validosCarritoAux, 0); //le paso un puntero simple (un arreglo)
+
+    (*usuarioRecibido).carritoDeJuegos = carritoAux;
+    (*usuarioRecibido).validosCarrito = validosCarritoAux;
 
     (*carrito)[(*validosCarrito) - 1] = juegoAComprar; // Agrego el juego que se desea comprar en la ultima posicion del carrito
 

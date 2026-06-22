@@ -199,7 +199,32 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 //antes de agregar el juego al carrito, debo de verificar que no exista ya en el carrito o en la bilbioteca del usuario
                 //puede que tenga que modificar la función de arriba
                 //tengo que hacer una función que vacíe todo el carrito (pq parece lo más fácil de escribir, no quiero hacer otro sistema de quitar un juego específico dsps de verificar exista en carrito)
+                char juegoBuscado[LIMITE];
+                Juego juegoAIngresar;
                 printf("\nEscriba el juego que quiere agregar a su carrito: ");
+                scanf(" %49[^\n]", juegoBuscado);
+                juegoAIngresar = buscarJuegoPorNombre(juegoBuscado);
+
+                if (juegoAIngresar.id == -1) //si falla la busqueda/fopen
+                {
+                    printf("\nNo se ha podido agregar el juego al carrito.\n\n");
+                }else
+                {
+                    auxDineroAPagar = cargarACarritoUsuario(arrUsuarios.carritoDeJuegos) //si devuelve -1 -> error realloc
+                    printf("\nEl monto a pagar ahora es $%f. Revise su saldo antes de ir a pagar.\n", dineroAPagar);
+                    if (auxDineroAPagar != -1)
+                    {
+                        //pasan cosas
+                    }else //hay error
+                    {
+                        printf("\nOcurrio un error al aumentar la cantidad de espacio en el carrito. Intente de nuevo.\n");
+                    }
+
+
+
+
+                }
+
 
 
                 break;

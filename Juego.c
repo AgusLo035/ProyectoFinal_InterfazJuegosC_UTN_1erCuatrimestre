@@ -120,7 +120,7 @@ void leerUnJuego(Juego unJuego)
     printf("Precio del juego: %.2f",    unJuego.precioJuego);
 }
 
-Juego buscarJuegoPorNombre (int nombreJuegoBuscado[]) //devuelve Juego buscado por nombre
+Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]) //devuelve Juego buscado por nombre
 {
     FILE *archi =  fopen(JUEGOSTIENDA, "rb");
 
