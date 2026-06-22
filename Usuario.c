@@ -826,7 +826,7 @@ float sumarJuegosEnCarrito(Usuario usuario)
 }
 /// ^^^ Esta funcion se llama en el main antes de ejecutar "comprarJuegosDelCarrito()"
 
-void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los juegos que existen en el carrito
+void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los juegos que existen en el carrito -> los agrega a la bilbioteca
 {// La verificacion se hace previamente de acceder a esta funcion con la funcion ya hecha de contar el monto total de un arreglo de juegos y si el usuario tiene ese monto disponible para comprar
     float montoADebitar = 0;
 

@@ -30,6 +30,11 @@ int main()
         return 0;
     }
 
+    /// Después de las funciones de menú (ver qué parametros necesitan),
+    /// Hay que guardar validos y toda el arrUsuarios en un archivo (hay una función para esto)
+    /// No sé si nos puedan recriminar no hacerlo cada vez que se modifica algo relacionado a los usuarios, pero sería poner esta misma función en otros lados
+    /// Pero falta terminar mi menú de usuarios, me faltan 2 puntos
+
     //Y ahora que tengo la posición del usuario puedo comenzar a modificarlo
 
     //función de menu de usuario

@@ -169,7 +169,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
     {
         printf("\n--MENU PRINCIPAL--\n\n");
         printf("1. Ver tienda.\n"); //DONE
-        printf("2. Agregar juegos a carrito.\n"); //MODULARIZAR EN FUNCIÓN, PERO 99% DONE
+        printf("2. Agregar juegos a carrito.\n"); ///MODULARIZAR EN FUNCIÓN, PERO 99% DONE
         printf("3. Ver mi carrito.\n"); //DONE
         printf("4. Vaciar mi carrito.\n"); ///falta
         printf("5. Comprar juegos de mi carrito.\n"); ///falta
@@ -241,10 +241,10 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
             case 3:
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
                 break;
-            case 4: //falta
+            case 4:
                 if((*arrUsuarios)[posUsuarioActual].validosCarrito == 0)
                 {
-                    printf("No hay juegos en su carrito.");
+                    printf("\nNo hay juegos en su carrito.\n\n");
                 }else
                 {
                     //funcion que vacía carrito
