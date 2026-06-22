@@ -90,6 +90,7 @@ void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);
 ///Igual esto es lo que pedia la consigna de buscar una struct por un campo en especifico de ella
 ///^ Revisé la consigna, se refiere a filtrar por eleccion (buscar por parametro X usuario por ejemplo)
 ///[A HACER] -> un filtro de usuarios (busqueda de usuarios que tengan mas de X juego?). Creo que se puede hacer un copy paste del que está en juegos
+/// ^^^^^^^^^^^^^ YA HAY UNA FUNCION QUE BUSCA EL USUARIO CON MAYOR CANT DE JUEGOS [HECHO]
 
 
 // Billetera / Precio / Modificacion
