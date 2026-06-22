@@ -693,3 +693,38 @@ void mostrarCarritoDeUsuario (Usuario usuario)
         }
     }
 }
+
+/// Ordenamientos con usuarios
+void ordSeleccionNombreUsuario(Usuario arr[], int validos)
+{
+    int posMenor;
+    Usuario aux;
+
+    for (int i = 0 ; i < validos - 1; i++)
+    {
+        posMenor = posNombreMenor(arr, validos, i);
+        aux = arr[i];
+        arr[i] = arr[posMenor];
+        arr[posMenor] = aux;
+    }
+}
+
+void posNombreMenor (Usuario arr[], int validos, int posInicial)
+{
+    int posMenor = posInicial;
+
+    char nombreMenor[LIMITE];
+    strcpy(nombreMenor, arr[0].userName);
+
+    for (int i = posMenor + 1 ; i < validos ; i++)
+    {
+        if(strcmpi(nombreMenor, arr[i]) > 0)
+        {
+            posMenor = i;
+            strcpy(nombreMenor, arr[i].userName);
+        }
+    }
+    return posMenor;
+}
+
+
