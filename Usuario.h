@@ -82,6 +82,7 @@ void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);
 ///^ Revisé la consigna, se refiere a filtrar por eleccion (buscar por parametro X usuario por ejemplo)
 ///[A HACER] -> un filtro de usuarios (busqueda de usuarios que tengan mas de X juego?). Creo que se puede hacer un copy paste del que está en juegos
 
+
 // Billetera / Precio / Modificacion
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
 void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar);
@@ -90,6 +91,7 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i);
 // Carrito / Modificacion
 float cargarACarritoUsuario(Juego **carrito, int *validosCarrito, Juego juegoAComprar); //Carga un juego al carrito de un usuario. Devuelve lo que se debe de debitar al usuario
 void mostrarCarritoDeUsuario (Usuario usuario); //Muestra el carrito de un usuario
+void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos);
 
 // Biblioteca personal / Modificacion
 void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar); //

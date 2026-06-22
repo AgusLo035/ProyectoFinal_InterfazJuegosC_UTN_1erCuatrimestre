@@ -673,3 +673,39 @@ void mostrarCarritoDeUsuario (Usuario usuario)
         }
     }
 }
+
+void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) //por temas de comodidad, hagamos que se saque todo de una, o sea, que el usuario compre todos los juegos en el carrito
+{
+    float montoADebitar = 0;
+
+    int nuevaDimBiblioteca = (*usuarioAComprarJuegos).validosCarrito + (*usuarioAComprarJuegos).validosBiblioteca;
+
+    (*usuarioAComprarJuegos).bibliotecaUsuario = (Juego*) realloc((*usuarioAComprarJuegos).bibliotecaUsuario, sizeof(Juego) * nuevaDimBiblioteca);
+    if(!(*usuarioAComprarJuegos).bibliotecaUsuario)
+    {
+        printf("\nERROR EN MALLOC. . .\n");
+        return;
+    }
+
+    int valBiblioteca = (*usuarioAComprarJuegos).validosBiblioteca;
+    int x = 0;
+
+    for (int i = valBiblioteca ; i < nuevaDimBiblioteca ; i++)
+    {
+        (*usuarioAComprarJuegos).bibliotecaUsuario[i] = (*usuarioAComprarJuegos).carritoDeJuegos[x];
+        montoADebitar += (*usuarioAComprarJuegos).carritoDeJuegos[x].precioJuego;
+        x++;
+    }
+
+    //cuando se termina de copiar los juegos del carrito a la biblioteca se libera la memoria
+    free((*usuarioAComprarJuegos).carritoDeJuegos);
+    (*usuarioAComprarJuegos).validosCarrito = 0;
+    (*usuarioAComprarJuegos).validosBiblioteca = nuevaDimBiblioteca;
+
+    debitarDineroAlUsuario(usuarioAComprarJuegos, montoADebitar);
+}
+
+//esta funcion quita todos los juegos de la tienda y los carga al arreglo dinamico de biblioteca
+//Tambien le debita el total de todos los juegos al usuario
+/// LA VERIFICACION si el usuario tiene el monto sufciente hagamosla en el main en vez de en la funcion
+/// ^^importante

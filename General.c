@@ -221,6 +221,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 break;
             case 8:
                 cargarDineroAlUsuario((*arrUsuarios)[posUsuarioActual].billetera);
+                //                      ^^No recibe dinero por parametro, recibe la dir de memoria de ese usuario que queres cargarle plata
                 break;
             case 9:
                 printf("\nMuchas por visitar STOM. Esperamos vuelva pronto.\n\n");
@@ -228,7 +229,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
             case 10:
                 if (strcmp((*arrUsuarios)[posUsuarioActual].userName, "admin") == 0)
                 {
-                    funcionesAdicionalesParaAdmin() //llamo a tu función, creo que también hay que darle el array dinámico y validos
+                    funcionesAdicionalesParaAdmin(); //llamo a tu función, creo que también hay que darle el array dinámico y validos
                 }else
                 {
                     printf("\nUsted no es admin. No puede acceder a las funciones admin.\n");
