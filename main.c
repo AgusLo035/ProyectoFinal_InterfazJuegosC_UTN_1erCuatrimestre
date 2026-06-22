@@ -14,27 +14,41 @@ char matAdmin[2][LIMITE] = {"admin", "admin"}; //un usuario y una contraseña en 
 ///Main
 int main()
 {
+    Usuario *arrUsuarios = NULL; //futuro array de usuarios
+    int validos = 0; //futuro validos de usuarios
+
+    int posicionEnArray = menuInicio(&arrUsuarios, &validos); //leer lo que devuelve en general.c
+
+
+    if (posicionEnArray == -3 || posicionEnArray == -2) //se eligió cerrar el programa o se registró un usuario
+    {
+        return 0; //se cierra el programa.
+    }else if (posicionEnArray == -1)
+    {
+        printf("\nHa ocurrido un error crítico en alguna parte del programa. Se ha finalizado el programa.\n");
+        return 0;
+    }
 
 
 //    Usuario *arr = NULL; //arreglo que contiene a todos los usuarios
 
     ///Temporal para probar carrito
-
-    Juego test = cargarNuevoJuego();
-    Juego test2 = cargarNuevoJuego();
-
-    Usuario *arrUsuarios = malloc(sizeof(Usuario)*2); //creo un array de 1 usuario
-
-    Usuario admin = crearUsuarioAdmin();
-
-    arrUsuarios[0] = admin;
-
-    cargarACarritoUsuario(&arrUsuarios[0].carritoDeJuegos, &arrUsuarios[0].validosCarrito, test);
-    cargarACarritoUsuario(&arrUsuarios[0].carritoDeJuegos, &arrUsuarios[0].validosCarrito, test2);
-
-    mostrarDatosUsuario(arrUsuarios[0]);
-
-    mostrarCarritoDeUsuario(arrUsuarios[0]);
+//
+//    Juego test = cargarNuevoJuego();
+//    Juego test2 = cargarNuevoJuego();
+//
+//    Usuario *arrUsuarios = malloc(sizeof(Usuario)*2); //creo un array de 1 usuario
+//
+//    Usuario admin = crearUsuarioAdmin();
+//
+//    arrUsuarios[0] = admin;
+//
+//    cargarACarritoUsuario(&arrUsuarios[0].carritoDeJuegos, &arrUsuarios[0].validosCarrito, test);
+//    cargarACarritoUsuario(&arrUsuarios[0].carritoDeJuegos, &arrUsuarios[0].validosCarrito, test2);
+//
+//    mostrarDatosUsuario(arrUsuarios[0]);
+//
+//    mostrarCarritoDeUsuario(arrUsuarios[0]);
 
 
     ///FIN Temporal

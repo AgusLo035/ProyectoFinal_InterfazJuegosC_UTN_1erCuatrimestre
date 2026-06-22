@@ -1,14 +1,15 @@
 #include "General.h"
 
 // sys cls y sys pause
-void pausarLimpiarInt() //q hace esto ¿ Pausa y despues limpia la terminal 💔
+void pausarLimpiarInt() //Pausa y despues limpia la terminal
 {
     system("pause");
     system("cls");
 }
 
-void menuInicio()
+int menuInicio(Usuario **arrUsuarios, int *validos) //devuelve la posición del usuario a trabajar. Otros resultados/errores posibles: "-3" -> se decidió errar programa. "-2" -> se registró un usuario, se cierra el programa. Antes se pide que reabra el programa e inicie sesión.  "-1" -> error en fopen o malloc/realloc. Se termina el programa.
 {
+    int posUsuario;
     int decision;
 
     printf("--MENU--\n\n");
@@ -32,63 +33,81 @@ void menuInicio()
         }
     }while(decision > 3 || decision < 1);
 
-    menuOpcionesValidasVerificadas(decision);
+    posUsuario = menuOpcionesValidasVerificadas(decision, arrUsuarios, validos);
+
+    if (decision == 3) //opcion 3 es salir del programa
+    {
+        posUsuario = -3; //para el main significa "cerrar programa"
+    }else if(decision == 2)
+    {
+        posUsuario = -2;
+        printf("\nCierre y abra el programa para logearse al usuario creado.\n");
+    }
+
+    return posUsuario;
 }
 
-void menuOpcionesValidasVerificadas (int decision) //solamente es llamado cuando se verifica el usuario introduce una decisión válida
-{ //tal vez devolver un valor de error si salió todo mal (cant usuarios == -1), para que se corte el programa en función madre
-    int cantUsuarios;
+int menuOpcionesValidasVerificadas (int decision, Usuario **arrUsuarios, int *validos) //solamente es llamado cuando se verifica el usuario introduce una decisión válida. Devuelve la posición del usuario que se termine loggeando en el array dinámico.
+{
+    int posUsuario;
 
     if (decision != 3) //no se continua con el resto del programa si se eligió salirse (que es la opcion 3)
     {
-        Usuario *arrUsuarios = NULL; //el array de usuarios va a existir a partir de ahora
-        cantUsuarios = pasarUsuariosArchivoAArrDin(LISTAUSUARIOS, &arrUsuarios); //se llena el arreglo de usuarios (si existen) y se devuelven validos
+        (*validos) = pasarUsuariosArchivoAArrDin(LISTAUSUARIOS, arrUsuarios); //se llena el arreglo de usuarios (si existen) y se devuelven validos
 
-        if (cantUsuarios == 0) //si no existe el archivo, se crea ahora
+        if ((*validos) == 0) //si no existe el archivo, se crea ahora
         {
-            cantUsuarios = creacionArchivoDeUsuarios(&arrUsuarios); //cant usuarios es igual a -1 si hay error en malloc/abrir el archivo
+            (*validos) = creacionArchivoDeUsuarios(arrUsuarios); //cant usuarios es igual a -1 si hay error en malloc/abrir el archivo
         }
 
-        if (cantUsuarios != -1)
+        if ((*validos) != -1)
         {
-            menuOpcionesLoggeoRegistro(decision, &arrUsuarios, &cantUsuarios);
+            posUsuario = menuOpcionesLoggeoRegistro(decision, arrUsuarios, validos);
         }else //El else ocurre si aparece algún error al abrir el archivo/error en malloc
         {
             printf("\nHa ocurrido un error en la carga de usuarios. Cierre y abra el programa nuevamente.\n");
+            posUsuario = -1;
         }
     }else
     {
         printf("\nMuchas gracias por haber utilizado STOM. Vuelva pronto.\n"); //TERMINA EL PROGRAMA
+        posUsuario = -3;
     }
+
+    return posUsuario;
 }
 
-void menuOpcionesLoggeoRegistro(int decision, Usuario **arrUsuarios, int *cantUsuarios) //tiene solo las funciones de registro y loggeo (se hace después de muchas verificaciones)
+int menuOpcionesLoggeoRegistro(int decision, Usuario **arrUsuarios, int *cantUsuarios) //tiene solo las funciones de registro y loggeo (se hace después de muchas verificaciones). Devuelve la posición del usuario a trabajar en array
 {
-        switch (decision) //modularizar las opciones del switch
-        {
-            case 1:
-                printf("\nIngrese su nombre de usuario: ");
-                //tengo que hacer una función que verifique el usuario y contraseña que se ingrese coincida con alguno que se encuentre en el array de usuarios
-                break;
-            case 2: ///IMPORTANTE: Hay que verificar que NO puedan existir usuarios del mismo nombre. [EDIT: creo que esa de "verificar usuario registrado" me sirve para eso].
-                ///Entonces acá uso la función verificar nombre usuario registrado
-                agregarUsuarioAArr (arrUsuarios, cantUsuarios); //Función crea y agrega a un nuevo usuario al array dinámico.
-                //tal vez meter después de esto un do while por si falla el agregar usuario a archivo (que es lo que hace la función de abajo). Le pregunta al usuario si quiere intentar guardar su existencia en archivo de nuevo.
-                guardarArrUsuariosEnArchivo(LISTAUSUARIOS, *arrUsuarios, *cantUsuarios); //Guarda el nuevo usuario en archivo
-                break;
-        }
+    int flag;
+
+    switch (decision)
+    {
+        case 1:
+            flag = sistemaLoggeo (arrUsuarios, cantUsuarios);
+            break;
+        case 2: ///IMPORTANTE: Hay que verificar que NO puedan existir usuarios del mismo nombre.
+            agregarUsuarioAArr (arrUsuarios, cantUsuarios); //Función crea y agrega mediante scanfs a un nuevo usuario al array dinámico.
+            guardarArrUsuariosEnArchivo(LISTAUSUARIOS, *arrUsuarios, *cantUsuarios); //Guarda el nuevo usuario en archivo
+            flag = -2; //indiciador de que solo se creó usuario
+            break;
+    }
+
+    return flag;
 }
 
-void sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios)
+int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios) //Se escribe usuario y contraseña. Si son correctos, devuelve la posición en el array que tiene el usuario, y se continúa con eso. Si no
 {
+    int posicionUsuarioEnArray = -1;
+
     char nombreUsuarioIngresado[VERIFICARLIMITE]; //51 para verificacion de caracteres org
     char contraseniaUsuarioIngresado[VERIFICARLIMITE]; //^
 
     do
     {
-        printf("Ingrese el nombre de usuario: ");
+        printf("\nIngrese el nombre de usuario: ");
         fflush(stdin);
-        scanf("%50[^\n]", nombreUsuarioIngresado);
+        scanf(" %50[^\n]", nombreUsuarioIngresado);
         if(strlen(nombreUsuarioIngresado) >= LIMITE)
             printf("\nPor favor evite intentar romper el programa.\n");
 
@@ -99,12 +118,18 @@ void sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios)
 
         printf("\nIngrese su contrasenia: ");
         fflush(stdin);
-        scanf("%50[^\n]", contraseniaUsuarioIngresado);
+        scanf(" %50[^\n]", contraseniaUsuarioIngresado);
         if(strlen(contraseniaUsuarioIngresado) >= LIMITE)
             printf("\nPor favor evite intentar romper el programa.\n");
 
     }while(strlen(contraseniaUsuarioIngresado) >= LIMITE);
 
-    verificarUsuarioRegistrado(*arrUsuarios, *cantUsuarios, nombreUsuarioIngresado, contraseniaUsuarioIngresado);
+    posicionUsuarioEnArray = verificarUsuarioRegistrado(*arrUsuarios, *cantUsuarios, nombreUsuarioIngresado, contraseniaUsuarioIngresado);
 
+    if (posicionUsuarioEnArray == -1)
+    {
+        printf("\nEl usuario o contrasenia ingresados son incorrectos. Reinicie el programa e intente nuevamente.\n");
+    }
+
+    return posicionUsuarioEnArray;
 }
