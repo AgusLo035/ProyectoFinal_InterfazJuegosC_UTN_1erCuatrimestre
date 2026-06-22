@@ -1,7 +1,8 @@
 #ifndef USUARIO_H_INCLUDED
 #define USUARIO_H_INCLUDED
 #include "Juego.h"
-#include <errno.h> //errno es una variable global. Al ocurrir cualquier error al ejecutar algo, codeblocks guarda el error en esta variable. Me sirve para saber si un fopen falló porque el archivo no existe, o porque hubo cualquier otro problema con el fopen
+#include <errno.h> //errno es una variable global. Al ocurrir cualquier error al ejecutar algo, codeblocks guarda el error en esta variable. Me sirve para saber si un fopen falló
+                 // porque el archivo no existe, o porque hubo cualquier otro problema con el fopen
 
 #define VERIFICARLIMITE 51 //estaba en juegos, te lo traje acá pq en juegos no se usa
 #define LISTAUSUARIOS "usuarios.bin"
@@ -59,17 +60,17 @@ void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegi
 int creacionArchivoDeUsuarios (Usuario **arr); //si no existe el archivo usuario, lo crea y añade al primer usuario admin
 Usuario leerUsuarioCompletoDeArchi(FILE *archi); //NOTA: antes de llamar a esta función, sí o si hay que mover el indicador de posición 1 posición delante de los validos al inicio del archivo
 // Pasar arreglo dinamico de usuarios a Archivo
-void guardarArrUsuariosEnArchivo(char nombreArchivo[], Usuario *arr, int validosUsuarios); //Guarda todos los usuarios en archivo. Nota: utiliza "wb", se elimina el archivo ya existente
+int guardarArrUsuariosEnArchivo(char nombreArchivo[], Usuario *arr, int validosUsuarios);
 void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario);
 
 // Funciones para el usuario Admin
 int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]);
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos);
-///[A HACER]:
-///hay que hacer un ordenamiento de usuarios con selección e inserción (parte de consigna). Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
+
+///Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
 void posNombreMenor (Usuario arr[], int validos, int posInicial);
 void ordSeleccionNombreUsuario(Usuario arr[], int validos);
-void insertarUsuarioMenorCantJuegos(Usuario arr[], int validos, Usuario usuarioAinsertar);
+void insertarUsuarioMenorCantJuegos(Usuario arr[], int pos, Usuario usuarioAinsertar);
 void ordInsercionUsuarioJuegos(Usuario arr[], int validos);
 /// HECHO ^^^^^^^^^^^^
 
@@ -89,21 +90,24 @@ void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);
 ///Igual esto es lo que pedia la consigna de buscar una struct por un campo en especifico de ella
 ///^ Revisé la consigna, se refiere a filtrar por eleccion (buscar por parametro X usuario por ejemplo)
 ///[A HACER] -> un filtro de usuarios (busqueda de usuarios que tengan mas de X juego?). Creo que se puede hacer un copy paste del que está en juegos
+/// ^^^^^^^^^^^^^ YA HAY UNA FUNCION QUE BUSCA EL USUARIO CON MAYOR CANT DE JUEGOS [HECHO]
 
 
 // Billetera / Precio / Modificacion
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero);
-void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar);
+int debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar);
 float sumarPrecioJuegos (Juego arr[], int validos, int i);
 
 // Carrito / Modificacion
-float cargarACarritoUsuario(Juego **carrito, int *validosCarrito, Juego juegoAComprar); //Carga un juego al carrito de un usuario. Devuelve lo que se debe de debitar al usuario
+float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar); //Carga un juego al carrito de un usuario. Devuelve lo que se debe de debitar al usuario
 void mostrarCarritoDeUsuario (Usuario usuario); //Muestra el carrito de un usuario
 void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos);
-float sumarJuegosEnCarrito(Usuario usuario);
+float sumarJuegosEnCarrito(Usuario usuario); //esta funcion existe? por ahora estoy usando la que dice "sumarPrecioJuegos"
+int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido);
 
 // Biblioteca personal / Modificacion
 void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar); //
+int verificarSiJuegoEnBibliotecaUsuario (Usuario *usuarioRecibido, Juego juegoRecibido);
 
 // Quitar de biblioteca
 void quitarJuegoDeBibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoAQuitar);
@@ -111,7 +115,6 @@ void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego); 
 
 // Consulta?
 int verificarUsuarioRegistrado(Usuario arr[], int validos, char username[], char password[]);
-int verificarNombreUsuarioRegistrado(Usuario *arr, int validos, char username[]);
-
+int verificarNombreUsuarioRegistrado(Usuario arr[] , int validos, char username[]);
 
 #endif // USUARIO_H_INCLUDED

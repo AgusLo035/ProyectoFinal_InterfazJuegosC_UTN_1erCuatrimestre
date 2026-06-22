@@ -29,7 +29,7 @@
 1781490735 d:\utn\programacion\programacion_1\proyecto final\proyectofinal_1ercuat\usuario.h
 	"Juego.h"
 
-1782106354 source:d:\github\proyectofinal_utn_1ercuatrimestre\juego.c
+1782150181 source:d:\github\proyectofinal_utn_1ercuatrimestre\juego.c
 	"juego.h"
 
 1782100207 d:\github\proyectofinal_utn_1ercuatrimestre\juego.h
@@ -53,7 +53,7 @@
 1782108060 source:d:\github\proyectofinal_utn_1ercuatrimestre\usuario.c
 	"usuario.h"
 
-1782108660 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
+1782160938 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 	<errno.h>
 

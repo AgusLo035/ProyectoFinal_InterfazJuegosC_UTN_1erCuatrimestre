@@ -2,22 +2,22 @@
 
 /// Registro =======================================================================================
 
-Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo usuario. los validos de esto se establecen en función madre
+Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo usuario.
 {
     Usuario usuarioCargado;
 
-    char inputTeclado[VERIFICARLIMITE]; //51 para verificacion de caracteres org
+    char inputTeclado[VERIFICARLIMITE]; //51 para verificacion de caracteres permitidos (50)
 
     int existe = 0;
 
     printf("\n=============CREACION DEL USUARIO================\n");
 
-    do
+    do // Mientras el nombre de usuario no este disponible
     {
         if(existe == 1)
             printf("\nUH-OH!, este nombre de usuario no esta disponible!\n");
 
-        do
+        do // Mientras los caracteres ingresados supere el LIMITE
         {
             printf("Ingrese el nombre de usuario: ");
             fflush(stdin);
@@ -27,9 +27,9 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
 
         }while(strlen(inputTeclado) >= LIMITE);
 
-        for(int i = 0 ; i < validos && existe == 0 ; i++)
+        for(int i = 0 ; i < validos && existe == 0 ; i++) // Busca si el nombre de usuario existe
         {
-            if(strcmp(arr[i], inputTeclado) == 0)
+            if(strcmp(arr[i].userName, inputTeclado) == 0)
                 existe = 1;
         }
 
@@ -37,10 +37,10 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
 
 
 
-    strcpy(usuarioCargado.userName, inputTeclado);
+    strcpy(usuarioCargado.userName, inputTeclado); // Al pasar la verificacion anterior, se copian los valores ingresados al nuevo usuario a registrar
 
 
-    do
+    do // Mientras la contrasenia supere el rango
     {
 
         printf("\nPASSWORD: ");
@@ -51,7 +51,7 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
 
     }while(strlen(inputTeclado) >= LIMITE);
 
-    strcpy(usuarioCargado.password, inputTeclado);
+    strcpy(usuarioCargado.password, inputTeclado); // Al pasar la verificacion anterior, se copian los valores ingresados al nuevo usuario a registrar
 
     usuarioCargado.billetera         = 0;
     usuarioCargado.bibliotecaUsuario = NULL;
@@ -64,19 +64,21 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
 
     inicpila(&usuarioCargado.historialDeJuego);
 
+    // TODOS los parametros restantes se inicializan en 0/NULL
+
     printf("\n=============FIN DE LA CREACION DEL USUARIO================\n");
 
     return usuarioCargado;
 }
 
-Usuario crearUsuarioAdmin()
+Usuario crearUsuarioAdmin() // Se crea un usuario administrador dependiendo de la matriz admin
 {
     Usuario admin;
 
     strcpy(admin.userName, matAdmin[0]);
     strcpy(admin.password, matAdmin[1]);
     admin.eliminado = 0;
-    admin.billetera = 1000;
+    admin.billetera = 1000; // Inicializado en 1000 porque es admin
 
     admin.carritoDeJuegos = NULL;
     admin.validosCarrito = 0;
@@ -133,16 +135,17 @@ Usuario crearUsuarioAdmin()
 //}
 
 void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro.
-{
-    (*cantUsuarios) += 1;
+{                                                         // Siendo la cantidad usuarios los validos que existen en el main hasta el momento
+    (*cantUsuarios) += 1; // Se suma +1 a la cant de usuarios que existen
 
     Usuario *aux = (Usuario*) realloc((*arr), sizeof(Usuario) * (*cantUsuarios)); //hago un espacio para el nuevo usuario
 
     if (aux != NULL)
     {
-        aux[((*cantUsuarios)-1)] = registrarUsuario(); //agrego al usuario en la posición que acabo de crear
+        aux[((*cantUsuarios)-1)] = registrarUsuario((*arr), (*cantUsuarios) - 1); //agrego al usuario en la posición nueva
+                                                                             // cantUsuarios - 1 porque la ultima pos aun no existe, no fue creada (devuelta por la funcion de registrar)
         printf("\nUsuario creado exitosamente.\n");
-        (*arr) = aux;
+        (*arr) = aux; // se iguala el arreglo de usuarios con la nueva dir de memoria que contiene los usuarios y el nuevo registrado.
     }else
     {
         (*cantUsuarios) -= 1;
@@ -200,41 +203,76 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //
 //    return cant;
 //}
+int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuarios, lo crea y añade al primer usuario admin
+{                                           /// SOLO se hace si no existe ^^^, se ejecuta una unica vez hasta que el archivo de usuarios sea eliminado
+    FILE *archi = fopen(LISTAUSUARIOS, "wb"); // El archivo de usuarios es creado por primera vez
 
-int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los validos, usuarios y sus respectivas biblioteca y carriots a un array. Devuelve los validos que obtuvo del principio del archivo.
-///Decidí que esta función devuelva los validos. Solo quiero que existan los validos cuando se quiere registrar/logear, no siempre que se inicia el programa. por quisquilloso nomás
+    int validos = -1; //se devuelve como "validos" en el main. Es -1 si hay error en fopen
+
+    Usuario *aux; // Variable usuario puntero que almacenara el arreglo dinamico
+
+    if (archi)
+    {
+        validos = 1;
+
+        fwrite(&validos, sizeof(int), 1, archi); //escribo "1" al principio del archivo, que serían los validos
+
+        aux = malloc(sizeof(Usuario)*1); // Creo un arreglo dinamico que almacena 1 usuario
+
+        if (aux != NULL)
+        {
+            (*arr) = aux; // La dir de memoria del arr aux se iguala al que se encuentra en el main
+
+            (*arr)[0] = crearUsuarioAdmin(); //coloco al usuario admin como primer usuario en el arreglo dinamico del main
+
+            fwrite(&(*arr)[0], sizeof(Usuario), 1, archi); // Se escribe el usuario admin en el archivo
+            /// Al ser la primera vez que se crea el archivo, el admin NO tiene juegos en su biblioteca ni juegos a comprar
+            // Ambos de sus validos en biblioteca y carrito son 0, no es necesario pasarlos al archivo
+        }
+        else
+        {
+            printf("\nERROR EN MALLOC. . .\n");
+            validos = -1; //error en malloc en este caso
+        }
+
+        fclose(archi);
+    }
+    else
+        printf("\nHa ocurrido un error en la creacion del archivo usuarios. Reinice el programa e intente nuevamente.\n");
+
+    return validos;
+}
+
+int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los validos, usuarios y sus respectivas biblioteca y carritos a un array. Devuelve los validos que obtuvo del principio del archivo.
 {
     FILE *archi = fopen(nombreArchivo, "r+b");
 
-    int validos = -1; //solo se queda así si no se abre el archivo (si devuelve esto se termina el programa)
+    int validos = -1; //solo se queda así si no se abre el archivo (si devuelve esto se termina el programa) ERROR
 
     if(archi)
     {
-        fread(&validos, sizeof(int), 1, archi);
-
-        pasarUsuarioArchiAArrDinArchi(archi, arr, validos);
-
+        fread(&validos, sizeof(int), 1, archi); // los validos de todos los usuarios es el primer y unico dato entero que se encuentra al principio del archivo
+                                                // A partir de ahi, se trabaja con usuarios y sus arreglos dinamicos
+        pasarUsuarioArchiAArrDinArchi(archi, arr, validos); // Paso el archivo a un Arreglo dinamico de usuarios que es con lo que trabajaremos en el main
+                                                            // Los validos obtenidos son lo primero que esta en el archivo
         fclose(archi);
     }
     else
     {
         if (errno == ENOENT) //"ENOENT" significa que el error es que el archivo NO EXISTE
-        {
-            validos = 0;
-        }else
-        {
+            validos = 0; // el archivo no existe, no hay usuarios. Devuelvo 0 usuarios validos
+        else
             printf("\n\nHa ocurrido un error en la apertura del archivo de usuarios. Reinice el programa e intente nuevamente.\n");
-        }
-
     }
-        return validos; //tambien decidí que devuelva los validos, porque aparecen al principio del archivo
+
+    return validos; // se devuelven los validos obtenidos del archivo o un ERROR
 }
 
-void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema)
+void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema) // Paso los validos obtenidos del mismo archivo
 {
     int i = 0;
 
-    (*arr) = (Usuario*) malloc(sizeof(Usuario) * usuariosRegistradosEnSistema);
+    (*arr) = (Usuario*) malloc(sizeof(Usuario) * usuariosRegistradosEnSistema); // Creo un arreglo dinamico con la dimension obtenida
     if(!(*arr))
     {
         printf("\nERROR EN MALLOC. . .\n");
@@ -243,118 +281,87 @@ void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegi
 
     while(i < usuariosRegistradosEnSistema)
     {
-        (*arr)[i] = leerUsuarioCompletoDeArchi(archi); //rta comentario anterior: confundí leer con que se imprimían todos dios
+        (*arr)[i] = leerUsuarioCompletoDeArchi(archi); // Se carga el arreglo en cada posicion con su usuario correspondiente dentro del archivo
+                                                       // Cuando devuelve el usuario, puede seguir con el siguiente hasta que termine la carga
         i++;
     }
 }
 
-int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuario, lo crea y añade al primer usuario admin
-{
-    FILE *archi = fopen(LISTAUSUARIOS, "wb");
-
-    int validos = -1; //se devuelve como "validos" en el main. Es -1 si hay error en fopen
-
-    Usuario *aux;
-
-    if (archi)
-    {
-        validos = 1;
-
-        fwrite(&validos, sizeof(int), 1, archi); //escribo "1" al principio del archivo, que serían los validos
-
-        aux = malloc(sizeof(Usuario)*1); //hago espacio para 1 usuario en el array dinámico
-
-        if (aux != NULL)
-        {
-            (*arr) = aux;
-
-            (*arr)[0] = crearUsuarioAdmin(); //coloco al usuario admin en el array
-
-            fwrite(&(*arr)[0], sizeof(Usuario), 1, archi); //y después agrego admin al archivo
-        }else
-        {
-            validos = -1; //error en malloc en este caso
-        }
-
-        fclose(archi);
-    }else
-    {
-        printf("\nHa ocurrido un error en la creacion del archivo usuarios. Reinice el programa e intente nuevamente.\n");
-    }
-
-    return validos;
-}
-
-Usuario leerUsuarioCompletoDeArchi(FILE *archi) //NOTA: antes de llamar a esta función, sí o si hay que mover el indicador de posición 1 posición delante de los validos al inicio del archivo
-{
+Usuario leerUsuarioCompletoDeArchi(FILE *archi) ///NOTA: antes de llamar a esta función, sí o si hay que mover el indicador de posición 1 posición delante de los validos al inicio del archivo
+{                                              // Esta funcion lee un usuario dentro del archivo
     Usuario usuarioLeido;
 
-    fread(&usuarioLeido, sizeof(Usuario), 1, archi);
+    fread(&usuarioLeido, sizeof(Usuario), 1, archi); // Leo un usuario, sus parametros biblioteca y carrito pierden su dir de memoria al cargarse al archivo.
+                                                    // Por eso en la carga de un usuario al archivo, luego de escribirlo, se escribe su biblioteca y carrito.
 
-    usuarioLeido.bibliotecaUsuario = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosBiblioteca);
+    usuarioLeido.bibliotecaUsuario = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosBiblioteca); // Se crea la biblioteca de ese usuario con la cantidad de Juegos que tenia antes de cerrarse el programa
     ///los validos de la biblioteca si obtengo, cuando hago fread de un usuario obtengo todo lo que no sea arreglo dinamico
     /// los validos me sirven para saber cuanto me tengo que mover en el archivo sizeof(Juego) * validosbiblioteca por ej
-    /// luego puedo hacer billetera y cuando termino ya tengo un usuario completo, no hay perdida.
+    /// luego puedo hacer billetera y cuando termino ya tengo un usuario completo, no hay perdida de datos.
+
     if(!usuarioLeido.bibliotecaUsuario)
     {
         strcpy(usuarioLeido.userName, "ERROR. . .");
         printf("\nERROR EN MALLOC. . .\n");
-        return usuarioLeido;
+        return usuarioLeido; // Devuelve un usuario con ERROR
     }
 
-    fread(usuarioLeido.bibliotecaUsuario, sizeof(Juego), usuarioLeido.validosBiblioteca, archi);
+    fread(usuarioLeido.bibliotecaUsuario, sizeof(Juego), usuarioLeido.validosBiblioteca, archi); // Luego de leer la totalidad de un Usuario, comienzo a leer sus juegos dependiendo de sus validos en la biblioteca
     ///ACA cargo la biblioteca de ese usuario en especifico a ese usuario.
 
-    usuarioLeido.carritoDeJuegos = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosCarrito); //ahora que carrito de juegos no es un array dinámico hay que modificar esto. Me está agarrando sueño así que probablemente mi cerebro esté fallando, pero quiero revisar si es necesario modificar la función que carga los array en el archivo. (no me acuerdo si me fijé)
+    usuarioLeido.carritoDeJuegos = (Juego*) malloc(sizeof(Juego) * usuarioLeido.validosCarrito); // Se crea el carrito de compra de ese usuario con los juegos que tenia antes de que el programa termine, igual que biblioteca
     if(!usuarioLeido.carritoDeJuegos)
     {
         strcpy(usuarioLeido.userName, "ERROR. . .");
         printf("\nERROR EN MALLOC. . .\n");
-        free(usuarioLeido.bibliotecaUsuario);
-        return usuarioLeido;
+        free(usuarioLeido.bibliotecaUsuario); // Se libera la memoria de la biblioteca en caso de que ocurra un error con carrito
+        return usuarioLeido;// devuelvo usuario ERROR
     }
 
     fread(usuarioLeido.carritoDeJuegos, sizeof(Juego), usuarioLeido.validosCarrito, archi);
     ///ACA cargo el carrito de ese usuario en especifico a ese usuario.
 
     return usuarioLeido;
-    ///devuelvo ese usuario con todos sus parametros cargados
+    ///devuelvo ese usuario con todos sus parametros completos
 }
 
-void guardarArrUsuariosEnArchivo(char nombreArchivo[], Usuario *arr, int validosUsuarios) //Guarda todos los usuarios en archivo. Nota: utiliza "wb", se elimina el archivo ya existente
+int guardarArrUsuariosEnArchivo(char nombreArchivo[], Usuario *arr, int validosUsuarios) //Guarda todos los usuarios en archivo. Nota: utiliza "wb", se elimina el archivo ya existente
 { //por el tema mencionado en case 2 del menu de switch en main, debo hacer que devuelva un flag de error si se falla en abrir el archivo
+    int flag = -1;
+
     FILE *archi = fopen(nombreArchivo, "wb");
 
     if(archi)
     {
-        fwrite(&validosUsuarios, sizeof(int), 1, archi); //se guardan los validos al principio del archivo
+        flag = 1;
+        fwrite(&validosUsuarios, sizeof(int), 1, archi); //se guardan los validos al principio del archivo, lo primero que guarda
         for(int i = 0 ; i < validosUsuarios ; i++)
         {
-            guardarUnUsuarioEnArchi(archi, arr[i]);
+            guardarUnUsuarioEnArchi(archi, arr[i]); // Guarda cada uno de los usuarios
         }
         fclose(archi);
         /// en archivo quedaria: int (validos) | usuarioEnespecifico (usuario) |juego1 (juego) | juego2 (juego) | despues seguiria con otro usuario y sus juegos y asi
     }
     else
         printf("\nHubo un error en el guardado de los usuarios. Cualquier cambio realizado no se ha guardado.\n");
+
+    return flag; // Si ocurre un error en la apertura del archivo, devuelve -1
 }
 
 void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario) //Guarda los datos de un usuario en el archivo
 {
-    fwrite(&usuario, sizeof(Usuario), 1, archi);
+    fwrite(&usuario, sizeof(Usuario), 1, archi); // Escribo el usuario con sus parametros biblioteca y carrito con sus dir de memoria actuales
+                                                //                                                                            ^^ al volver a iniciar el programa su dir de memoria cambia, por eso reescribo la vieja con la nueva y sus datos anteriores
+    fwrite(usuario.bibliotecaUsuario, sizeof(Juego), usuario.validosBiblioteca, archi); // Escribo los juegos correspondiente a ese usuario a continuacion
 
-    fwrite(usuario.bibliotecaUsuario, sizeof(Juego), usuario.validosBiblioteca, archi);
-
-    fwrite(usuario.carritoDeJuegos, sizeof(Juego), usuario.validosCarrito, archi); //creo que era así
+    fwrite(usuario.carritoDeJuegos, sizeof(Juego), usuario.validosCarrito, archi); // Escribo los juegos que se encuentran en el carrito a continuacion
 }
-
-//
 
 
 ///Funciones de ADMIN
 /// Verificar Admin =======================================================================================
 
-int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[])
+int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]) // Verificacion en el main si el usuario ingresado es admin o no
 {
     int esAdmin = 0;
 
@@ -369,37 +376,35 @@ void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], in
 {
     if (strcmp(nombreDeUsuarioAEliminar, "admin") != 0) //solo permito eliminar si el nombre ingresado no es admin
     {
-        int pos = buscarUsuarioPorNombreUsuario(nombreDeUsuarioAEliminar, arr, validos);
+        int pos = buscarUsuarioPorNombreUsuario(nombreDeUsuarioAEliminar, arr, validos); // Se busca el usuario a eliminar
 
         if (pos > -1)
         {
-            eliminarUsuario(&arr[pos]);
+            eliminarUsuario(&arr[pos]); // paso la dir de memoria de ese usuario para hacer un borrado logico del sistema
             printf("\nUsuario [%s] eliminado.\n", nombreDeUsuarioAEliminar);
         }
         else
             printf("\nUsuario [%s] NO encontrado.\n", nombreDeUsuarioAEliminar);
-    }else
-    {
-        printf("\nNo puede eliminarse el usuario admin.\n");
     }
+    else
+        printf("\nNo puede eliminarse el usuario admin.\n");
 }
 
 /// Eliminar =======================================================================================
 
 void eliminarUsuario(Usuario *usuarioAEliminar)
 {
-    (*usuarioAEliminar).eliminado = 1;
+    (*usuarioAEliminar).eliminado = 1; // Cambio el parametro del usuario a ELIMINADO / 1
 }
 
 /// Mostrar =======================================================================================
 
 void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos)
-{ //Nota: esto no se usa tampoco? //No es que no se usa, lo pedia la consigna, lo metemos por ahi y fue
-    //cuál consigna lo pide?
-    int pos = buscarUsuarioMayorCantDeJuegosComprados(arr, validos);
+{
+    int pos = buscarUsuarioMayorCantDeJuegosComprados(arr, validos); // Busca la pos donde se encuentra el usuario con mayor juegos
 
     if (pos > -1)
-        mostrarDatosUsuario(arr[pos]);
+        mostrarDatosUsuario(arr[pos]); // Muestra el usuario con mayor cant de juegos
     else
         printf("\nNingun usuario tiene juegos.\n");
 }
@@ -411,22 +416,22 @@ int buscarUsuarioMayorCantDeJuegosComprados (Usuario arr[], int validos)
 
     for (int i = 0 ; i < validos - 1 ; i++)
     {
-        if(uMayorJuegos.validosBiblioteca < arr[i + 1].validosBiblioteca)
+        if(uMayorJuegos.validosBiblioteca < arr[i + 1].validosBiblioteca)// comparo la cant de juegos del actual con el siguiente
         {
-            uMayorJuegos = arr [i + 1];
+            uMayorJuegos = arr [i + 1]; // El mayor pasa a ser el siguiente, se repite hasta llegar al final - 1 porque no tendria con que comparar el ultimo
             pos = i + 1;
         }
     }
 
-    if(uMayorJuegos.validosBiblioteca == 0)
+    if(uMayorJuegos.validosBiblioteca == 0) // Si nadie tiene juegos devuelvo -1 para indicarlo
         pos = -1;
 
     return pos; //devuelve la pos del usuario con la mayor cantidad de juegos, si es -1 nadie tiene juegos
 }
 
-void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos)
+void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos) // Busco un usuario por su nombre y se muestra
 {
-    int pos = buscarUsuarioPorNombreUsuario(nombreDeUsuario, arr, validos);
+    int pos = buscarUsuarioPorNombreUsuario(nombreDeUsuario, arr, validos); // Se busca la pos donde se encuentra ese usuario con ese nombre
 
     if (pos > -1 && arr[pos].eliminado == 0)
         mostrarDatosUsuario(arr[pos]);
@@ -434,20 +439,20 @@ void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int 
         printf("\nUsuario [%s] NO encontrado.\n", nombreDeUsuario);
 }
 
-int buscarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos)
+int buscarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos) // Busca la pos del usuario con ese nombre
 {
     int flag = -1;
 
     for (int i = 0 ; i < validos && flag == -1; i++)
     {
-        if(strcmp(nombreDeUsuario, arr[i].userName) == 0)
+        if(strcmp(nombreDeUsuario, arr[i].userName) == 0) // Comparo nombre de usuario con cada uno en el arreglo hasta encontrarlo o no
             flag = i;
     }
 
     return flag; //-1 si no existe, mayor a -1 si existe, devuelve la posicion del usuario.
 }
 
-void mostrarDatosUsuario(Usuario usuarioCargado)
+void mostrarDatosUsuario(Usuario usuarioCargado) // Printf de los datos del usuario
 {
     printf("\n=============DATOS DEL USUARIO (%s)==================\n", usuarioCargado.userName);
 
@@ -460,40 +465,42 @@ void mostrarDatosUsuario(Usuario usuarioCargado)
     printf("\n===============FIN DE LA MUESTRA================\n");
 }
 
-void mostrarArrUsuarios(Usuario arr[], int validos)
+void mostrarArrUsuarios(Usuario arr[], int validos) // Muestro un arreglo de usuarios
 {
     for (int i = 0 ; i < validos ; i++)
         mostrarDatosUsuario(arr[i]);
 }
 
 /// Billetera =======================================================================================
-void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego)
+void deshacerUltimaCompra(Pila *historialId, Usuario *usuarioAReembolsarJuego) // Recibo la dir de memoria de la pila y el usuario por referencia
 {
-    if(!pilavacia(historialId))
+    if(!pilavacia(historialId)) // Si pila no esta vacia y tiene juegos para reembolsar
     {
         Juego ultimoJuegoComprado;
 
-        ultimoJuegoComprado.id = desapilar(historialId);
+        ultimoJuegoComprado.id = desapilar(historialId); // Desapilo la id del ultimo juego comprado
 
-        Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id);
+        Juego juegoAQuitar = buscarJuegoPorId(ultimoJuegoComprado.id); // Lo busco en la tienda por id
 
-        if(ultimoJuegoComprado.id != -1)
+        if(ultimoJuegoComprado.id != -1) // Verifico que no haya error
         {
-            float montoAReembolsar = juegoAQuitar.precioJuego;
+            float montoAReembolsar = juegoAQuitar.precioJuego; // El monto a reembolsarse al usuario es el mismo que el precio de ESE juego
 
-            quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar);
+            quitarJuegoDeBibliotecaUsuario(&(*usuarioAReembolsarJuego).bibliotecaUsuario, &(*usuarioAReembolsarJuego).validosBiblioteca, juegoAQuitar); // Quito el juego de la biblioteca de ese usuario
 
-            (*usuarioAReembolsarJuego).billetera += montoAReembolsar;
+            (*usuarioAReembolsarJuego).billetera += montoAReembolsar; // Sumo a la billetera del usuario el monto reembolsado
         }
         else
-            printf("\nERROR, EL JUEGO A REEMBOLSAR NO EXISTE. . .\n");
+            printf("\nERROR, EL JUEGO A REEMBOLSAR NO EXISTE (Quitado de la tienda). . .\n");
     }
     else
         printf("\nNO TIENES UN JUEGO PARA REEMBOLSAR. . .\n");
 }
 
-void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar)
+int debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar) // Dir de memoria del usuario para modificar su billetera
 {
+    int suficiente = 0;
+
     float sueldoDeUsuario = (*usuarioADebitar).billetera;
 
     if((sueldoDeUsuario - montoADebitar) < 0)
@@ -502,7 +509,9 @@ void debitarDineroAlUsuario (Usuario *usuarioADebitar, float montoADebitar)
     {
         (*usuarioADebitar).billetera -= montoADebitar;
         printf("\nMonto actual en la cuenta: %.2f\n", (*usuarioADebitar).billetera);
+        suficiente = 1;
     }
+    return suficiente; // Devuelvo si el usuario tiene el monto suficiente (1. Suficiente, 0. NO suficiente)
 }
 
 void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
@@ -514,13 +523,13 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
     printf("CVV: 155\n");
     printf("Ingrese saldo que desea ingresar a la cuenta: ");
 
-    while (scanf("%f", &saldoACargar) != 1 || saldoACargar <= 0)
+    while (scanf("%f", &saldoACargar) != 1 || saldoACargar <= 0) // Se verifica que el tipo de dato sea correcto y mayor a 0
     {
         printf("\nTipo de dato incorrecto/Insuficiente. . .\nIngrese saldo que desea ingresar a la cuenta: ");
         fflush(stdin);
     }
 
-    (*usuarioACargarDinero).billetera += saldoACargar;
+    (*usuarioACargarDinero).billetera += saldoACargar; // Se suma a la billetera del usuario el saldo a cargar
 
     printf("\n=============FINALIZACION DE INGRESO================\n\n");
 }
@@ -528,95 +537,159 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
 /// Carrito =======================================================================================
 
 
-float cargarACarritoUsuario(Juego **carrito, int *validosCarrito, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
+//Decidí cambiar esto porque no sé cómo mandarlo al llamar la función
+//Recibe el usuario entero, adentro se encarga de modificar todo
+float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
 {
-    float sumaJuegosEnCarrito = 0;
+    int flag = 0;
 
-    (*validosCarrito) += 1;
-    //acá hay que evitar reemplazar el puntero del carrito pq realloc puede devolver null. Hay que crear un auxiliar e igualarlo por carrito. Dsps si realloc funcionó reemplazamos carrito por aux. No lo hago ahora pq tengo sueño y seguro rompo algo.
-    (*carrito) = (Juego *) realloc((*carrito), sizeof(Juego) * (*validosCarrito));
-    if (!(*carrito))
+    for(int i = 0 ; i < (*usuarioRecibido).validosCarrito && flag == 0 ; i++)
     {
-        printf("\nERROR EN REALLOC. . .\n");
-        (*validosCarrito) -= 1;
-        return -1; //con lo de arriba tambien nos ahorramos el borrar completamente los validos del carrito, simplemente decimos no se pudo cobrar nada
+        if(strcmp((*usuarioRecibido).carritoDeJuegos[i].nombreJuego, juegoAComprar.nombreJuego) == 0)
+            flag = 1;
     }
-    (*carrito)[(*validosCarrito) - 1] = juegoAComprar;
 
-    sumaJuegosEnCarrito = sumarPrecioJuegos((*carrito), (*validosCarrito), 0); //le paso un puntero simple (un arreglo)
+    if(!flag)
+    {
+        Juego *carritoAux = (*usuarioRecibido).carritoDeJuegos; //creo auxiliares para no inutlizar al usuario si sale mal realloc
+        int validosCarritoAux = (*usuarioRecibido).validosCarrito;
 
-    return sumaJuegosEnCarrito;
+        float sumaJuegosEnCarrito = 0;
 
-    //tengo que ver si la dejo asi esta o la cambio, o le paso los parametros individuales o la variable especifica de ese usuario(de tipo usuario)
+        validosCarritoAux += 1; // Aumenta en 1 la dim del carrito para poder agregar otro juego
+
+        carritoAux = (Juego *) realloc(carritoAux, sizeof(Juego) * validosCarritoAux); // Se aumenta la dim dependiendo de los validos
+        if (!carritoAux)
+        {
+            printf("\nERROR EN REALLOC. . .\n"); // Realloc fallo y no aumento la dim del carrito, queda con su dir de memoria y validos anteriores
+            validosCarritoAux -= 1;
+            return -1; // Devuelvo ERROR
+        }
+        carritoAux[(validosCarritoAux) - 1] = juegoAComprar; // Agrego el juego que se desea comprar en la ultima posicion del carrito
+
+        sumaJuegosEnCarrito = sumarPrecioJuegos(carritoAux, validosCarritoAux, 0); //Le paso el arreglo de juegos para contar el monto total que existe en carrito
+
+        (*usuarioRecibido).carritoDeJuegos = carritoAux;
+        (*usuarioRecibido).validosCarrito = validosCarritoAux;
+
+        return sumaJuegosEnCarrito; // Devuelve la suma de todos los juegos en el carrito, no lo debita
+    }
+    else
+    {
+        printf("\nYA tienes este juego en el carrito. . .\n");
+        return -2; // -2 Indica que ya tienes este juego en la biblioteca, -1 indica error
+    }
 }
 
 float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del precio de un juego/s
 {
     float sumaTotal = 0;
 
-    if(i == validos - 1)
-        sumaTotal = arr[i].precioJuego;
-    else
-        sumaTotal = arr[i].precioJuego + sumarPrecioJuegos(arr, validos, i + 1); //wow q recursivo
+    if (validos != 0) //agregué que si validos es 0 devuelva 0
+    {
+        if(i == validos - 1) // la condicion de corte es cuando la pos llegue al final del arreglo
+            sumaTotal = arr[i].precioJuego;
+        else
+            sumaTotal = arr[i].precioJuego + sumarPrecioJuegos(arr, validos, i + 1); // Sumo lo que tenga en esta pos mas lo que siga, me acerco a la condicion de corte con pos + 1
+    }
 
-    return sumaTotal;
+    return sumaTotal; // Devuelvo la suma de los precios de los juegos
+}
+
+int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontró, 0 si no lo hizo
+{
+    int validosCarrit = (*usuarioRecibido).validosCarrito;
+    Juego *carrit = (*usuarioRecibido).carritoDeJuegos;
+
+    int flag = 0;
+
+    for(int i = 0 ; i < validosCarrit && flag == 0; i++) // Busco hasta llegar al final de carrito o encontrar el juego recibido por parametro
+    {
+        if(strcmp(carrit[i].nombreJuego, juegoRecibido.nombreJuego) == 0)
+            flag = 1;
+    }
+
+    return flag;
 }
 
 /// Biblioteca personal =======================================================================================
-void quitarJuegoDeBibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoAQuitar) //siendo el arr de tipo juego la biblioteca de ese usuario y
-                                                                                            //SABIENDO QUE ESE USUARIO TIENE ESE JUEGO POR VERIFICACION PREVIA/FUERA DE LA FUNCION
+void quitarJuegoDeBibliotecaUsuario(Juego **arr, int *validosBiblioteca, Juego juegoAQuitar) //siendo el arr de tipo juego la biblioteca de ese usuario y SABIENDO QUE ESE USUARIO TIENE ESE JUEGO POR VERIFICACION PREVIA/FUERA DE LA FUNCION
+            //Recibo la dir de memoria de la biblioteca del usuario que se va a modificar, dir de memoria de sus validos y el juego a quitar.
 {
     int flag = 0;
 
-    for(int i = 0 ; i < (*validosBiblioteca) && flag == 0 ; i++)
+    for(int i = 0 ; i < (*validosBiblioteca) && flag == 0 ; i++) // Mientras NO se haya encontrado el juego a eliminar en la biblioteca del usuario
     {
-        if((*arr)[i].id == juegoAQuitar.id)
+        if((*arr)[i].id == juegoAQuitar.id) // Si se encuentra por id
         {
             flag = 1;
             (*arr)[i] = (*arr)[((*validosBiblioteca) - 1)];
             (*validosBiblioteca) -= 1; //pasa el juego a eliminar al final para hacer realloc
+            //Intercambio lugares con el ultimo elemento de la biblioteca para reducir su dim en 1
         }
     }
 
-    (*arr) = (Juego*) realloc((*arr), sizeof(Juego) * (*validosBiblioteca));
-    if(!(*arr))
+    Juego *aux = (Juego*) realloc((*arr), sizeof(Juego) * (*validosBiblioteca)); // Utilizo los nuevos validos como dim (Reducido)
+
+    if(!aux)
     {
-        printf("\nERROR EN REALLOC. . .\n");
+        printf("\nERROR EN REALLOC. . . NO se quito el Juego de la biblioteca. . .\n");
+        (*validosBiblioteca) += 1; // sus validos vuelven a como estaban antes, su biblioteca NO fue modificada
         return;
     }
+
+    (*arr) = aux; // NO hubo error, la biblioteca se disminuyo en 1 quitando el ultimo
 }
 
-void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar) //verificacion si el usuario tiene o no el juego se hace previamente
+void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar) //verificacion si el usuario tiene o no el juego se hace previamente en el main
 {
     (*usuarioACargar).validosBiblioteca += 1;
 
-    (*usuarioACargar).bibliotecaUsuario = (Juego*) realloc((*usuarioACargar).bibliotecaUsuario, sizeof(Juego) * (*usuarioACargar).validosBiblioteca);
+    Juego *aux = (Juego*) realloc((*usuarioACargar).bibliotecaUsuario, sizeof(Juego) * (*usuarioACargar).validosBiblioteca); // Aumenta en 1 la dim de la biblioteca del usuario para aniadir un juego
 
     if (!(*usuarioACargar).bibliotecaUsuario)
     {
-        printf("\nERROR EN REALLOC. . .\n");
-        (*usuarioACargar).validosBiblioteca -= 1;
+        printf("\nERROR EN REALLOC. . . NO se aniadio ningun juego a la biblioteca. . .\n");
+        (*usuarioACargar).validosBiblioteca -= 1; // Validos vuelve a su valor org, no hubo modificaciones en la biblioteca
         return;
     }
 
-    (*usuarioACargar).bibliotecaUsuario[((*usuarioACargar).validosBiblioteca - 1)] = juegoACargar;
+    (*usuarioACargar).bibliotecaUsuario  = aux; // Pudo modificarse correctamente biblioteca
 
-    int contarDimHistorial = contarDimPila((*usuarioACargar).historialDeJuego); //puede tenga mucho sueño pero no entiendo qué está pasando acá
+    (*usuarioACargar).bibliotecaUsuario[((*usuarioACargar).validosBiblioteca - 1)] = juegoACargar; // Cargo el juego en la ultima posicion del arreglo
 
-    if(contarDimHistorial >= 50)
+    int contarDimHistorial = contarDimPila((*usuarioACargar).historialDeJuego); // Se cuenta la dim de la pila para saber si esta al llena (50 elementos cargados) o no
+
+    if(contarDimHistorial >= 50) // Si la pila esta COMPLETAMENTE llena, se elimina el valor mas viejo para agregar la id del ultimo juego agregado al tope de la pila
         reajustarDimPilaTope(&(*usuarioACargar).historialDeJuego, juegoACargar.id);
+
     else
-        apilar(&(*usuarioACargar).historialDeJuego, juegoACargar.id);
+        apilar(&(*usuarioACargar).historialDeJuego, juegoACargar.id); // Si pila tiene la dim suficiente, se carga la id del juego al tope
+}
+
+int verificarSiJuegoEnBibliotecaUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontró, 0 si no lo hizo
+{
+    int validosBibl = (*usuarioRecibido).validosBiblioteca;
+    Juego *bibl = (*usuarioRecibido).bibliotecaUsuario;
+
+    int flag = 0;
+
+    for(int i = 0 ; i < validosBibl && flag == 0; i++) // Busco hasta llegar al final de biblioteca o encontrar el juego recibido por parametro
+    {
+        if(strcmp(bibl[i].nombreJuego, juegoRecibido.nombreJuego) == 0)
+            flag = 1;
+    }
+
+    return flag;
 }
 
 /// Pilas =======================================================================================
 
-void reajustarDimPilaTope(Pila *pila, int datoAIngresar) // agregar dato al principio en una pila llena
-{
+void reajustarDimPilaTope(Pila *pila, int datoAIngresar) // Elimino el dato mas viejo de la pila y apilo el dato a ingresar en el tope
     Pila aux;
     inicpila(&aux);
 
-    while(!pilavacia(pila))
+    while(!pilavacia(pila)) // Paso de una pila a la otra para eliminar el mas viejo cuando se pasa a aux
         apilar(&aux, desapilar(pila));
 
     desapilar(&aux); //desapilo el valor mas viejo
@@ -624,10 +697,11 @@ void reajustarDimPilaTope(Pila *pila, int datoAIngresar) // agregar dato al prin
     while(!pilavacia(&aux))
         apilar(pila, desapilar(&aux));
 
-    apilar(pila, datoAIngresar);
+    apilar(pila, datoAIngresar); // Ahora pila me queda con 49 elementos y puedo apilar el dato a ingresar en el tope
+    // Esta funcion se llama cuando pila esta COMPLETAMENTE llena
 }
 
-int contarDimPila(Pila pila)
+int contarDimPila(Pila pila) // Le paso pila por copia y devuelvo si dim actual
 {
     Pila aux;
     inicpila(&aux);
@@ -650,22 +724,21 @@ int verificarUsuarioRegistrado(Usuario *arr, int validos, char username[], char 
 
     for(int i = 0 ; i < validos && flag == 0; i++)
     {
-        if(strcmp(arr[i].userName, username) == -1 && strcmp(arr[i].password, password) == -1)
-            flag = i;
+        if(strcmp(arr[i].userName, username) == 0 && strcmp(arr[i].password, password) == 0 && flag == -1)
+            flag = i; // comparo el nombre y contrasenia de cada usuario con el recibido por parametro hasta encontrar similitud
     }
 
     return flag; //Devuelve la pos de ese usuario para luego hacer usuario de la sesion iniciada = arr[esa posicion que devuelve
                 //devuelve -1 si la contraseña o usuario son incorrectos
 }
 
-//literal copié y levemente modifiqué la función de arriba para esto
-int verificarNombreUsuarioRegistrado(Usuario *arr, int validos, char username[])
+int verificarNombreUsuarioRegistrado(Usuario arr[] , int validos, char username[])
 {
     int flag = 0;
 
     for(int i = 0 ; i < validos && flag == 0; i++)
     {
-        if(strcmp(arr[i].userName, username) == 0)
+        if(strcmp(arr[i].userName, username) == 0) // Busco hasta encontrar el nombre recibido por parametro
             flag = 1;
     }
 
@@ -677,12 +750,12 @@ int verificarNombreUsuarioRegistrado(Usuario *arr, int validos, char username[])
 /// Mostrar Juegos del carrito de usuario específico
 void mostrarCarritoDeUsuario (Usuario usuario)
 {
-    if (usuario.validosCarrito == 0)
+    if (usuario.validosCarrito == 0) // Si el usuario no tiene juegos en el carrito, no se muestra nada
     {
         printf("\nNo hay juegos en el carrito.\n\n");
     }else
     {
-        for(int i = 0 ; i < usuario.validosCarrito ; i++)
+        for(int i = 0 ; i < usuario.validosCarrito ; i++) // Se muestra las veces iguales a la cantidad de juegos que tiene el usuario en el carrito
         {
             printf("\n=============Juego en Carrito (U: %s)#%i================\n", usuario.userName, i+1);
             leerUnJuego(usuario.carritoDeJuegos[i]);
@@ -693,26 +766,26 @@ void mostrarCarritoDeUsuario (Usuario usuario)
 
 /// Ordenamientos con usuarios
 //seleccion
-void ordSeleccionNombreUsuario(Usuario arr[], int validos)
+void ordSeleccionNombreUsuario(Usuario arr[], int validos) // ord por seleccion un arreglo de usuarios por el nombre de usuario
 {
     int posMenor;
     Usuario aux;
 
     for (int i = 0 ; i < validos - 1; i++)
     {
-        posMenor = posNombreMenor(arr, validos, i);
+        posMenor = posNombreMenor(arr, validos, i); // Busco la pos donde se encuentra el menor nombre a partir de la pos actual
         aux = arr[i];
         arr[i] = arr[posMenor];
-        arr[posMenor] = aux;
+        arr[posMenor] = aux; // Cambio el elemento en la pos actual con el elemento en la pos obtenida
     }
 }
 
-void posNombreMenor (Usuario arr[], int validos, int posInicial)
+void posNombreMenor (Usuario arr[], int validos, int posInicial) // Se busca la pos donde se encuentra el menor elemento (el nombre)
 {
     int posMenor = posInicial;
 
     char nombreMenor[LIMITE];
-    strcpy(nombreMenor, arr[0].userName);
+    strcpy(nombreMenor, arr[0].userName); // El primer elemento comienza siendo el menor para comenzar a comparar
 
     for (int i = posMenor + 1 ; i < validos ; i++)
     {
@@ -722,62 +795,25 @@ void posNombreMenor (Usuario arr[], int validos, int posInicial)
             strcpy(nombreMenor, arr[i].userName);
         }
     }
-    return posMenor;
+    return posMenor; // Devuelvo la posicion obtenida
 }
 
 //insercion
 void ordInsercionUsuarioJuegos(Usuario arr[], int validos)
 {
-    for (int = 0 ; i < validos - 1 ; i++)
-        insertarUsuarioMenorCantJuegos(arr, i, arr[i+1]);
-}
+    for (int i = 0 ; i < validos - 1 ; i++)
+        insertarUsuarioMenorCantJuegos(arr, i, arr[i+1]); // Tomo el usuario en su posicion siguiente para insertarlo en su pos correcta
 
-void insertarUsuarioMenorCantJuegos(Usuario arr[], int validos, Usuario usuarioAinsertar)
+void insertarUsuarioMenorCantJuegos(Usuario arr[], int pos, Usuario usuarioAinsertar) // En un arreglo, se inserta un usuario en donde corresponda comparando con los anteriores
 {
-    int i = validos - 1;
+    int i = pos; // comienza en la pos anterior al que se le inserta
 
     for(i ; i >= 0 && usuarioAinsertar.validosBiblioteca < arr[i].validosBiblioteca ; i--)
-    {
-        arr[i + 1] = arr[i];
+    {                   // Se compara el usuario a insertar (cant de juegos) con sus posiciones anteriores
+        arr[i + 1] = arr[i]; // Se va moviendo el elemento de esta posicion con su siguiente
     }
     arr[i + 1] = usuarioAinsertar;
 }
-
-void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) //por temas de comodidad, hagamos que se saque todo de una, o sea, que el usuario compre todos los juegos en el carrito
-{
-    float montoADebitar = 0;
-
-    int nuevaDimBiblioteca = (*usuarioAComprarJuegos).validosCarrito + (*usuarioAComprarJuegos).validosBiblioteca;
-
-    (*usuarioAComprarJuegos).bibliotecaUsuario = (Juego*) realloc((*usuarioAComprarJuegos).bibliotecaUsuario, sizeof(Juego) * nuevaDimBiblioteca);
-    if(!(*usuarioAComprarJuegos).bibliotecaUsuario)
-    {
-        printf("\nERROR EN MALLOC. . .\n");
-        return;
-    }
-
-    int valBiblioteca = (*usuarioAComprarJuegos).validosBiblioteca;
-    int x = 0;
-
-    for (int i = valBiblioteca ; i < nuevaDimBiblioteca ; i++)
-    {
-        (*usuarioAComprarJuegos).bibliotecaUsuario[i] = (*usuarioAComprarJuegos).carritoDeJuegos[x];
-        montoADebitar += (*usuarioAComprarJuegos).carritoDeJuegos[x].precioJuego;
-        x++;
-    }
-
-    //cuando se termina de copiar los juegos del carrito a la biblioteca se libera la memoria
-    free((*usuarioAComprarJuegos).carritoDeJuegos);
-    (*usuarioAComprarJuegos).validosCarrito = 0;
-    (*usuarioAComprarJuegos).validosBiblioteca = nuevaDimBiblioteca;
-
-    debitarDineroAlUsuario(usuarioAComprarJuegos, montoADebitar);
-}
-
-//esta funcion quita todos los juegos de la tienda y los carga al arreglo dinamico de biblioteca
-//Tambien le debita el total de todos los juegos al usuario
-/// LA VERIFICACION si el usuario tiene el monto sufciente hagamosla en el main en vez de en la funcion
-/// ^^importante
 
 float sumarJuegosEnCarrito(Usuario usuario)
 {
@@ -789,3 +825,44 @@ float sumarJuegosEnCarrito(Usuario usuario)
     return montoTotal;
 }
 /// ^^^ Esta funcion se llama en el main antes de ejecutar "comprarJuegosDelCarrito()"
+
+void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los juegos que existen en el carrito
+{// La verificacion se hace previamente de acceder a esta funcion con la funcion ya hecha de contar el monto total de un arreglo de juegos y si el usuario tiene ese monto disponible para comprar
+    float montoADebitar = 0;
+
+    int nuevaDimBiblioteca = (*usuarioAComprarJuegos).validosCarrito + (*usuarioAComprarJuegos).validosBiblioteca; // Sumo la dim del carrito y la dim de la biblioteca para tener la nueva dim total de la biblioteca
+
+    Juego *aux = (Juego*) realloc((*usuarioAComprarJuegos).bibliotecaUsuario, sizeof(Juego) * nuevaDimBiblioteca); // Cambio la dim de la biblioteca
+
+    if(!aux)
+    {
+        printf("\nERROR EN MALLOC. . . NO se compro ningun juego, la biblioteca y el carrito no sufrieron cambios. . .\n");
+        return; // No se pudo redimensionar
+    }
+    (*usuarioAComprarJuegos).bibliotecaUsuario = aux; // Se pudo redimensionar la biblioteca
+
+    int valBiblioteca = (*usuarioAComprarJuegos).validosBiblioteca; // Comienzo a partir del ultimo juego que estaba en la biblioteca
+    int x = 0; // primer elemento que se encuentra en el carrito
+
+    for (int i = valBiblioteca ; i < nuevaDimBiblioteca ; i++)
+    {//Paso los elementos a partir de la primer posicion del carrito a la biblioteca despues del ultimo juego que tenia el usuario en la biblioteca
+        (*usuarioAComprarJuegos).bibliotecaUsuario[i] = (*usuarioAComprarJuegos).carritoDeJuegos[x];
+        montoADebitar += (*usuarioAComprarJuegos).carritoDeJuegos[x].precioJuego; // suma de monto a debitar de los juegos
+        x++;
+        // me voy desplazando en el carrito por cada juego hasta terminar de recorrerlo
+    }
+
+    //cuando se termina de copiar los juegos del carrito a la biblioteca se libera la memoria
+    free((*usuarioAComprarJuegos).carritoDeJuegos);
+    (*usuarioAComprarJuegos).validosCarrito = 0;
+    (*usuarioAComprarJuegos).validosBiblioteca = nuevaDimBiblioteca;
+    // Los validos pasan a ser la nueva dim
+
+    debitarDineroAlUsuario(usuarioAComprarJuegos, montoADebitar); // Se le debita el usuario el total sumado previamente
+}
+
+//esta funcion quita todos los juegos de la tienda y los carga al arreglo dinamico de biblioteca
+//Tambien le debita el total de todos los juegos al usuario
+/// LA VERIFICACION si el usuario tiene el monto sufciente hagamosla en el main en vez de en la funcion
+/// ^^importante
+

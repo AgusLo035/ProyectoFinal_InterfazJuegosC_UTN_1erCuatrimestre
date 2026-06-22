@@ -162,21 +162,22 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
 {
     char continuo[3] = "si";
     int decisionMenu;
-    float dineroAPagar = 0;
+    float dineroAPagar = sumarPrecioJuegos((*arrUsuarios)[posUsuarioActual].carritoDeJuegos, (*arrUsuarios)[posUsuarioActual].validosCarrito, 0); //al entrar al menu, si el usuario tiene juegos en su carrito, se calcula cuanto debe pagar
+    //^ después ver si reemplazar con sumarJuegosEnCarrito no genera problemas
 
     do
     {
         printf("\n--MENU PRINCIPAL--\n\n");
-        printf("1. Ver tienda.\n");
-        printf("2. Agregar juegos a carrito.\n"); //falta
-        printf("3. Ver mi carrito.\n");
-        printf("4. Vaciar mi carrito.\n"); //falta
-        printf("5. Comprar juegos de mi carrito.\n"); //falta
-        printf("6. Deshacer ultima compra.\n"); //acá necesito tu ayuda, no sé cómo funciona tu función
-        printf("7. Consultar saldo.\n");
-        printf("8. Cargar saldo.\n");
-        printf("9. Salir del programa.\n");
-        printf("10. OPCIONES ADMIN.\n");
+        printf("1. Ver tienda.\n"); //DONE
+        printf("2. Agregar juegos a carrito.\n"); //MODULARIZAR EN FUNCIÓN, PERO 99% DONE
+        printf("3. Ver mi carrito.\n"); //DONE
+        printf("4. Vaciar mi carrito.\n"); ///falta
+        printf("5. Comprar juegos de mi carrito.\n"); ///falta
+        printf("6. Deshacer ultima compra.\n"); ///acá necesito tu ayuda, no sé cómo funciona tu función
+        printf("7. Consultar saldo.\n"); //DONE
+        printf("8. Cargar saldo.\n"); //DONE
+        printf("9. Salir del programa.\n"); //DONE
+        printf("10. OPCIONES ADMIN.\n"); //DONE
         printf("-------\n\n");
 
         printf("Eliga la opcion a la que desea ingresar: ");
@@ -199,6 +200,43 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 //antes de agregar el juego al carrito, debo de verificar que no exista ya en el carrito o en la bilbioteca del usuario
                 //puede que tenga que modificar la función de arriba
                 //tengo que hacer una función que vacíe todo el carrito (pq parece lo más fácil de escribir, no quiero hacer otro sistema de quitar un juego específico dsps de verificar exista en carrito)
+
+                //esto va a estar en función int que devuelve el "dinero a pagar" actual (con flags de error incluídas)
+                int flagExistenciaJuegoEnBiblioteca;
+                int flagExistenciaJuegoEnCarrito;
+                char juegoBuscado[LIMITE];
+                Juego juegoAIngresar;
+                printf("\nEscriba el juego que quiere agregar a su carrito: ");
+                scanf(" %49[^\n]", juegoBuscado);
+                juegoAIngresar = buscarJuegoPorNombre(juegoBuscado);
+                flagExistenciaJuegoEnBiblioteca = verificarSiJuegoEnBibliotecaUsuario(&(*arrUsuarios)[posUsuarioActual], juegoAIngresar);
+                flagExistenciaJuegoEnCarrito = verificarSiJuegoEnCarritoUsuario(&(*arrUsuarios)[posUsuarioActual], juegoAIngresar);
+
+                if (flagExistenciaJuegoEnBiblioteca == 0 && flagExistenciaJuegoEnCarrito == 0)
+                {
+                    if (juegoAIngresar.id == -1) //si falla la busqueda/fopen
+                    {
+                        printf("\nNo se ha podido agregar el juego al carrito.\n\n");
+                    }else
+                    {
+                        int auxDineroAPagar = cargarACarritoUsuario(&(*arrUsuarios)[posUsuarioActual], juegoAIngresar); //si devuelve -1 -> error realloc
+                        printf("\nEl monto a pagar por el total de juegos en su carrito es $%f. Revise su saldo antes de ir a pagar.\n", dineroAPagar);
+                        if (auxDineroAPagar != -1)
+                        {
+                            dineroAPagar = auxDineroAPagar; //finalmente reemplazo el valor a pagar
+                            printf("\nSe ha cargado el juego al carrito exitosamente.\n\n");
+                        }else //hay error
+                        {
+                            printf("\nOcurrio un error al aumentar la cantidad de espacio en el carrito. Intente de nuevo.\n");
+                        }
+                    }
+                }else
+                {
+                    printf("\nEl juego ya se encuentra en su carrito o biblioteca. Elija otro juego.\n");
+                }
+
+
+
                 break;
             case 3:
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
@@ -220,8 +258,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 printf("\n");
                 break;
             case 8:
-                cargarDineroAlUsuario((*arrUsuarios)[posUsuarioActual].billetera);
-                //                      ^^No recibe dinero por parametro, recibe la dir de memoria de ese usuario que queres cargarle plata
+                cargarDineroAlUsuario(&(*arrUsuarios)[posUsuarioActual]);
                 break;
             case 9:
                 printf("\nMuchas por visitar STOM. Esperamos vuelva pronto.\n\n");
@@ -229,21 +266,13 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
             case 10:
                 if (strcmp((*arrUsuarios)[posUsuarioActual].userName, "admin") == 0)
                 {
-                    funcionesAdicionalesParaAdmin(); //llamo a tu función, creo que también hay que darle el array dinámico y validos
+                    funcionesAdicionalesParaAdmin(*arrUsuarios, validos); //llamo a tu función, creo que también hay que darle el array dinámico y validos
                 }else
                 {
-                    printf("\nUsted no es admin. No puede acceder a las funciones admin.\n");
+                    printf("\nUsted no es admin. No puede acceder a las funciones admin.\n\n");
                 }
-
-
-
-
-        }
-
-
-    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 9);
-
-    //switches aca
+        }//fin del switch
+    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 9); //puede que desestime la opción de "si", no me acuerdo por qué la puse, pero la idea es que el usuario esté en este menú infinitamente hasta que decida escribir "9"
 }
 
 
@@ -321,7 +350,7 @@ void menuTienda () //como solo muestra datos relacionados a qué hay en la tiend
 
 ///HECHO ^^^^^^^^^^^^^^^^ FALTA esa ultima opcion
 
-void funcionesAdicionalesParaAdmin()
+void funcionesAdicionalesParaAdmin(Usuario *arrUsuarios, int validos)
 {
     int decision;
 
@@ -348,12 +377,12 @@ void funcionesAdicionalesParaAdmin()
 
     }while(decision < 1 || decision > 6);
 
-    ejecutarFuncionesAdicionalesParaAdmin(decision);
+    ejecutarFuncionesAdicionalesParaAdmin(decision, arrUsuarios, validos);
 }
 
 
 
-void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSistema[], int validos) //acá no es necesario traerlo como doble puntero al array de usuarios?
+void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSistema[], int validos) //no sé si es necesario doble puntero para el array este -> creo q no porque no hay malloc realloc pero pregunto
 {
     char nombreDeUsuarioAEliminar[LIMITE];
 
@@ -379,7 +408,7 @@ void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSiste
             break;
 
         case 5:
-            // VOLVER AL MENU NORMAL
+            return: //vuelve al menu principal
             break;
 
         case 6:

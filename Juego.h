@@ -37,7 +37,8 @@ int menuSelectorModificarJuego (Juego *aux);
 void leerJuegosDeTienda(char nombreArchivo[]);
 void leerJuegosArchivo(FILE *archi);
 void leerUnJuego(Juego unJuego);
-Juego buscarJuegoPorId (int idBuscada); //hay que verificar que el Juego que devuelve no tenga id -1 (significa error/que no se encontró)
+Juego buscarJuegoPorId (int idBuscada); //Abre archivo y busca un juego a partir de su id. Si lo encuentra devuelve el juego. Si no lo encuentra o falla fopen, devuelve -1.
+Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]); //Abre archivo y busca un juego a partir de su nombre. Si lo encuentra devuelve el juego. Si no lo encuentra o falla fopen, devuelve -1.
 
 // Filtrado por categoría
 int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]); //indica por flag 1 si un juego existe por nombre (lo pongo en esta sección de filtrado porque si no no sé donde)
