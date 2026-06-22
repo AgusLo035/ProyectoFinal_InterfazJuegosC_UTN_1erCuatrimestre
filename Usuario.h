@@ -82,14 +82,6 @@ void mostrarArrUsuarios(Usuario arr[], int validos);
 int buscarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos);
 void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int validos);
 
-//Mostrar usuarios ordenados por nombre o por quien tiene mayor cant de juegos
-void mostrarUsuariosOrdenadosNombre (Usuario arr[], int validos);
-void mostrarUsuariosOrdenadosCantJuegos(Usuario arr[], int validos);
-
-
-//Mostrar Arr de Usuarios Ordenados
-void mostrarUsuariosOrdenadosNombre (Usuario arr[], int validos);
-
 //Buscar y mostrar usuario con mayor cantidad de juegos
 int buscarUsuarioMayorCantDeJuegosComprados (Usuario arr[], int validos);
 void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);

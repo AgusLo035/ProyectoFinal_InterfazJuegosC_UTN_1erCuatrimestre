@@ -408,7 +408,7 @@ void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSiste
             break;
 
         case 5:
-            return; //vuelve al menu principal
+            return: //vuelve al menu principal
             break;
 
         case 6:
