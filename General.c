@@ -158,13 +158,14 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
     {
         printf("\n--MENU PRINCIPAL--\n\n");
         printf("1. Ver tienda.\n");
-        printf("2. Ver mi carrito.\n");
-        printf("3. Comprar juegos de mi carrito.\n");
-        printf("4. Deshacer ultima compra.\n");
-        printf("5. Consultar saldo.\n");
-        printf("6. Cargar saldo.\n");
-        printf("7. Salir del programa.\n");
-        printf("8. OPCIONES ADMIN.\n");
+        printf("2. Agregar juegos a carrito.\n");
+        printf("3. Ver mi carrito.\n");
+        printf("4. Comprar juegos de mi carrito.\n");
+        printf("5. Deshacer ultima compra.\n");
+        printf("6. Consultar saldo.\n");
+        printf("7. Cargar saldo.\n");
+        printf("8. Salir del programa.\n");
+        printf("9. OPCIONES ADMIN.\n");
         printf("-------\n\n");
 
         printf("Eliga la opcion a la que desea ingresar: ");
@@ -185,10 +186,11 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
                 break;
             case 3:
-
-
+                //funcion que agrega juego de tienda a carrito (si existe)
                 break;
             case 4:
+
+            case 6:
                 printf("\nSueldo actual: $%f", (*arrUsuarios)[posUsuarioActual].billetera);
                 printf("\n");
                 break;
@@ -201,7 +203,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
         }
 
 
-    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 7);
+    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 8);
 
     //switches aca
 }
