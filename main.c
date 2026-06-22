@@ -23,7 +23,7 @@ int main()
     if (posicionEnArray == -3 || posicionEnArray == -2) //se eligió cerrar el programa o se registró un usuario
     {
         return 0; //se cierra el programa.
-    }else if (posicionEnArray == -1)
+    }else if (posicionEnArray == -1) //esto ocurre si en algún punto hubo error de fopen, realloc o malloc
     {
         printf("\nHa ocurrido un error crítico en alguna parte del programa. Se ha finalizado el programa.\n");
         return 0;
