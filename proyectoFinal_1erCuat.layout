@@ -2,9 +2,24 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Juego.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3459" topLine="90" />
+			<Cursor1 position="1817" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="Usuario.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6335" topLine="78" />
+		</Cursor>
+	</File>
+	<File name="General.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1334" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="General.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6746" topLine="146" />
 		</Cursor>
 	</File>
 	<File name="pila.c" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
@@ -12,43 +27,27 @@
 			<Cursor1 position="1424" topLine="46" />
 		</Cursor>
 	</File>
-	<File name="General.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+	<File name="Usuario.c" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1130" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Usuario.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4780" topLine="55" />
-		</Cursor>
-	</File>
-	<File name="Juego.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="655" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="main.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="865" topLine="7" />
-		</Cursor>
-	</File>
-	<File name="Usuario.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6974" topLine="200" />
+			<Cursor1 position="4104" topLine="75" />
 		</Cursor>
 		<Folding>
-			<Collapse line="58" />
-			<Collapse line="78" />
-			<Collapse line="142" />
-			<Collapse line="162" />
+			<Collapse line="75" />
+			<Collapse line="159" />
+			<Collapse line="176" />
 		</Folding>
 	</File>
-	<File name="General.c" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="4" zoom_2="0">
+	<File name="Juego.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="8" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1233" topLine="39" />
+			<Cursor1 position="1483" topLine="40" />
 		</Cursor>
 	</File>
-	<File name="pila.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
+	<File name="Juego.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="15372" topLine="410" />
+		</Cursor>
+	</File>
+	<File name="pila.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="7" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>

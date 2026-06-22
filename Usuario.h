@@ -44,7 +44,6 @@ int cargarArrDeUsuariosDinamico (Usuario **arr);
 
 // Baja / eliminar
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos); //verifica si existe el usuario que se quiere eliminar. Llama a la función de abajo si lo encuentra, caso contrario no hace nada.
-///A HACER: lo que dice el comentario dentro de la función de debajo
 void eliminarUsuario(Usuario *usuarioAEliminar); //elimina de manera lógica al usuario que se recibe (cambia su flag de eliminado a 1)
 
 //Funciones con Pilas

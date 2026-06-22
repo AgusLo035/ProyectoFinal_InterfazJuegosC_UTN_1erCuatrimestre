@@ -348,9 +348,6 @@ int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]
 }
 /// Eliminar usuarios como Admin =======================================================================================
 
-///A HACER:
-///La consigna pide que al "eliminar" un usuario, se guarden los cambios al archivo
-///O modificamos esta función para que lo haga, o lo hacemos dentro del switch después de llamar a esta función.
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos)
 {
     if (strcmp(nombreDeUsuarioAEliminar, "admin") != 0) //solo permito eliminar si el nombre ingresado no es admin
