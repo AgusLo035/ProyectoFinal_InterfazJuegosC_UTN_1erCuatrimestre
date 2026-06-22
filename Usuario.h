@@ -34,6 +34,9 @@ typedef struct
 ///A HACER:
 ///Requisito fundamental no guardar usuarios repetidos (según consigna)
 ///Ver si puedo re-utilizar y modificar la que tengo en juego.c para esto
+
+///HECHO ^^^^^^^^^^^^^^^^
+
 Usuario registrarUsuario(); //crea un usuario
 Usuario crearUsuarioAdmin(); //crea un usuario "admin"
 void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios); //recibe el array dinámico de usuarios, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro.
@@ -64,6 +67,11 @@ int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos);
 ///[A HACER]:
 ///hay que hacer un ordenamiento de usuarios con selección e inserción (parte de consigna). Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
+void posNombreMenor (Usuario arr[], int validos, int posInicial);
+void ordSeleccionNombreUsuario(Usuario arr[], int validos);
+void insertarUsuarioMenorCantJuegos(Usuario arr[], int validos, Usuario usuarioAinsertar);
+void ordInsercionUsuarioJuegos(Usuario arr[], int validos);
+/// HECHO ^^^^^^^^^^^^
 
 // Mostrar Datos / Listado
 void mostrarDatosUsuario(Usuario usuarioCargado);

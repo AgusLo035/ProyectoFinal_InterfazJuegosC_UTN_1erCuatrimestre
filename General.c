@@ -319,15 +319,18 @@ void menuTienda () //como solo muestra datos relacionados a qué hay en la tiend
 /// hacé que admin también tenga la opción de añadir y otra de eliminar juegos <- todo eso está ya en funciones por suerte (juego.h), es solo llamarlas dependiendo el switch
 /// y una ultima opción en el switch para volver al menú normal (y dejá esa opción vacía, después le agrego lo que necesito)
 
+///HECHO ^^^^^^^^^^^^^^^^ FALTA esa ultima opcion
+
 void funcionesAdicionalesParaAdmin()
 {
     int decision;
 
     printf("1. Eliminar Usuario.\n");
     printf("2. Modificar un Juego.\n");
-    printf("3. Cargar un Juego a la Tienda\n");
+    printf("3. Cargar un nuevo Juego a la Tienda\n");
     printf("4. Quitar un Juego de la Tienda\n");
-    printf("3. Cerrar el programa.\n");
+    printf("5. Volver al Menu\n\n");
+    printf("6. Cerrar el programa.\n");
 
     do
     {
@@ -340,14 +343,13 @@ void funcionesAdicionalesParaAdmin()
             printf("\nSu decision: ");
         }
 
-        if(decision < 1 || decision > 3)
+        if(decision < 1 || decision > 6)
             printf("\nPor favor ingrese una opcion valida.\n");
 
-    }while(decision < 1 || decision > 3);
+    }while(decision < 1 || decision > 6);
 
     ejecutarFuncionesAdicionalesParaAdmin(decision);
 }
-
 
 
 
@@ -369,14 +371,19 @@ void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSiste
             break;
 
         case 2:
-
             modificarJuego(JUEGOSTIENDA);
-
             break;
 
         case 3:
-            printf("\nMuchas gracias por haber utilizado STOM. Vuelva pronto.\n");
+            guardarJuegosEnArchivo(JUEGOSTIENDA);
+            break;
 
+        case 5:
+            // VOLVER AL MENU NORMAL
+            break;
+
+        case 6:
+            printf("\nMuchas gracias por haber utilizado STOM. Vuelva pronto.\n");
             break;
     }
 }

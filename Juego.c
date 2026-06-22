@@ -387,10 +387,13 @@ void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
 
 void ordSeleccionNombreJuego(Juego arr[], int validos)
 {
+    int posMenor;
+    Juego aux;
+
     for (int i = 0; i < validos - 1; i++)
     {
-        int   posMenor = posMenorNombreJuego(arr, validos, i);
-        Juego aux = arr[i];
+        posMenor = posMenorNombreJuego(arr, validos, i);
+        aux = arr[i];
         arr[i] = arr[posMenor];
         arr[posMenor] = aux;
     }

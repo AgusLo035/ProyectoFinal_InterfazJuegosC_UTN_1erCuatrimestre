@@ -2,23 +2,40 @@
 
 /// Registro =======================================================================================
 
-Usuario registrarUsuario() //crea y devuelve un solo usuario. los validos de esto se establecen en función madre
+Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo usuario. los validos de esto se establecen en función madre
 {
     Usuario usuarioCargado;
 
     char inputTeclado[VERIFICARLIMITE]; //51 para verificacion de caracteres org
 
+    int existe = 0;
+
     printf("\n=============CREACION DEL USUARIO================\n");
 
     do
     {
-        printf("Ingrese el nombre de usuario: ");
-        fflush(stdin);
-        scanf(" %50[^\n]", inputTeclado);
-        if(strlen(inputTeclado) >= LIMITE)
-            printf("\nVuelva a ingresar un nombre dentro del rango!\n");
+        if(existe == 1)
+            printf("\nUH-OH!, este nombre de usuario no esta disponible!\n");
 
-    }while(strlen(inputTeclado) >= LIMITE);
+        do
+        {
+            printf("Ingrese el nombre de usuario: ");
+            fflush(stdin);
+            scanf(" %50[^\n]", inputTeclado);
+            if(strlen(inputTeclado) >= LIMITE)
+                printf("\nVuelva a ingresar un nombre dentro del rango!\n");
+
+        }while(strlen(inputTeclado) >= LIMITE);
+
+        for(int i = 0 ; i < validos && existe == 0 ; i++)
+        {
+            if(strcmp(arr[i], inputTeclado) == 0)
+                existe = 1;
+        }
+
+    }while(existe == 1);
+
+
 
     strcpy(usuarioCargado.userName, inputTeclado);
 
@@ -672,6 +689,58 @@ void mostrarCarritoDeUsuario (Usuario usuario)
             printf("\n======================================\n");
         }
     }
+}
+
+/// Ordenamientos con usuarios
+//seleccion
+void ordSeleccionNombreUsuario(Usuario arr[], int validos)
+{
+    int posMenor;
+    Usuario aux;
+
+    for (int i = 0 ; i < validos - 1; i++)
+    {
+        posMenor = posNombreMenor(arr, validos, i);
+        aux = arr[i];
+        arr[i] = arr[posMenor];
+        arr[posMenor] = aux;
+    }
+}
+
+void posNombreMenor (Usuario arr[], int validos, int posInicial)
+{
+    int posMenor = posInicial;
+
+    char nombreMenor[LIMITE];
+    strcpy(nombreMenor, arr[0].userName);
+
+    for (int i = posMenor + 1 ; i < validos ; i++)
+    {
+        if(strcmpi(nombreMenor, arr[i]) > 0)
+        {
+            posMenor = i;
+            strcpy(nombreMenor, arr[i].userName);
+        }
+    }
+    return posMenor;
+}
+
+//insercion
+void ordInsercionUsuarioJuegos(Usuario arr[], int validos)
+{
+    for (int = 0 ; i < validos - 1 ; i++)
+        insertarUsuarioMenorCantJuegos(arr, i, arr[i+1]);
+}
+
+void insertarUsuarioMenorCantJuegos(Usuario arr[], int validos, Usuario usuarioAinsertar)
+{
+    int i = validos - 1;
+
+    for(i ; i >= 0 && usuarioAinsertar.validosBiblioteca < arr[i].validosBiblioteca ; i--)
+    {
+        arr[i + 1] = arr[i];
+    }
+    arr[i + 1] = usuarioAinsertar;
 }
 
 void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) //por temas de comodidad, hagamos que se saque todo de una, o sea, que el usuario compre todos los juegos en el carrito
