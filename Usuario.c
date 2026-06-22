@@ -541,28 +541,44 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
 //Recibe el usuario entero, adentro se encarga de modificar todo
 float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
 {
-    Juego *carritoAux = (*usuarioRecibido).carritoDeJuegos; //creo auxiliares para no inutlizar al usuario si sale mal realloc
-    int validosCarritoAux = (*usuarioRecibido).validosCarrito;
+    int flag = 0;
 
-    float sumaJuegosEnCarrito = 0;
-
-    validosCarritoAux += 1; // Aumenta en 1 la dim del carrito para poder agregar otro juego
-
-    carritoAux = (Juego *) realloc(carritoAux, sizeof(Juego) * validosCarritoAux); // Se aumenta la dim dependiendo de los validos
-    if (!carritoAux)
+    for(int i = 0 ; i < (*usuarioRecibido).validosCarrito && flag == 0 ; i++)
     {
-        printf("\nERROR EN REALLOC. . .\n"); // Realloc fallo y no aumento la dim del carrito, queda con su dir de memoria y validos anteriores
-        validosCarritoAux -= 1;
-        return -1; // Devuelvo ERROR
+        if(strcmp((*usuarioRecibido).carritoDeJuegos[i].nombreJuego, juegoAComprar.nombreJuego) == 0)
+            flag = 1;
     }
-    carritoAux[(validosCarritoAux) - 1] = juegoAComprar; // Agrego el juego que se desea comprar en la ultima posicion del carrito
 
-    sumaJuegosEnCarrito = sumarPrecioJuegos(carritoAux, validosCarritoAux, 0); //Le paso el arreglo de juegos para contar el monto total que existe en carrito
+    if(!flag)
+    {
+        Juego *carritoAux = (*usuarioRecibido).carritoDeJuegos; //creo auxiliares para no inutlizar al usuario si sale mal realloc
+        int validosCarritoAux = (*usuarioRecibido).validosCarrito;
 
-    (*usuarioRecibido).carritoDeJuegos = carritoAux;
-    (*usuarioRecibido).validosCarrito = validosCarritoAux;
+        float sumaJuegosEnCarrito = 0;
 
-    return sumaJuegosEnCarrito; // Devuelve la suma de todos los juegos en el carrito, no lo debita
+        validosCarritoAux += 1; // Aumenta en 1 la dim del carrito para poder agregar otro juego
+
+        carritoAux = (Juego *) realloc(carritoAux, sizeof(Juego) * validosCarritoAux); // Se aumenta la dim dependiendo de los validos
+        if (!carritoAux)
+        {
+            printf("\nERROR EN REALLOC. . .\n"); // Realloc fallo y no aumento la dim del carrito, queda con su dir de memoria y validos anteriores
+            validosCarritoAux -= 1;
+            return -1; // Devuelvo ERROR
+        }
+        carritoAux[(validosCarritoAux) - 1] = juegoAComprar; // Agrego el juego que se desea comprar en la ultima posicion del carrito
+
+        sumaJuegosEnCarrito = sumarPrecioJuegos(carritoAux, validosCarritoAux, 0); //Le paso el arreglo de juegos para contar el monto total que existe en carrito
+
+        (*usuarioRecibido).carritoDeJuegos = carritoAux;
+        (*usuarioRecibido).validosCarrito = validosCarritoAux;
+
+        return sumaJuegosEnCarrito; // Devuelve la suma de todos los juegos en el carrito, no lo debita
+    }
+    else
+    {
+        printf("\nYA tienes este juego en la biblioteca. . .\n");
+        return -2; // -2 Indica que ya tienes este juego en la biblioteca, -1 indica error
+    }
 }
 
 float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del precio de un juego/s
