@@ -102,7 +102,8 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i);
 float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar); //Carga un juego al carrito de un usuario. Devuelve lo que se debe de debitar al usuario
 void mostrarCarritoDeUsuario (Usuario usuario); //Muestra el carrito de un usuario
 void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos);
-float sumarJuegosEnCarrito(Usuario usuario);
+float sumarJuegosEnCarrito(Usuario usuario); //esta funcion existe? por ahora estoy usando la que dice "sumarPrecioJuegos"
+int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido);
 
 // Biblioteca personal / Modificacion
 void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar); //

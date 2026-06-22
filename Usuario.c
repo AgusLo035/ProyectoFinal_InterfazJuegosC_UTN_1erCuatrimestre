@@ -585,12 +585,31 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del p
 {
     float sumaTotal = 0;
 
-    if(i == validos - 1) // la condicion de corte es cuando la pos llegue al final del arreglo
-        sumaTotal = arr[i].precioJuego;
-    else
-        sumaTotal = arr[i].precioJuego + sumarPrecioJuegos(arr, validos, i + 1); // Sumo lo que tenga en esta pos mas lo que siga, me acerco a la condicion de corte con pos + 1
+    if (validos != 0) //agregué que si validos es 0 devuelva 0
+    {
+        if(i == validos - 1) // la condicion de corte es cuando la pos llegue al final del arreglo
+            sumaTotal = arr[i].precioJuego;
+        else
+            sumaTotal = arr[i].precioJuego + sumarPrecioJuegos(arr, validos, i + 1); // Sumo lo que tenga en esta pos mas lo que siga, me acerco a la condicion de corte con pos + 1
+    }
 
     return sumaTotal; // Devuelvo la suma de los precios de los juegos
+}
+
+int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontró, 0 si no lo hizo
+{
+    int validosCarrit = (*usuarioRecibido).validosCarrito;
+    Juego *carrit = (*usuarioRecibido).carritoDeJuegos;
+
+    int flag = 0;
+
+    for(int i = 0 ; i < validosCarrit && flag == 0; i++) // Busco hasta llegar al final de carrito o encontrar el juego recibido por parametro
+    {
+        if(strcmp(carrit[i].nombreJuego, juegoRecibido.nombreJuego) == 0)
+            flag = 1;
+    }
+
+    return flag;
 }
 
 /// Biblioteca personal =======================================================================================
