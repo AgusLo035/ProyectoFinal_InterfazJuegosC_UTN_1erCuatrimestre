@@ -66,8 +66,8 @@ void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario);
 // Funciones para el usuario Admin
 int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]);
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos);
-///[A HACER]:
-///hay que hacer un ordenamiento de usuarios con selección e inserción (parte de consigna). Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
+
+///Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
 void posNombreMenor (Usuario arr[], int validos, int posInicial);
 void ordSeleccionNombreUsuario(Usuario arr[], int validos);
 void insertarUsuarioMenorCantJuegos(Usuario arr[], int pos, Usuario usuarioAinsertar);
