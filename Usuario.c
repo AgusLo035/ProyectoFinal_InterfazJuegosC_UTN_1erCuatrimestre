@@ -546,7 +546,7 @@ float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // de
 
     float sumaJuegosEnCarrito = 0;
 
-    validosCarritoAux += 1;
+    validosCarritoAux += 1; // Aumenta en 1 la dim del carrito para poder agregar otro juego
 
     carritoAux = (Juego *) realloc(carritoAux, sizeof(Juego) * validosCarritoAux); // Se aumenta la dim dependiendo de los validos
     if (!carritoAux)
