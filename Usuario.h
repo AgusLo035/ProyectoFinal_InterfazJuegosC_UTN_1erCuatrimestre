@@ -70,8 +70,9 @@ void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], in
 ///hay que hacer un ordenamiento de usuarios con selección e inserción (parte de consigna). Tal vez crear una copia del array usuarios y que el admin pueda ordenar y mostrar ese array para ver a todos los usuarios
 void posNombreMenor (Usuario arr[], int validos, int posInicial);
 void ordSeleccionNombreUsuario(Usuario arr[], int validos);
-
-
+void insertarUsuarioMenorCantJuegos(Usuario arr[], int validos, Usuario usuarioAinsertar);
+void ordInsercionUsuarioJuegos(Usuario arr[], int validos);
+/// HECHO ^^^^^^^^^^^^
 
 // Mostrar Datos / Listado
 void mostrarDatosUsuario(Usuario usuarioCargado);
