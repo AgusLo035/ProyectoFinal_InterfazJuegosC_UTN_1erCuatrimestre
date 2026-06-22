@@ -203,7 +203,7 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //
 //    return cant;
 //}
-int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuario, lo crea y añade al primer usuario admin
+int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuarios, lo crea y añade al primer usuario admin
 {                                           /// SOLO se hace si no existe ^^^, se ejecuta una unica vez hasta que el archivo de usuarios sea eliminado
     FILE *archi = fopen(LISTAUSUARIOS, "wb"); // El archivo de usuarios es creado por primera vez
 
@@ -243,7 +243,7 @@ int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuario,
     return validos;
 }
 
-int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los validos, usuarios y sus respectivas biblioteca y carriots a un array. Devuelve los validos que obtuvo del principio del archivo.
+int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los validos, usuarios y sus respectivas biblioteca y carritos a un array. Devuelve los validos que obtuvo del principio del archivo.
 {
     FILE *archi = fopen(nombreArchivo, "r+b");
 
