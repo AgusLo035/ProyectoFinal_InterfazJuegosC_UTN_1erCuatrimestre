@@ -876,12 +876,12 @@ void mostrarBibliotecaDeUsuario (Usuario usuario)
 {
     if (usuario.validosBiblioteca == 0) // Si el usuario no tiene juegos en el carrito, no se muestra nada
     {
-        printf("\nNo hay juegos en el carrito.\n\n");
+        printf("\nNo hay juegos en la biblioteca.\n\n");
     }else
     {
         for(int i = 0 ; i < usuario.validosBiblioteca ; i++) // Se muestra las veces iguales a la cantidad de juegos que tiene el usuario en el carrito
         {
-            printf("\n=============Juego en Carrito (U: %s)#%i================\n", usuario.userName, i+1);
+            printf("\n=============Juego en Biblioteca (U: %s)#%i================\n", usuario.userName, i+1);
             leerUnJuego(usuario.bibliotecaUsuario[i]);
             printf("\n======================================\n");
         }

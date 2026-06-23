@@ -184,11 +184,12 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
         printf("3. Ver mi carrito.\n"); //DONE
         printf("4. Vaciar mi carrito.\n"); ///FALTA MODULARIZAR
         printf("5. Comprar juegos de mi carrito.\n");
-        printf("6. Deshacer ultima compra.\n");
-        printf("7. Consultar saldo.\n"); //DONE
-        printf("8. Cargar saldo.\n"); //DONE
-        printf("9. Salir del programa.\n"); //DONE
-        printf("10. OPCIONES ADMIN.\n"); //DONE
+        printf("6. Ver mi biblioteca.\n");
+        printf("7. Deshacer ultima compra.\n");
+        printf("8. Consultar saldo.\n"); //DONE
+        printf("9. Cargar saldo.\n"); //DONE
+        printf("10. Salir del programa.\n"); //DONE
+        printf("11. OPCIONES ADMIN.\n"); //DONE
         printf("-------\n\n");
 
         printf("Eliga la opcion a la que desea ingresar: ");
@@ -225,7 +226,10 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                     else if (totalEnCarritoCaseDos == -2)
                         printf("\nADVERTENCIA: YA tienes este juego en su carrito o biblioteca. . .\n");
                     else
+                    {
                         printf("\nLa suma de todos los juegos en tu carrito es de: $%.2f\n", totalEnCarritoCaseDos); // El carrito es modificado agregando el juego
+                        dineroAPagar = totalEnCarritoCaseDos; //actualizo la variable que se usa para pagar
+                    }
                 }
                 // No es necesario hacer mas que esto porque para eso estan las demas opciones
                 break;
@@ -248,6 +252,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                     free((*arrUsuarios)[posUsuarioActual].carritoDeJuegos);
                     (*arrUsuarios)[posUsuarioActual].carritoDeJuegos = NULL;
                     (*arrUsuarios)[posUsuarioActual].validosCarrito = 0;
+                    dineroAPagar = 0;
                     printf("\nSe han eliminado todos los juegos de su carrito.\n\n");
                 }
                 break;
@@ -261,19 +266,22 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 }
                 break;
             case 6:
-                deshacerUltimaCompra(&(*arrUsuarios)[posUsuarioActual].historialDeJuego, &(*arrUsuarios)[posUsuarioActual]);
+                mostrarBibliotecaDeUsuario((*arrUsuarios)[posUsuarioActual]);
                 break;
             case 7:
+                deshacerUltimaCompra(&(*arrUsuarios)[posUsuarioActual].historialDeJuego, &(*arrUsuarios)[posUsuarioActual]);
+                break;
+            case 8:
                 printf("\nSueldo actual: $%f", (*arrUsuarios)[posUsuarioActual].billetera);
                 printf("\n");
                 break;
-            case 8:
+            case 9:
                 cargarDineroAlUsuario(&(*arrUsuarios)[posUsuarioActual]);
                 break;
-            case 9:
+            case 10:
                 printf("\nMuchas por visitar STOM. Esperamos vuelva pronto.\n\n");
                 break;
-            case 10:
+            case 11:
                 if (strcmp((*arrUsuarios)[posUsuarioActual].userName, "admin") == 0)
                 {
                     funcionesAdicionalesParaAdmin(*arrUsuarios, validos); //llamo a tu función, creo que también hay que darle el array dinámico y validos
@@ -282,7 +290,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                     printf("\nUsted no es admin. No puede acceder a las funciones admin.\n\n");
                 }
         }//fin del switch
-    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 9); //puede que desestime la opción de "si", no me acuerdo por qué la puse, pero la idea es que el usuario esté en este menú infinitamente hasta que decida escribir "9"
+    }while(strcmpi(continuo,"si") == 0 && decisionMenu != 10); //puede que desestime la opción de "si", no me acuerdo por qué la puse, pero la idea es que el usuario esté en este menú infinitamente hasta que decida escribir "9"
 }
 
 
