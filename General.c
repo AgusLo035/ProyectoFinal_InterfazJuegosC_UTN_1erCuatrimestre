@@ -42,6 +42,9 @@ int menuInicio(Usuario **arrUsuarios, int *validos) //devuelve la posición del 
     {
         posUsuario = -2;
         printf("\nCierre y abra el programa para logearse al usuario creado.\n");
+    }else if(decision == 1 && posUsuario == -1) // diferencio login fallido también -> cierro el programa
+    {
+        posUsuario = -4;
     }
 
     return posUsuario;

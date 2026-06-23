@@ -10,9 +10,9 @@
 
 ///Prototipado
 
-void pausarLimpiarInt();
+void pausarLimpiarInt(); //Pausa y despues limpia la terminal
 int menuInicio(Usuario **arrUsuarios, int *validos); //Contiene el menu con opciones de registrado y loggeo. Devuelve la posición del usuario que se loggea. Tiene capacidad de devolver códigos de error:
-//Errores posibles: "-3" -> se decidió cerrar programa. "-2" -> se registró un usuario, significa se debe terminar el programa. "-1" -> error en fopen o malloc/realloc, significa se debe terminar el programa.
+//Errores posibles: "-4" -> datos erroneos de logeo, se cierra el programa. "-3" -> se decidió cerrar programa. "-2" -> se registró un usuario, significa se debe terminar el programa. "-1" -> error en fopen o malloc/realloc, significa se debe terminar el programa.
 int menuOpcionesValidasVerificadas (int decision, Usuario **arrUsuarios, int *validos); //Contiene las funciones resultantes de la decisión tomada en menuinicio(). Se carga el archivo de usuarios al array dinámico. Devuelve la posición del usuario que se termine loggeando en el array dinámico. Puede devolver identificador de error.
 int menuOpcionesLoggeoRegistro(int decision, Usuario **arrUsuarios, int *cantUsuarios); //Contiene las funciones de registro y loggeo. Devuelve la posición del usuario a trabajar en array. Puede devolver identificador de error.
 int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios); //Se escribe usuario y contraseña. Si son correctos, devuelve la posición en el array que tiene el usuario, y se continúa el resto del programa con esa posición. Caso contrario, devuelve error.

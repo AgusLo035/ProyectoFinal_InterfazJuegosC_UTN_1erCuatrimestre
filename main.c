@@ -21,12 +21,12 @@ int main()
 
     int posicionEnArray = menuInicio(&arrUsuarios, &validos); //leer lo que devuelve en general.c
 
-    if (posicionEnArray == -3 || posicionEnArray == -2) //se eligió cerrar el programa o se registró un usuario
-    {//Hay diferencia por un printf que ocurre dentro de menuInicio
+    if (posicionEnArray < -1) //se eligió cerrar el programa o se registró un usuario o se colocaron mal los datos de logeo
+    {
         return 0; //se cierra el programa.
     }else if (posicionEnArray == -1) //esto ocurre si en algún punto hubo error de fopen, realloc o malloc
     {
-        printf("\nHa ocurrido un error critico en alguna parte del programa. Se ha finalizado el programa.\n");
+        printf("\nHa ocurrido un error crítico en alguna parte del programa. Se ha finalizado el programa.\n");
         return 0;
     }else
     {
