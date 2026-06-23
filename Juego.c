@@ -261,7 +261,7 @@ void modificarJuego (char nombreArchivo[])
             if (cambio >= 1 && cambio <= 3)
             {
 
-                fseek(archi, -(long)sizeof(Juego), SEEK_CUR);
+                fseek(archi, -(long)sizeof(Juego), SEEK_CUR); // casteo a sizeof long y luego lo hago negativo para moverme un juego atras
                 fwrite(&aux, sizeof(Juego), 1, archi);
                 printf("\nEl cambio se ha realizado correctamente.\n");
             }
