@@ -258,13 +258,11 @@ int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los
         if(flag == -1) // Si ocurre un error, el archivo se cierra y devuelve -1, error
         {
             printf("\nERROR -1, MALLOC. . .\n");
-            fclose(archi);
             return flag;
         } // -1 si ocurre un error
         else if(flag == -2)
         {// -2 es solo una advertencia, no un error
             printf("\nADVERTENCIA -2, NO EXISTEN USUARIOS EN EL SISTEMA. . .\n");
-            fclose(archi);
             return 0; // Al no existir usuarios, se devuelve 0 como validos
         }
         fclose(archi);
