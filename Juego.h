@@ -19,6 +19,8 @@ typedef struct
     int eliminado; //0 es NO ----1 es SI
 }Juego;
 
+void limpiarStdin(); //Toma todos los caracteres de stdin hasta que no quede nada. (fflush stdin no funcionaba)
+
 // Alta / escritura
 void guardarJuegosEnArchivo(char nombreArchivo[]);
 void cargarJuegoATienda(FILE *archi);

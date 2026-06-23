@@ -38,6 +38,8 @@ typedef struct
 
 ///HECHO ^^^^^^^^^^^^^^^^
 
+void limpiarStdin(); //Toma todos los caracteres de stdin hasta que no quede nada. (fflush stdin no funcionaba)
+
 Usuario registrarUsuario(); //crea un usuario
 Usuario crearUsuarioAdmin(); //crea un usuario "admin"
 void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios); //recibe el array dinámico de usuarios, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro.

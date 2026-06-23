@@ -9,7 +9,8 @@
 
 
 ///Prototipado
-void limpiarStdin();
+void limpiarStdin(); //Toma todos los caracteres de stdin hasta que no quede nada. (fflush stdin no funcionaba)
+
 
 
 void pausarLimpiarInt(); //Pausa y despues limpia la terminal

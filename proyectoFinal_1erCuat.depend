@@ -57,12 +57,12 @@
 	"Juego.h"
 	<errno.h>
 
-1782190322 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\main.c
+1782194819 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\main.c
 	"Juego.h"
 	"Usuario.h"
 	"General.h"
 
-1782192144 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\usuario.h
+1782194895 c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 	<errno.h>
 
@@ -200,7 +200,7 @@
 1782176754 source:c:\users\sebastian\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\usuario.c
 	"usuario.h"
 
-1782194453 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\general.c
+1782194818 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\general.c
 	"General.h"
 
 1782190880 d:\github\proyectofinal_utn_1ercuatrimestre\general.h
