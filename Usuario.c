@@ -20,7 +20,7 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
         do // Mientras los caracteres ingresados supere el LIMITE
         {
             printf("Ingrese el nombre de usuario: ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %50[^\n]", inputTeclado);
             if(strlen(inputTeclado) >= LIMITE)
                 printf("\nVuelva a ingresar un nombre dentro del rango!\n");
@@ -44,7 +44,7 @@ Usuario registrarUsuario(Usuario arr[], int validos) //crea y devuelve un solo u
     {
 
         printf("\nPASSWORD: ");
-        fflush(stdin);
+        limpiarStdin();
         scanf(" %50[^\n]", inputTeclado);
         if(strlen(inputTeclado) >= LIMITE)
             printf("\nVuelva a ingresar un password dentro del rango!\n");
@@ -117,7 +117,7 @@ Usuario crearUsuarioAdmin() // Se crea un usuario administrador dependiendo de l
 //        while(scanf("%i", &continuar) != 1)
 //        {
 //            printf("\nIngrese 1 o 0. . .\nDesea registrar otro usuario? 1. SI 0.NO: ");
-//            fflush(stdin);
+//            limpiarStdin();
 //        }
 //
 //        if(continuar == 1)
@@ -561,7 +561,7 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
     while (scanf("%f", &saldoACargar) != 1 || saldoACargar <= 0) // Se verifica que el tipo de dato sea correcto y mayor a 0
     {
         printf("\nTipo de dato incorrecto/Insuficiente. . .\nIngrese saldo que desea ingresar a la cuenta: ");
-        fflush(stdin);
+        limpiarStdin();
     }
 
     (*usuarioACargarDinero).billetera += saldoACargar; // Se suma a la billetera del usuario el saldo a cargar

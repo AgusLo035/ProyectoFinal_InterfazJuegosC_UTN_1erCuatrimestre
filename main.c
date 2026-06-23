@@ -42,7 +42,7 @@ int main()
         if (flagGuardado == -1)
         {
             printf("\nHa ocurrido un error en el fopen. No se han guardado ninguno de los cambios. Quiere intentar de nuevo? (Escriba si para intentar de nuevo, cualquier otra cosa para desisitr): ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %2[^\n]", decisionGuardado);
             printf("\n");
         }

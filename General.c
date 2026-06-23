@@ -1,5 +1,11 @@
 #include "General.h"
 
+void limpiarStdin()
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 // sys cls y sys pause
 void pausarLimpiarInt() //Pausa y despues limpia la terminal
 {
@@ -22,14 +28,15 @@ int menuInicio(Usuario **arrUsuarios, int *validos) //devuelve la posición del 
         printf("\nSu decision: ");
         while (scanf("%i", &decision) != 1)
         {
-            printf("\nPor favor ingrese el numero de una de las opciones.\n");
-            fflush(stdin); //lo que se ingresó que no es número sigue en stdin porque no se pudo leer, con esto lo limpio
+            printf("\nPor favor ingrese el numero de una de las opciones.\n\n");
+            limpiarStdin(); //lo que se ingresó que no es número sigue en stdin porque no se pudo leer, con esto lo limpio
             printf("Su decision: ");
         }
 
         if (decision > 3 || decision < 1)
         {
             printf("\nPor favor ingrese una opcion valida.\n");
+            limpiarStdin();
         }
     }while(decision > 3 || decision < 1);
 
@@ -109,7 +116,7 @@ int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios) //Se escribe usuario
     do
     {
         printf("\nIngrese el nombre de usuario: ");
-        fflush(stdin);
+        limpiarStdin();
         scanf(" %50[^\n]", nombreUsuarioIngresado);
         if(strlen(nombreUsuarioIngresado) >= LIMITE)
             printf("\nPor favor evite intentar romper el programa.\n");
@@ -120,7 +127,7 @@ int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios) //Se escribe usuario
     {
 
         printf("\nIngrese su contrasenia: ");
-        fflush(stdin);
+        limpiarStdin();
         scanf(" %50[^\n]", contraseniaUsuarioIngresado);
         if(strlen(contraseniaUsuarioIngresado) >= LIMITE)
             printf("\nPor favor evite intentar romper el programa.\n");
@@ -186,7 +193,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
         while (scanf(" %i", &decisionMenu) != 1)
         {
             printf("\nPor favor ingrese el numero de una de las opciones.\n\n");
-            fflush(stdin);
+            limpiarStdin();
             printf("Eliga la opcion a la que desea ingresar: ");
         }
 
@@ -330,7 +337,7 @@ void menuTienda () //como solo muestra datos relacionados a qué hay en la tiend
         while (scanf(" %i", &decision) != 1)
         {
             printf("\nPor favor ingrese un numero.\n\n");
-            fflush(stdin);
+            limpiarStdin();
             printf("Su decision: ");
         }
 
@@ -397,12 +404,15 @@ void funcionesAdicionalesParaAdmin(Usuario *arrUsuarios, int validos)
         while(scanf("%i", &decision) != 1) //solo en respuesta a lo que estaba acá: no me acuerdo por qué, pero me había salido un error al hacer testeos en main si no había espacios antes del parantesis (al usar strings específicamente) -> estuve agregando espacios antes de los % en todos los scanf de strigns pero puede me falte alguno
         {
             printf("\nPor favor ingrese el numero de una de las opciones.\n");
-            fflush(stdin);
+            limpiarStdin();
             printf("\nSu decision: ");
         }
 
         if(decision < 1 || decision > 9)
+        {
             printf("\nPor favor ingrese una opcion valida.\n");
+            limpiarStdin();
+        }
 
     }while(decision < 1 || decision > 9);
 
@@ -424,7 +434,7 @@ void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSiste
         case 1:
 
             printf("\nIngrese el nombre de usuario a eliminar del sistema: ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %49[^\n]", nombreDeUsuarioIngresado);
             eliminarUsuarioComoAdmin(nombreDeUsuarioIngresado,usuariosEnSistema, validos);
             break;
@@ -443,7 +453,7 @@ void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSiste
 
         case 5:
             printf("\nIngrese el usuario que usted busca: ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %49[^\n]", nombreDeUsuarioIngresado);
             posCaseCuatro = buscarUsuarioPorNombreUsuario(nombreDeUsuarioIngresado, usuariosEnSistema, validos);
             if(posCaseCuatro != -1)

@@ -9,6 +9,8 @@
 
 
 ///Prototipado
+void limpiarStdin();
+
 
 void pausarLimpiarInt(); //Pausa y despues limpia la terminal
 int menuInicio(Usuario **arrUsuarios, int *validos); //Contiene el menu con opciones de registrado y loggeo. Devuelve la posición del usuario que se loggea. Tiene capacidad de devolver códigos de error:

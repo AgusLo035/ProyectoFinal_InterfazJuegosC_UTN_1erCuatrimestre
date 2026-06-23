@@ -38,16 +38,16 @@ Juego cargarNuevoJuego() //le (había) agregado archi para que pueda identificar
     Juego nuevoJuego;
     printf("\n=============CREACION DEL JUEGO NUEVO================\n");
     printf("Ingrese el nombre del juego: ");
-    fflush(stdin);
+    limpiarStdin();
     scanf(" %49[^\n]", nuevoJuego.nombreJuego);
     printf("\nIngrese la categoria del juego: ");
-    fflush(stdin);
+    limpiarStdin();
     scanf(" %49[^\n]", nuevoJuego.categoriaJuego);
     printf("\nIngrese el precio del juego: ");
     while(scanf("%f", &nuevoJuego.precioJuego) != 1 || nuevoJuego.precioJuego < 0) // Verifica si el juego tiene precio negativo, si es 0 es gratis
     {
         printf("\nTipo de dato invalido. . .\nIngrese el precio del juego: ");
-        fflush(stdin);
+        limpiarStdin();
     }
 
     nuevoJuego.id = determinarIDNuevoJuego (); //En caso de ocurrir cualquier error dentro de la función (específicamente que no abra el archivo), la ID del juego va a ser -1.
@@ -204,7 +204,7 @@ void eliminarJuegoDeTienda (char nombreArchivo[]) //BAJA
         char juegoAEliminar[LIMITE];
 
         printf("\nIngrese el nombre del juego que quiere eliminar: ");
-        fflush(stdin);
+        limpiarStdin();
         scanf(" %49[^\n]", juegoAEliminar);
 
         flag = verificarExistenciaJuego(archi, juegoAEliminar);
@@ -249,7 +249,7 @@ void modificarJuego (char nombreArchivo[])
         int flag = 0;
 
         printf("\nCual es el nombre del juego que desea modificar? ");
-        fflush(stdin);
+        limpiarStdin();
         scanf(" %49[^\n]", nombreJuegoBuscado);
 
         flag = verificarExistenciaJuego(archi, nombreJuegoBuscado);
@@ -294,27 +294,27 @@ int menuSelectorModificarJuego (Juego *aux)
 
     do
     {
-        fflush(stdin);
+        limpiarStdin();
         printf("\nSu decision: ");
         scanf("%i", &opcion);
         switch(opcion)
         {
         case 1:
             printf("\nIngrese el nuevo nombre del juego: ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %49[^\n]", (*aux).nombreJuego);
             break;
         case 2:
             printf("\nIngrese la nueva categoria del juego: ");
-            fflush(stdin);
+            limpiarStdin();
             scanf(" %49[^\n]", (*aux).categoriaJuego);
             break;
         case 3:
             printf("\nIngrese el nuevo precio del juego: ");
-            fflush(stdin);
+            limpiarStdin();
             while(scanf(" %f", &(*aux).precioJuego) != 1)
             {
-                fflush(stdin);
+                limpiarStdin();
                 printf("\nIngrese el nuevo precio del juego: ");
             }
             break;
@@ -325,7 +325,7 @@ int menuSelectorModificarJuego (Juego *aux)
             printf("\nHa ingresado un valor invalido. Intente de nuevo.\n");
             break;
         }
-        fflush(stdin);
+        limpiarStdin();
 
     }while (opcion < 1 || opcion > 4);
 
