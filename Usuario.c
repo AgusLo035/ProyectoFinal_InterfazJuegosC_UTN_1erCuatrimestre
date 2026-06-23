@@ -608,8 +608,8 @@ float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // de
         return sumaJuegosEnCarrito; // Devuelve la suma de todos los juegos en el carrito, no lo debita
     }
     else
-    {
-        printf("\nYA tienes este juego en el carrito. . .\n");
+    { //comento el printf de abajo y queda para nosotros, voy a hacer que devuelva el valor y recién ahí haga el printf
+//        printf("\nYA tienes este juego en el carrito. . .\n");
         return -2; // -2 Indica que ya tienes este juego en la biblioteca, -1 indica error
     }
 }

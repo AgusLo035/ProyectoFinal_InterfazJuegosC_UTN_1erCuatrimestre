@@ -10,17 +10,23 @@
 
 ///Prototipado
 
-void pausarLimpiarInt();
-int menuInicio(Usuario **arrUsuarios, int *validos); //devuelve la posición del usuario a trabajar. Otros resultados/errores posibles: "-3" -> se decidió errar programa. "-2" -> se registró un usuario, se cierra el programa. Antes se pide que reabra el programa e inicie sesión.  "-1" -> error en fopen o malloc/realloc. Se termina el programa.
-int menuOpcionesValidasVerificadas (int decision, Usuario **arrUsuarios, int *validos); //solamente es llamado cuando se verifica el usuario introduce una decisión válida. Devuelve la posición del usuario que se termine loggeando en el array dinámico.
-int menuOpcionesLoggeoRegistro(int decision, Usuario **arrUsuarios, int *cantUsuarios); //tiene solo las funciones de registro y loggeo (se hace después de muchas verificaciones). Devuelve la posición del usuario a trabajar en array
-int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios); //Se escribe usuario y contraseña. Si son correctos, devuelve la posición en el array que tiene el usuario, y se continúa con eso. Si no
-void menuTienda ();
+void pausarLimpiarInt(); //Pausa y despues limpia la terminal
+int menuInicio(Usuario **arrUsuarios, int *validos); //Contiene el menu con opciones de registrado y loggeo. Devuelve la posición del usuario que se loggea. Tiene capacidad de devolver códigos de error:
+//Errores posibles: "-4" -> datos erroneos de logeo, se cierra el programa. "-3" -> se decidió cerrar programa. "-2" -> se registró un usuario, significa se debe terminar el programa. "-1" -> error en fopen o malloc/realloc, significa se debe terminar el programa.
+int menuOpcionesValidasVerificadas (int decision, Usuario **arrUsuarios, int *validos); //Contiene las funciones resultantes de la decisión tomada en menuinicio(). Se carga el archivo de usuarios al array dinámico. Devuelve la posición del usuario que se termine loggeando en el array dinámico. Puede devolver identificador de error.
+int menuOpcionesLoggeoRegistro(int decision, Usuario **arrUsuarios, int *cantUsuarios); //Contiene las funciones de registro y loggeo. Devuelve la posición del usuario a trabajar en array. Puede devolver identificador de error.
+int sistemaLoggeo(Usuario **arrUsuarios, int *cantUsuarios); //Se escribe usuario y contraseña. Si son correctos, devuelve la posición en el array que tiene el usuario, y se continúa el resto del programa con esa posición. Caso contrario, devuelve error.
 
-//Funciones admin
+///Menu de usuario normal
+void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioActual); //Contiene el menu principal una vez logeado. Llama funciones y a otros menús de ser necesario.
+float logicaDeCompraCarrito (Usuario **arrUsuarios, int validos, int posUsuarioActual, float dineroAPagar); //Agrega un juego al carrito. Se verifica no esté ya en carrito o biblioteca. Devuelve el valor total de todos los juegos del carrito sumados.
 
-void funcionesAdicionalesParaAdmin();
-void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSistema[], int validos);
+///Menu específico para la tienda
+void menuTienda (); //como solo muestra datos relacionados a qué hay en la tienda, no recibe datos cargados de usuarios. Llama a funciones de juego.h
+
+///Menu de admin
+void funcionesAdicionalesParaAdmin(Usuario *arrUsuarios, int validos); //Contiene un menú con acciones solo permitidas para el admin. La mayoría relacionada con modificar juegos y/o usuarios.
+void ejecutarFuncionesAdicionalesParaAdmin(int decision, Usuario usuariosEnSistema[], int validos); //Ejecuta las funciones según la decisión tomada en funcionesAdicionalesParaAdmin()
 
 
 
