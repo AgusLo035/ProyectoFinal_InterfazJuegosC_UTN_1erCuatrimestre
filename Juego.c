@@ -44,7 +44,7 @@ Juego cargarNuevoJuego() //le (había) agregado archi para que pueda identificar
     fflush(stdin);
     scanf(" %49[^\n]", nuevoJuego.categoriaJuego);
     printf("\nIngrese el precio del juego: ");
-    while(scanf("%f", &nuevoJuego.precioJuego) != 1)
+    while(scanf("%f", &nuevoJuego.precioJuego) != 1 || nuevoJuego.precioJuego < 0) // Verifica si el juego tiene precio negativo, si es 0 es gratis
     {
         printf("\nTipo de dato invalido. . .\nIngrese el precio del juego: ");
         fflush(stdin);
@@ -64,7 +64,8 @@ Juego cargarNuevoJuego() //le (había) agregado archi para que pueda identificar
 }
 
 int determinarIDNuevoJuego()//Se ignora la ID de juegos eliminados (nota debajo)
-{
+{// SE ASUME QUE la tienda de juegos (JUEGOSTIENDA / el archivo con los juegos globales) SIEMPRE va a estar precargado en el sistema
+// Esto para emular los juegos que existen globalmente
     FILE *archi = fopen(JUEGOSTIENDA, "rb");
 
     int cantJuegos = -1;
@@ -99,25 +100,28 @@ void leerJuegosDeTienda(char nombreArchivo[]) //abre el archivo y llama a la fun
 void leerJuegosArchivo(FILE *archi) //lee todos los juegos del archivo que recibe
 {
     Juego aux;
-    int contador = 1; //contador es solo estético para el printf de abajo
+    int contador = 0; //contador es solo estético para el printf de abajo
 
     while (fread(&aux, sizeof(Juego), 1, archi) > 0)
     {
-        if (aux.eliminado != 1)
+        if (aux.eliminado == 0)
         {
-            printf("\n=============Juego #%i================\n", contador);
+            printf("\n=============Juego #%i================\n", contador + 1);
             leerUnJuego(aux);
             printf("\n======================================\n");
             contador++;
         }
     }
+    if(contador == 0)
+        printf("\nNO HAY JUEGOS QUE MOSTRAR. . .\n");
 }
 
 void leerUnJuego(Juego unJuego)
 {
-    printf("Nombre del juego: %s\n",    unJuego.nombreJuego);
+    printf("Nombre del juego: %s\n", unJuego.nombreJuego);
     printf("Categoria del juego: %s\n", unJuego.categoriaJuego);
-    printf("Precio del juego: %.2f",    unJuego.precioJuego);
+    printf("Precio del juego: %.2f\n", unJuego.precioJuego);
+    printf("ID del juego: %i\n", unJuego.id);
 }
 
 Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]) //devuelve Juego buscado por nombre
@@ -150,7 +154,7 @@ Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]) //devuelve Juego buscado 
 
 Juego buscarJuegoPorId (int idBuscada) //función separada porque parece solo la vamos a usar en relación al usuario
 {
-    FILE *archi =  fopen(JUEGOSTIENDA, "r+b");
+    FILE *archi =  fopen(JUEGOSTIENDA, "rb"); // solo quiero leer el archivo, nunca escribir en el
 
     Juego aux;
     aux.id = -1; //devuelve el juego con esta id en caso de no poder abrirse el archivo
@@ -161,7 +165,7 @@ Juego buscarJuegoPorId (int idBuscada) //función separada porque parece solo la
     {
         while (fread(&aux, sizeof(Juego), 1, archi) > 0 && flag == 0)
         {
-            if (aux.id == idBuscada)
+            if (aux.id == idBuscada && aux.eliminado == 0) // Verifico la id obtenida con la buscada y si el juego no esta eliminado
             {
                 flag = 1;
             }
@@ -341,8 +345,9 @@ int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //leer en juego
     Juego juegoEnArchivo; //sería un "aux"
 
     while(fread(&juegoEnArchivo, sizeof(Juego), 1, archi) > 0 && flag != 1) //lee todos los juegos en archivo hasta encontrar el buscado o llegar al final
+                                                        // Y verifica que el juego no este eliminado, el juego podria volver a existir en un futuro
     {
-        if(strcmpi(juegoEnArchivo.nombreJuego, nombreBuscado) == 0)
+        if(strcmpi(juegoEnArchivo.nombreJuego, nombreBuscado) == 0 && juegoEnArchivo.eliminado != 1)
             flag = 1; //Si los nombres coinciden, el juego ya existe en la tienda
     }
 
@@ -382,7 +387,7 @@ int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[])
 {
     int juegoDeCategoria = 0;
 
-    if((strcmpi(juegoAFiltrar.categoriaJuego, categoria) == 0))
+    if((strcmpi(juegoAFiltrar.categoriaJuego, categoria) == 0 && juegoAFiltrar.eliminado == 0)) // Compara si la categoria coincide con la recibida por parametro y si el juego no esta eliminado
         juegoDeCategoria = 1;
 
     return juegoDeCategoria; //si es 0, el juego, no pertenece a esa categoria.
@@ -406,7 +411,7 @@ void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
         fread(arr, sizeof(Juego), validos, archi); //metemos todos los juegos dentro
 
         ordSeleccionNombreJuego(arr, validos);
-        mostrarArrJuegosOrdenado(arr, validos, 'p');
+        mostrarArrJuegosOrdenado(arr, validos, 'n');
         fclose(archi); //estaba fuera del else, pero el archivo solo se cierra si se pudo abrir
     }
     else
@@ -446,18 +451,27 @@ int posMenorNombreJuego(Juego arr[], int validos, int posInicial)
 
 void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado) //tipoDeOrdenado = 'n' refiere a por nombre, cualquier otro valor a por precio
 {
-    for (int i = 0; i < validos; i++)
+    int cantEliminados = 0;
+    for(int i = 0; i < validos; i++)
+        cantEliminados += arr[i].eliminado;
+
+    if(cantEliminados < validos) // Si los juegos eliminados es igual que los validos significa que hay juegos en la tienda pero estan todos eliminados
     {
-        if (tipoDeOrdenado == 'n')
+        for (int i = 0; i < validos; i++)
         {
-            printf("\n=============Juegos [A-Z]===============\n");
-        }else
-        {
-            printf("\n=======Juegos [menor $ -> mayor $]=======\n"); //tal vez haya mejor forma de expresarlo que menor $ -> mayor $
+            if(arr[i].eliminado == 0)
+            {
+                if (tipoDeOrdenado == 'n')
+                    printf("\n=============Juegos [A-Z]===============\n");
+                else
+                    printf("\n=======Juegos [menor $ -> mayor $]=======\n");
+                leerUnJuego(arr[i]);
+                printf("\n======================================\n");
+            }
         }
-        leerUnJuego(arr[i]);
-        printf("\n======================================\n");
     }
+    else
+        printf("\nNO HAY JUEGOS PARA MOSTRAR. . .\n");
 }
 
 // ── Ordenamiento por Insercion (Menor precio a mayor) ───────────────────────────────────
