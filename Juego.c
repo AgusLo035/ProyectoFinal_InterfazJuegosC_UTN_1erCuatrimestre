@@ -141,6 +141,7 @@ Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]) //devuelve Juego buscado 
         {
             fseek(archi,-(long)sizeof(Juego), SEEK_CUR); //retrocedo un paso para obtener el juego
             fread(&aux, sizeof(Juego), 1, archi);
+            printf("\n\n[Buscando error] El juego en el que estaba ahora mismo es: %s\n\n", aux.nombreJuego);
         }
 
         fclose (archi);
@@ -344,11 +345,13 @@ int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //leer en juego
 
     Juego juegoEnArchivo; //sería un "aux"
 
-    while(fread(&juegoEnArchivo, sizeof(Juego), 1, archi) > 0 && flag != 1) //lee todos los juegos en archivo hasta encontrar el buscado o llegar al final
+    while(flag != 1 && fread(&juegoEnArchivo, sizeof(Juego), 1, archi) > 0) //lee todos los juegos en archivo hasta encontrar el buscado o llegar al final
                                                         // Y verifica que el juego no este eliminado, el juego podria volver a existir en un futuro
     {
         if(strcmpi(juegoEnArchivo.nombreJuego, nombreBuscado) == 0 && juegoEnArchivo.eliminado != 1)
+        {
             flag = 1; //Si los nombres coinciden, el juego ya existe en la tienda
+        }
     }
 
     return flag; //recordatorio que el indicador queda inmediatamente después del archivo encontrado (si se encontró)
