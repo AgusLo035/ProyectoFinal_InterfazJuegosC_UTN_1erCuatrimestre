@@ -227,7 +227,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                     else
                         printf("\nLa suma de todos los juegos en tu carrito es de: $%.2f\n", totalEnCarritoCaseDos); // El carrito es modificado agregando el juego
                 }
-
+                // No es necesario hacer mas que esto porque para eso estan las demas opciones
                 break;
                 //funcion que agrega juego de tienda a carrito
                 //^ quiero que el usuario busque juego por nombre -> si existe, se pasa el juego como parametro a "cargarACarritoUsuario" -> se continua preguntando con do while si quiere agregarse más al carrito.
