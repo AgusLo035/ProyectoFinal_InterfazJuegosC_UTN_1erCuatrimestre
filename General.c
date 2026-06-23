@@ -234,9 +234,6 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 {
                     printf("\nEl juego ya se encuentra en su carrito o biblioteca. Elija otro juego.\n");
                 }
-
-
-
                 break;
             case 3:
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
@@ -262,7 +259,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 }
                 break;
             case 6:
-                //falta lo de pila que ahí lleno lo que piden los parametros
+                deshacerUltimaCompra(&(*arrUsuarios)[posUsuarioActual].historialDeJuego, &(*arrUsuarios)[posUsuarioActual]);
                 break;
             case 7:
                 printf("\nSueldo actual: $%f", (*arrUsuarios)[posUsuarioActual].billetera);
