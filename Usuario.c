@@ -687,7 +687,7 @@ void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los
         int contDimPila = contarDimPila((*usuarioAComprarJuegos).historialDeJuego);
 
         if(contDimPila >= 50)
-            reajustarDimPilaTope(&(*usuarioAComprarJuegos).historialDeJuego, (*usuarioAComprarJuegos).carritoDeJuegos[x].id);
+            reajustarDimPilaTope(usuarioAComprarJuegos.historialDeJuego, (*usuarioAComprarJuegos).carritoDeJuegos[x].id);
         else
             apilar(&(*usuarioAComprarJuegos).historialDeJuego, (*usuarioAComprarJuegos).carritoDeJuegos[x].id);
 
