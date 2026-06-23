@@ -627,22 +627,28 @@ void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los
 {// La verificacion se hace previamente de acceder a esta funcion con la funcion ya hecha de contar el monto total de un arreglo de juegos y si el usuario tiene ese monto disponible para comprar
     float montoADebitar = 0;
 
+    Pila aux;
+    inicpila(&aux);
+
     int nuevaDimBiblioteca = (*usuarioAComprarJuegos).validosCarrito + (*usuarioAComprarJuegos).validosBiblioteca; // Sumo la dim del carrito y la dim de la biblioteca para tener la nueva dim total de la biblioteca
 
-    Juego *aux = (Juego*) realloc((*usuarioAComprarJuegos).bibliotecaUsuario, sizeof(Juego) * nuevaDimBiblioteca); // Cambio la dim de la biblioteca
+    Juego *juegoAux = (Juego*) realloc((*usuarioAComprarJuegos).bibliotecaUsuario, sizeof(Juego) * nuevaDimBiblioteca); // Cambio la dim de la biblioteca
 
-    if(!aux)
+    if(!juegoAux)
     {
         printf("\nERROR EN MALLOC. . . NO se compro ningun juego, la biblioteca y el carrito no sufrieron cambios. . .\n");
         return; // No se pudo redimensionar
     }
-    (*usuarioAComprarJuegos).bibliotecaUsuario = aux; // Se pudo redimensionar la biblioteca
+    (*usuarioAComprarJuegos).bibliotecaUsuario = juegoAux; // Se pudo redimensionar la biblioteca
 
     int valBiblioteca = (*usuarioAComprarJuegos).validosBiblioteca; // Comienzo a partir del ultimo juego que estaba en la biblioteca
     int x = 0; // primer elemento que se encuentra en el carrito
 
     for (int i = valBiblioteca ; i < nuevaDimBiblioteca ; i++)
     {//Paso los elementos a partir de la primer posicion del carrito a la biblioteca despues del ultimo juego que tenia el usuario en la biblioteca
+
+        apilar(&aux, (*usuarioAComprarJuegos).carritoDeJuegos[x].id); // apilo las ids de los juegos comprados a una pila auxiliar
+
         (*usuarioAComprarJuegos).bibliotecaUsuario[i] = (*usuarioAComprarJuegos).carritoDeJuegos[x];
         montoADebitar += (*usuarioAComprarJuegos).carritoDeJuegos[x].precioJuego; // suma de monto a debitar de los juegos
         x++;
@@ -656,6 +662,17 @@ void comprarJuegosDelCarrito(Usuario *usuarioAComprarJuegos) // Compro TODOS los
     // Los validos pasan a ser la nueva dim
 
     debitarDineroAlUsuario(usuarioAComprarJuegos, montoADebitar); // Se le debita el usuario el total sumado previamente
+
+    int contarDimHistorial = contarDimPila((*usuarioAComprarJuegos).historialDeJuego); // Se cuenta la dim de la pila para saber si esta al llena (50 elementos cargados) o no
+
+    while(!pilavacia(&aux))
+    {
+        if(contarDimHistorial >= 50) // Si la pila esta COMPLETAMENTE llena, se elimina el valor mas viejo para agregar la id del ultimo juego agregado al tope de la pila
+            reajustarDimPilaTope(&(*usuarioAComprarJuegos).historialDeJuego, desapilar(&aux));
+
+        else
+            apilar(&(*usuarioAComprarJuegos).historialDeJuego, desapilar(&aux)); // Si pila tiene la dim suficiente, se carga la id del juego al tope
+    }
 }
 
 //esta funcion quita todos los juegos de la tienda y los carga al arreglo dinamico de biblioteca
