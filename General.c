@@ -210,9 +210,8 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                 break;
             case 2:
                 printf("\nIngrese el nombre del juego a aniadir al carrito: ");
-                limpiarStdin();
-                fflush(stdin);
                 scanf(" %49[^\n]", nombreAIngresarCaseDos);
+                limpiarStdin();
 
                 juegoAAniadirCaseDos = buscarJuegoPorNombre(nombreAIngresarCaseDos);
 

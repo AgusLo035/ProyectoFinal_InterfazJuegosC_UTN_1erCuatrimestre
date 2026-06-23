@@ -164,7 +164,7 @@ Juego buscarJuegoPorId (int idBuscada) //función separada porque parece solo la
 
     if (archi != NULL)
     {
-        while (fread(&aux, sizeof(Juego), 1, archi) > 0 && flag == 0)
+        while (flag == 0 && fread(&aux, sizeof(Juego), 1, archi) > 0)
         {
             if (aux.id == idBuscada && aux.eliminado == 0) // Verifico la id obtenida con la buscada y si el juego no esta eliminado
             {
