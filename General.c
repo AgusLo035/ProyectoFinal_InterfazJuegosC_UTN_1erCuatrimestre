@@ -223,7 +223,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
                     if(totalEnCarritoCaseDos == -1)
                         printf("\nOcurrio un ERROR. . . El carrito no fue modificado. . .\n");
                     else if (totalEnCarritoCaseDos == -2)
-                        printf("\nADVERTENCIA: YA tienes este juego en el carrito o tienda. . .\n");
+                        printf("\nADVERTENCIA: YA tienes este juego en su carrito o biblioteca. . .\n");
                     else
                         printf("\nLa suma de todos los juegos en tu carrito es de: $%.2f\n", totalEnCarritoCaseDos); // El carrito es modificado agregando el juego
                 }
@@ -239,7 +239,7 @@ void menuPrincipalUsuario (Usuario **arrUsuarios, int validos, int posUsuarioAct
             case 3:
                 mostrarCarritoDeUsuario((*arrUsuarios)[posUsuarioActual]);
                 break;
-            case 4: //para esto hacer una funcion llamada "confirmarIntencionEliminarCarrito" donde pregunto si de verdad quiere eliminar todo
+            case 4:
                 if((*arrUsuarios)[posUsuarioActual].validosCarrito == 0)
                 {
                     printf("\nNo hay juegos en su carrito.\n\n");
