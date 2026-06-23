@@ -29,7 +29,7 @@
 1781490735 d:\utn\programacion\programacion_1\proyecto final\proyectofinal_1ercuat\usuario.h
 	"Juego.h"
 
-1782178547 source:d:\github\proyectofinal_utn_1ercuatrimestre\juego.c
+1782185991 source:d:\github\proyectofinal_utn_1ercuatrimestre\juego.c
 	"juego.h"
 
 1782175175 d:\github\proyectofinal_utn_1ercuatrimestre\juego.h
@@ -39,7 +39,7 @@
 	<malloc.h>
 	"pila.h"
 
-1782179800 source:d:\github\proyectofinal_utn_1ercuatrimestre\main.c
+1782190880 source:d:\github\proyectofinal_utn_1ercuatrimestre\main.c
 	"Juego.h"
 	"Usuario.h"
 	"General.h"
@@ -50,10 +50,10 @@
 	<stdio.h>
 	"pila.h"
 
-1782174415 source:d:\github\proyectofinal_utn_1ercuatrimestre\usuario.c
+1782190880 source:d:\github\proyectofinal_utn_1ercuatrimestre\usuario.c
 	"usuario.h"
 
-1782178547 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
+1782191063 d:\github\proyectofinal_utn_1ercuatrimestre\usuario.h
 	"Juego.h"
 	<errno.h>
 
@@ -203,7 +203,7 @@
 1782190155 source:c:\users\mamá\documents\github\proyectofinal_interfazjuegosc_utn_1ercuatrimestre\general.c
 	"General.h"
 
-1782178547 d:\github\proyectofinal_utn_1ercuatrimestre\general.h
+1782190880 d:\github\proyectofinal_utn_1ercuatrimestre\general.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -211,6 +211,6 @@
 	"Usuario.h"
 	"pila.h"
 
-1782181247 source:d:\github\proyectofinal_utn_1ercuatrimestre\general.c
+1782190880 source:d:\github\proyectofinal_utn_1ercuatrimestre\general.c
 	"General.h"
 

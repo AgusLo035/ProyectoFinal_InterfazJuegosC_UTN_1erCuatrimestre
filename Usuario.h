@@ -56,7 +56,7 @@ void reajustarDimPilaTope(Pila *pila, int datoAIngresar);
 
 /// Funciones con Archivos
 int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr);
-void pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema);
+int pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema);
 int creacionArchivoDeUsuarios (Usuario **arr); //si no existe el archivo usuario, lo crea y añade al primer usuario admin
 Usuario leerUsuarioCompletoDeArchi(FILE *archi); //NOTA: antes de llamar a esta función, sí o si hay que mover el indicador de posición 1 posición delante de los validos al inicio del archivo
 // Pasar arreglo dinamico de usuarios a Archivo
