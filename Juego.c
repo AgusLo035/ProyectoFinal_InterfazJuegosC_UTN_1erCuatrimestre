@@ -141,7 +141,6 @@ Juego buscarJuegoPorNombre (char nombreJuegoBuscado[]) //Devuelve el Juego busca
         {
             fseek(archi,-(long)sizeof(Juego), SEEK_CUR); //retrocedo un paso para obtener el juego
             fread(&aux, sizeof(Juego), 1, archi);
-            printf("\n\n[Buscando error] El juego en el que estaba ahora mismo es: %s\n\n", aux.nombreJuego);
         }
 
         fclose (archi);
