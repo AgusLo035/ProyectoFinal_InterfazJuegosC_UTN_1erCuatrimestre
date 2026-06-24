@@ -16,11 +16,11 @@ char matAdmin[2][LIMITE] = {"admin", "admin"}; //un usuario y una contraseña en 
 ///Main
 int main()
 {
+    printf("Bienvenido a STOM! El mejor programa para comprar juegos.\n\n\n");
+
     Usuario *arrUsuarios = NULL; //futuro array de usuarios
     int validos = 0; //futuro validos de usuarios
     int flagGuardado = -1;
-
-    printf("Bienvenido a STOM! El mejor programa para comprar juegos.\n\n\n");
 
     int posicionEnArray = menuInicio(&arrUsuarios, &validos); //leer lo que devuelve en general.c
 
@@ -58,18 +58,7 @@ int main()
         printf("\nSe han guardado los cambios exitosamente. Gracias por usar STOM.\n");
     }
 
-    return 0;
-
-
-
-
-//*********************************************
-    //guardarJuegosEnArchivo(JUEGOSTIENDA);//Simulamos los juegos que existen en la aplicacion,
-//*********************************************
-//    guardarJuegosEnArchivo(JUEGOSTIENDA);
-//    leerJuegosDeTienda(JUEGOSTIENDA);
-
-//    leerJuegosOrdenadosNombreTienda(JUEGOSTIENDA);
+   free(arrUsuarios);
 
     return 0;
 }

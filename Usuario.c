@@ -134,7 +134,7 @@ Usuario crearUsuarioAdmin() // Se crea un usuario administrador dependiendo de l
 //    return i;
 //}
 
-void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, aumenta validos por 1, ingresa al usuario en el array. Es bÃ¡sicamente una opciÃ³n de registro.
+void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, aumenta validos por 1, ingresa al usuario en el array. Es básicamente una opción de registro.
 {                                                         // Siendo la cantidad usuarios los validos que existen en el main hasta el momento
     (*cantUsuarios) += 1; // Se suma +1 a la cant de usuarios que existen
 
@@ -142,7 +142,7 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 
     if (aux != NULL)
     {
-        aux[((*cantUsuarios)-1)] = registrarUsuario((*arr), (*cantUsuarios) - 1); //agrego al usuario en la posiciÃ³n nueva
+        aux[((*cantUsuarios)-1)] = registrarUsuario((*arr), (*cantUsuarios) - 1); //agrego al usuario en la posición nueva
                                                                              // cantUsuarios - 1 porque la ultima pos aun no existe, no fue creada (devuelta por la funcion de registrar)
         printf("\nUsuario creado exitosamente.\n");
         (*arr) = aux; // se iguala el arreglo de usuarios con la nueva dir de memoria que contiene los usuarios y el nuevo registrado.
@@ -168,9 +168,9 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //    }
 //    else
 //    {
-//        printf("\n\nADVERTENCIA: El archivo de usuarios ''%s'' aÃºn NO existe o NO se pudo abrir. . .\n\n", nombreArchivo);
+//        printf("\n\nADVERTENCIA: El archivo de usuarios ''%s'' aún NO existe o NO se pudo abrir. . .\n\n", nombreArchivo);
 //        //estoy 67% seguro que para intentar romper el programa van a sacar uno/ambos de los archivos
-//        (*arr) = NULL; // para que quede inicializado aunque sea en null si no existe todavÃ­a el archivo
+//        (*arr) = NULL; // para que quede inicializado aunque sea en null si no existe todavía el archivo
 //    }
 //
 //    return validos;
@@ -203,7 +203,7 @@ void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios) //recibe el array, au
 //
 //    return cant;
 //}
-int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuarios, lo crea y aÃ±ade al primer usuario admin
+int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuarios, lo crea y añade al primer usuario admin
 {                                           /// SOLO se hace si no existe ^^^, se ejecuta una unica vez hasta que el archivo de usuarios sea eliminado
     FILE *archi = fopen(LISTAUSUARIOS, "wb"); // El archivo de usuarios es creado por primera vez
 
@@ -215,7 +215,7 @@ int creacionArchivoDeUsuarios (Usuario **arr) //si no existe el archivo usuarios
     {
         validos = 1;
 
-        fwrite(&validos, sizeof(int), 1, archi); //escribo "1" al principio del archivo, que serÃ­an los validos
+        fwrite(&validos, sizeof(int), 1, archi); //escribo "1" al principio del archivo, que serían los validos
 
         aux = malloc(sizeof(Usuario)*1); // Creo un arreglo dinamico que almacena 1 usuario
 
@@ -247,7 +247,7 @@ int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr) //Trae los
 {
     FILE *archi = fopen(nombreArchivo, "r+b");
 
-    int validos = -1; //solo se queda asÃ­ si no se abre el archivo (si devuelve esto se termina el programa) ERROR
+    int validos = -1; //solo se queda así si no se abre el archivo (si devuelve esto se termina el programa) ERROR
 
     if(archi)
     {
@@ -312,7 +312,7 @@ int pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegis
     return 1; // Si no hubo errores
 }
 
-Usuario leerUsuarioCompletoDeArchi(FILE *archi) ///NOTA: antes de llamar a esta funciÃ³n, sÃ­ o si hay que mover el indicador de posiciÃ³n 1 posiciÃ³n delante de los validos al inicio del archivo
+Usuario leerUsuarioCompletoDeArchi(FILE *archi) ///NOTA: antes de llamar a esta función, sí o si hay que mover el indicador de posición 1 posición delante de los validos al inicio del archivo
 {                                              // Esta funcion lee un usuario dentro del archivo
     Usuario usuarioLeido;
 
@@ -478,7 +478,7 @@ int buscarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int va
 {
     int flag = -1;
 
-    for (int i = 0 ; i < validos && flag == -1; i++)
+    for (int i = 0 ; flag == -1 && i < validos; i++)
     {
         if(strcmp(nombreDeUsuario, arr[i].userName) == 0) // Comparo nombre de usuario con cada uno en el arreglo hasta encontrarlo o no
             flag = i;
@@ -572,7 +572,7 @@ void cargarDineroAlUsuario(Usuario *usuarioACargarDinero)
 /// Carrito =======================================================================================
 
 
-//DecidÃ­ cambiar esto porque no sÃ© cÃ³mo mandarlo al llamar la funciÃ³n
+//Decidí cambiar esto porque no sé cómo mandarlo al llamar la función
 //Recibe el usuario entero, adentro se encarga de modificar todo
 float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // devuelve lo que se debe de debitar al usuario
 {
@@ -615,7 +615,7 @@ float cargarACarritoUsuario(Usuario *usuarioRecibido, Juego juegoAComprar) // de
         return sumaJuegosEnCarrito; // Devuelve la suma de todos los juegos en el carrito, no lo debita
     }
     else
-    { //comento el printf de abajo y queda para nosotros, voy a hacer que devuelva el valor y reciÃ©n ahÃ­ haga el printf
+    { //comento el printf de abajo y queda para nosotros, voy a hacer que devuelva el valor y recién ahí haga el printf
 //        printf("\nYA tienes este juego en el carrito. . .\n");
         return -2; // -2 Indica que ya tienes este juego en el carrito o biblioteca, -1 indica error
     }
@@ -625,7 +625,7 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del p
 {
     float sumaTotal = 0;
 
-    if (validos != 0) //agreguÃ© que si validos es 0 devuelva 0
+    if (validos != 0) //agregué que si validos es 0 devuelva 0
     {
         if(i == validos - 1) // la condicion de corte es cuando la pos llegue al final del arreglo
             sumaTotal = arr[i].precioJuego;
@@ -636,7 +636,7 @@ float sumarPrecioJuegos (Juego arr[], int validos, int i) // devuelve suma del p
     return sumaTotal; // Devuelvo la suma de los precios de los juegos
 }
 
-int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontrÃ³, 0 si no lo hizo
+int verificarSiJuegoEnCarritoUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontró, 0 si no lo hizo
 {
     int validosCarrit = (*usuarioRecibido).validosCarrito;
     Juego *carrit = (*usuarioRecibido).carritoDeJuegos;
@@ -774,14 +774,14 @@ void cargarABibliotecaUsuario(Usuario *usuarioACargar, Juego juegoACargar) //ver
         apilar(&(*usuarioACargar).historialDeJuego, juegoACargar.id); // Si pila tiene la dim suficiente, se carga la id del juego al tope
 }
 
-int verificarSiJuegoEnBibliotecaUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontrÃ³, 0 si no lo hizo
+int verificarSiJuegoEnBibliotecaUsuario (Usuario *usuarioRecibido, Juego juegoRecibido) //Devuelve 1 si encontró, 0 si no lo hizo
 {
     int validosBibl = (*usuarioRecibido).validosBiblioteca;
     Juego *bibl = (*usuarioRecibido).bibliotecaUsuario;
 
     int flag = 0;
 
-    for(int i = 0 ; i < validosBibl && flag == 0; i++) // Busco hasta llegar al final de biblioteca o encontrar el juego recibido por parametro
+    for(int i = 0 ; flag == 0 && i < validosBibl ; i++) // Busco hasta llegar al final de biblioteca o encontrar el juego recibido por parametro
     {
         if(strcmp(bibl[i].nombreJuego, juegoRecibido.nombreJuego) == 0)
             flag = 1;
@@ -837,7 +837,7 @@ int verificarUsuarioRegistrado(Usuario *arr, int validos, char username[], char 
     }
 
     return flag; //Devuelve la pos de ese usuario para luego hacer usuario de la sesion iniciada = arr[esa posicion que devuelve
-                //devuelve -1 si la contraseÃ±a o usuario son incorrectos
+                //devuelve -1 si la contraseña o usuario son incorrectos
 }
 
 int verificarNombreUsuarioRegistrado(Usuario arr[] , int validos, char username[])
@@ -855,7 +855,7 @@ int verificarNombreUsuarioRegistrado(Usuario arr[] , int validos, char username[
 
 
 
-/// Mostrar Juegos del carrito de usuario especÃ­fico
+/// Mostrar Juegos del carrito de usuario específico
 void mostrarCarritoDeUsuario (Usuario usuario)
 {
     if (usuario.validosCarrito == 0) // Si el usuario no tiene juegos en el carrito, no se muestra nada

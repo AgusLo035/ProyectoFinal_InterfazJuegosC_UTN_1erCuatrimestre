@@ -63,11 +63,8 @@ Juego cargarNuevoJuego() //Crea un juego
     return nuevoJuego;
 }
 
-//Determina qué ID tiene el juego nuevo, basandose en la cantidad de juegos que existan.
-int determinarIDNuevoJuego()//Se ignora la ID de juegos eliminados (nota debajo)
-{// SE ASUME QUE la tienda de juegos (JUEGOSTIENDA / el archivo con los juegos globales) SIEMPRE va a estar precargado en el sistema
-// Esto para emular los juegos que existen globalmente
-///^ no entiendo a qué te referís
+int determinarIDNuevoJuego() //Determina qué ID tiene el juego nuevo, basandose en la cantidad de juegos que existan.
+{
 
     FILE *archi = fopen(JUEGOSTIENDA, "rb");
 
@@ -196,8 +193,8 @@ Juego buscarJuegoPorId (int idBuscada) //Devuelve el Juego buscado por nombre. S
 // --- BAJA (buscar dato en archivo, eliminarlo, guardar cambios) ------------------------------------
 // Después ver cómo hacer que cada vez que se abra/cierre el programa, se quiten del archivo los juegos marcados como "eliminados"
 
-//Eliminar un juego de la tienda
-void eliminarJuegoDeTienda (char nombreArchivo[]) //BAJA
+
+void eliminarJuegoDeTienda (char nombreArchivo[]) //Elimina lógicamente del archivo un juego que exista.
 {
     FILE *archi = fopen(nombreArchivo, "r+b");
 
@@ -227,7 +224,7 @@ void eliminarJuegoDeTienda (char nombreArchivo[]) //BAJA
         printf("Ocurrio un error en la carga del archivo.");
 }
 
-void marcarJuegoActualComoEliminado (FILE *archi) //se asume el indicador de posición está inmediatamente después del "juego actual"
+void marcarJuegoActualComoEliminado (FILE *archi) //Marca el juego actual en el archivo como eliminado. Se asume el indicador de posición está inmediatamente después del "juego actual"
 {
     Juego aux;
 
@@ -243,7 +240,7 @@ void marcarJuegoActualComoEliminado (FILE *archi) //se asume el indicador de pos
 
 //Puede modificarse cualquier cosa MENOS la ID
 
-void modificarJuego (char nombreArchivo[])
+void modificarJuego (char nombreArchivo[]) //Pregunta qué variable quiere modificarse sobre un juego y si existe lo hace.
 {
     FILE* archi = fopen(nombreArchivo, "r+b");
 
@@ -286,7 +283,7 @@ void modificarJuego (char nombreArchivo[])
 
 }
 
-int menuSelectorModificarJuego (Juego *aux)
+int menuSelectorModificarJuego (Juego *aux) //Contiene el menú sobre qué variable modificar de un juego.
 {
     int opcion;
 
@@ -340,7 +337,7 @@ int menuSelectorModificarJuego (Juego *aux)
 // ── Filtrado por categoría ────────────────────────────────────────────────────
 
 
-int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //leer en juego.h por qué lo puse acá (considerar cambiar de lugar maybe?)
+int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //Verifica si un nombre de juego recibido por parametro existe en el archivo. Devuelve flag.
 {
     rewind(archi); //para poder verificar si un juego existe debo recorrer todo el archivo
 
@@ -360,7 +357,7 @@ int verificarExistenciaJuego (FILE *archi, char nombreBuscado[]) //leer en juego
     return flag; //recordatorio que el indicador queda inmediatamente después del archivo encontrado (si se encontró)
 }
 
-void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[])
+void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[]) //Busca y muestra todos los juegos que sean de la categoria ingresada por parametro.
 {
     FILE *archi = fopen(nombreArchivo, "rb");
     Juego aux;
@@ -389,7 +386,7 @@ void leerJuegosFiltradosTienda(char nombreArchivo[], char categoria[])
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
 }
 
-int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[])
+int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[]) //Verifica que un juego no eliminado pertenezca a la categoria ingresada por parametro.
 {
     int juegoDeCategoria = 0;
 
@@ -401,7 +398,7 @@ int compararJuegoCategoria(Juego juegoAFiltrar, char categoria[])
 
 // ── Ordenamiento por selección (nombre A-Z) ───────────────────────────────────
 
-void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
+void leerJuegosOrdenadosNombreTienda(char nombreArchivo[]) //Lee por orden alfabético todos los juegos de la tienda.
 {
     FILE *archi = fopen(nombreArchivo, "rb");
     Juego aux;
@@ -424,7 +421,7 @@ void leerJuegosOrdenadosNombreTienda(char nombreArchivo[])
         printf("\nERROR, EL ARCHIVO NO PUDO ABRIRSE. . .\n");
 }
 
-void ordSeleccionNombreJuego(Juego arr[], int validos)
+void ordSeleccionNombreJuego(Juego arr[], int validos) //Ordena por metodo de seleccion los juegos de la tienda.
 {
     int posMenor;
     Juego aux;
@@ -438,7 +435,7 @@ void ordSeleccionNombreJuego(Juego arr[], int validos)
     }
 }
 
-int posMenorNombreJuego(Juego arr[], int validos, int posInicial)
+int posMenorNombreJuego(Juego arr[], int validos, int posInicial) //Busca la posición del nombre con el nombre mas cerca de la A alfabéticamente hablando.
 {
     int posMenor = posInicial;
     char menor[LIMITE];
@@ -455,7 +452,7 @@ int posMenorNombreJuego(Juego arr[], int validos, int posInicial)
     return posMenor;
 }
 
-void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado) //tipoDeOrdenado = 'n' refiere a por nombre, cualquier otro valor a por precio
+void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado) //Muestra a los juegos ordenados con un printf especial. tipoDeOrdenado = 'n' refiere a por nombre, cualquier otro valor a por precio
 {
     int cantEliminados = 0;
     for(int i = 0; i < validos; i++)
@@ -482,9 +479,7 @@ void mostrarArrJuegosOrdenado(Juego arr[], int validos, char tipoDeOrdenado) //t
 
 // ── Ordenamiento por Insercion (Menor precio a mayor) ───────────────────────────────────
 
-//Como lo hiciste pasando todos los juegos a un array voy a hacer lo mismo
-
-void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
+void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[]) //Ordena todos los juegos de la tienda en order de precio menor a mayor.
 {
     FILE *archi = fopen(nombreArchivo, "rb");
 
@@ -514,7 +509,7 @@ void leerJuegosOrdenadosPrecioTienda (char nombreArchivo[])
     }
 }
 
-void ordInsercionPrecioJuego (Juego arr[], int validos)
+void ordInsercionPrecioJuego (Juego arr[], int validos) //Ordena por metodo de inserción los juegos de la tienda (por precio).
 {
     int posActual = 0;
 
@@ -525,7 +520,7 @@ void ordInsercionPrecioJuego (Juego arr[], int validos)
     }
 }
 
-void ordenarInsertadamente (Juego arr[], int posActual, int posDatoAColocar) //ir buscando en la "zona ordenada" donde colocar el valor, mientras mueve los valores en el camino 1 a la derecha
+void ordenarInsertadamente (Juego arr[], int posActual, int posDatoAColocar) //Va buscando en la "zona ordenada" donde colocar el valor, mientras mueve los valores en el camino 1 a la derecha
 {
     Juego aux = arr[posDatoAColocar];
 

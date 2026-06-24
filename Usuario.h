@@ -1,10 +1,10 @@
 #ifndef USUARIO_H_INCLUDED
 #define USUARIO_H_INCLUDED
 #include "Juego.h"
-#include <errno.h> //errno es una variable global. Al ocurrir cualquier error al ejecutar algo, codeblocks guarda el error en esta variable. Me sirve para saber si un fopen fall√≥
+#include <errno.h> //errno es una variable global. Al ocurrir cualquier error al ejecutar algo, codeblocks guarda el error en esta variable. Me sirve para saber si un fopen fallÛ
                  // porque el archivo no existe, o porque hubo cualquier otro problema con el fopen
 
-#define VERIFICARLIMITE 51 //estaba en juegos, te lo traje ac√° pq en juegos no se usa
+#define VERIFICARLIMITE 51 //estaba en juegos, te lo traje ac· pq en juegos no se usa
 #define LISTAUSUARIOS "usuarios.bin"
 
 extern char matAdmin[2][LIMITE]; //Se declara que existe en un lugar externo fuera de este archivo, usa el contenido que esta en el main
@@ -19,38 +19,24 @@ typedef struct
     Pila historialDeJuego; //ultimos 50 juegos comprados del usuario
 
     int validosCarrito;
-    Juego *carritoDeJuegos; //vuelve a ser array din√°mico, por tanto hay que modificar el fwrite tambi√©n
+    Juego *carritoDeJuegos; //vuelve a ser array din·mico, por tanto hay que modificar el fwrite tambiÈn
 
     int validosBiblioteca;
-    Juego *bibliotecaUsuario; //Dolor de cabeza significativo: hice mal (aunque excelente enterarnos ahora) y le pregunt√© a chatGPT por esto, resulta que en el archivo no se guardan la biblioteca ni el carrito como array, sino como una direcci√≥n de memoria/puntero. No incluye a los datos. Para guardar los datos hay que hacer muchos fwrite para cada una de las variables de la estructura, lo mismo para leer cada usuario, es un fread por cada variable. Es medio engorroso por lo que estuve viendo y funciones como la de contar la cantidad de usuarios dejan de funcionar. Si es lo suficientemente engorroso, voy a dejar estos arrays como fijos o separo al menos la bilbioteca de todos los usuarios en otro archivo. Ya estamos usando arrays din√°micos para trabajar con los usuarios en el main as√≠ que seguir√≠amos cumpliendo el requisito del TP.
+    Juego *bibliotecaUsuario; //Dolor de cabeza significativo: hice mal (aunque excelente enterarnos ahora) y le preguntÈ a chatGPT por esto, resulta que en el archivo no se guardan la biblioteca ni el carrito como array, sino como una direcciÛn de memoria/puntero. No incluye a los datos. Para guardar los datos hay que hacer muchos fwrite para cada una de las variables de la estructura, lo mismo para leer cada usuario, es un fread por cada variable. Es medio engorroso por lo que estuve viendo y funciones como la de contar la cantidad de usuarios dejan de funcionar. Si es lo suficientemente engorroso, voy a dejar estos arrays como fijos o separo al menos la bilbioteca de todos los usuarios en otro archivo. Ya estamos usando arrays din·micos para trabajar con los usuarios en el main asÌ que seguirÌamos cumpliendo el requisito del TP.
 
 } Usuario;
 
-///No te quiero tocar esto por si acaso, lo podes ordenar en Alta, Baja, Modificaci√≥n, Consulta, Listados?
-///Igual veo faltan los √∫ltimos 2 de consul. y listados que hay que pensar c√≥mo hacerlos
-///Tal vez que el admin puede acceder a consulta y listados (en alguno de estos dos va la idea de la pila de la profe de los usuarios m√°s activos tambi√©n)
-///(hoy/ma√±ana te ayudo pq algunos creo ser√≠a literal copiar y pegar (con mini modificaciones) las funciones que ya tenemos en juegos.h/c)
-
-// Registro / creaci√≥n / Alta
-///A HACER:
-///Requisito fundamental no guardar usuarios repetidos (seg√∫n consigna)
-///Ver si puedo re-utilizar y modificar la que tengo en juego.c para esto
-
-///HECHO ^^^^^^^^^^^^^^^^
-
+// Registro / creaciÛn / Alta
 void limpiarStdin(); //Toma todos los caracteres de stdin hasta que no quede nada. (fflush stdin no funcionaba)
 
 Usuario registrarUsuario(); //crea un usuario
 Usuario crearUsuarioAdmin(); //crea un usuario "admin"
-void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios); //recibe el array din√°mico de usuarios, aumenta validos por 1, ingresa al usuario en el array. Es b√°sicamente una opci√≥n de registro.
+void agregarUsuarioAArr (Usuario **arr, int *cantUsuarios); //recibe el array din·mico de usuarios, aumenta validos por 1, ingresa al usuario en el array. Es b·sicamente una opciÛn de registro.
 int cargarArrDeUsuariosDinamico (Usuario **arr);
-///^ esta funci√≥n ya no existe
-///[A HACER] Hasta te dir√≠a que eliminemos todos los headers y los pongamos de nuevo, hay muchas funci√≥nes que fueron borradas o modificadas
-
 
 // Baja / eliminar
-void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos); //verifica si existe el usuario que se quiere eliminar. Llama a la funci√≥n de abajo si lo encuentra, caso contrario no hace nada.
-void eliminarUsuario(Usuario *usuarioAEliminar); //elimina de manera l√≥gica al usuario que se recibe (cambia su flag de eliminado a 1)
+void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos); //verifica si existe el usuario que se quiere eliminar. Llama a la funciÛn de abajo si lo encuentra, caso contrario no hace nada.
+void eliminarUsuario(Usuario *usuarioAEliminar); //elimina de manera lÛgica al usuario que se recibe (cambia su flag de eliminado a 1)
 
 //Funciones con Pilas
 int contarDimPila(Pila pila);
@@ -59,13 +45,14 @@ void reajustarDimPilaTope(Pila *pila, int datoAIngresar);
 /// Funciones con Archivos
 int pasarUsuariosArchivoAArrDin (char nombreArchivo[], Usuario **arr);
 int pasarUsuarioArchiAArrDinArchi (FILE *archi, Usuario **arr, int usuariosRegistradosEnSistema);
-int creacionArchivoDeUsuarios (Usuario **arr); //si no existe el archivo usuario, lo crea y a√±ade al primer usuario admin
-Usuario leerUsuarioCompletoDeArchi(FILE *archi); //NOTA: antes de llamar a esta funci√≥n, s√≠ o si hay que mover el indicador de posici√≥n 1 posici√≥n delante de los validos al inicio del archivo
+int creacionArchivoDeUsuarios (Usuario **arr); //si no existe el archivo usuario, lo crea y aÒade al primer usuario admin
+Usuario leerUsuarioCompletoDeArchi(FILE *archi); //NOTA: antes de llamar a esta funciÛn, sÌ o si hay que mover el indicador de posiciÛn 1 posiciÛn delante de los validos al inicio del archivo
+
 // Pasar arreglo dinamico de usuarios a Archivo
 int guardarArrUsuariosEnArchivo(char nombreArchivo[], Usuario *arr, int validosUsuarios);
 void guardarUnUsuarioEnArchi(FILE *archi, Usuario usuario);
 
-// Funciones para el usuario Admin
+/// Funciones para el usuario Admin
 int verificarAdmin(char mat[][LIMITE], char usuarioAdmin[], char passwordAdmin[]);
 void eliminarUsuarioComoAdmin(char nombreDeUsuarioAEliminar[], Usuario arr[], int validos);
 
@@ -88,10 +75,10 @@ void mostrarUsuarioPorNombreUsuario (char nombreDeUsuario[], Usuario arr[], int 
 int buscarUsuarioMayorCantDeJuegosComprados (Usuario arr[], int validos);
 void mostrarUsuarioConMayorCantDeJuegos (Usuario arr[], int validos);
 //Nota: no voy a usar estos (a menos que objetes)
-//pq sino como admin tendr√≠a 3 opciones de consulta
+//pq sino como admin tendrÌa 3 opciones de consulta
 ///Igual esto es lo que pedia la consigna de buscar una struct por un campo en especifico de ella
-///^ Revis√© la consigna, se refiere a filtrar por eleccion (buscar por parametro X usuario por ejemplo)
-///[A HACER] -> un filtro de usuarios (busqueda de usuarios que tengan mas de X juego?). Creo que se puede hacer un copy paste del que est√° en juegos
+///^ RevisÈ la consigna, se refiere a filtrar por eleccion (buscar por parametro X usuario por ejemplo)
+///[A HACER] -> un filtro de usuarios (busqueda de usuarios que tengan mas de X juego?). Creo que se puede hacer un copy paste del que est· en juegos
 /// ^^^^^^^^^^^^^ YA HAY UNA FUNCION QUE BUSCA EL USUARIO CON MAYOR CANT DE JUEGOS [HECHO]
 
 // Mostrar usuarios ordenados por nombre y ordenados por quien tiene mayor cantidad de juegos

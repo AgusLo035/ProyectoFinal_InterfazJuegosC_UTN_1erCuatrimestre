@@ -214,3 +214,42 @@
 1782190880 source:d:\github\proyectofinal_utn_1ercuatrimestre\general.c
 	"General.h"
 
+1782238955 source:d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\main.c
+	"Juego.h"
+	"Usuario.h"
+	"General.h"
+
+1782238498 d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\juego.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<malloc.h>
+	"pila.h"
+
+1782235992 d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\pila.h
+
+1782237399 d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\usuario.h
+	"Juego.h"
+	<errno.h>
+
+1782235992 d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\general.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Juego.h"
+	"Usuario.h"
+	"pila.h"
+
+1782235992 source:d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\pila.c
+	<stdio.h>
+	"pila.h"
+
+1782237480 source:d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\usuario.c
+	"usuario.h"
+
+1782238610 source:d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\general.c
+	"General.h"
+
+1782237846 source:d:\poeymirou esta aqui\proyectofinal_interfazjuegosc_utn_1ercuatrimestre-main\juego.c
+	"juego.h"
+
