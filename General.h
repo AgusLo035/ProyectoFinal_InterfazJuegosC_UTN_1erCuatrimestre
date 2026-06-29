@@ -7,6 +7,7 @@
 #include "Usuario.h"
 #include "pila.h"
 
+//hola
 
 ///Prototipado
 void limpiarStdin(); //Toma todos los caracteres de stdin hasta que no quede nada. (fflush stdin no funcionaba)
